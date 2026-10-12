@@ -289,7 +289,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(HAS
 function nid(c,p){var n=S.lic.filter(function(l){return l.cat===c&&l.pays===p}).length+1;return 'HOL-'+c+'-'+p+'-'+('00000'+n).slice(-6)}
 function add(nom,cat,poste,age,pays,club,demo,aff){var d=new Date(),e=new Date(d);e.setFullYear(d.getFullYear()+1);
 var r={id:HAS_DB?tmpId():nid(cat,pays),_new:HAS_DB,nom:nom,cat:cat,poste:poste,age:age,pays:pays,club:club,demo:demo,aff:aff||'',em:iso(d),exp:iso(e),pts:0,mj:0,dr:0};S.lic.push(r);return r}
-function news(t){S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
+var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
 function seed(){fresh();mkA('confederation','Confédération Africaine de Hollyball (CAHB)','','','Affiliée',true);mkA('federation','Fédération de Hollyball de RDC','RDC','Confédération Africaine de Hollyball (CAHB)','Affiliée',true);
 var ac=mkA('academie','Académie d\'exemple','RDC','','Affiliée',true),ec=mkA('ecole','École d\'exemple','RDC','','Affiliée',true);mkA('federation','Fédération de Hollyball de France','FRA','Confédération Européenne de Hollyball (CEHB)','En attente',true);
 [['Joueur A1','Attaquant',22,'Équipe A',ac.id],['Joueur A2','Esquiveur',24,'Équipe A',''],['Joueur B1','Défenseur',20,'Équipe B',ec.id],['Joueur C1','Polyvalent',27,'Équipe C',''],['Joueur D1','Attaquant',23,'Équipe D','']].forEach(function(x){add(x[0],'J',x[1],x[2],'RDC',x[3],true,x[4])});add('Arbitre exemple','A','',0,'RDC','',true,'');add('Entraîneur exemple','E','',0,'RDC','Équipe A',true,'')}
@@ -467,23 +467,25 @@ $('f-new').addEventListener('submit',async function(e){e.preventDefault();var p=
 $('m-off').addEventListener('click',async function(){if(SB){try{await SB.auth.signOut()}catch(e){}}CU=null;ADM=false;rUser()});
 rUser();
 /* Synchronisation licences / affiliations avec la base */
-var SNAP={lic:{},aff:{}},SYNCING=false,AGAIN=false,LASTUID,LF=['nom','cat','poste','pays','club','aff','dr'],AF=['type','nom','pays','conf','statut'];
+var SCSNAP={},SNAP={lic:{},aff:{}},SYNCING=false,AGAIN=false,LASTUID,LF=['nom','cat','poste','pays','club','aff','dr'],AF=['type','nom','pays','conf','statut'];
 function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){e.hidden=true},6500)}
 function fprint(o,F){return JSON.stringify(F.map(function(k){return o[k]==null?'':o[k]}))}
 function refusal(e){return e&&(e.code==='42501'||/row-level|permission|niveau|administrateur/i.test(e.message||''))?'Votre niveau d\'accès ne permet pas cette opération.':'Enregistrement impossible pour le moment.'}
 async function pullAll(){if(!SB||SYNCING)return;
- var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*');
- if(a.error||l.error){toast('Base de données indisponible : données non chargées.');return}
+ var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('texte,date').order('date',{ascending:false}).limit(8),rs=await SB.from('resultats').select('cle,score');
+ if(a.error||l.error||nw.error||rs.error){toast('Base de données indisponible : données non chargées.');return}
  S.aff=a.data.map(function(r){return{id:r.id,type:r.type,nom:r.nom,pays:r.pays||'',conf:r.conf||'',contact:'',statut:r.statut,demo:false,date:r.date||''}});
  S.lic=l.data.map(function(r){var x={id:r.id,nom:r.nom,cat:r.cat,poste:r.poste||'',pays:r.pays,club:r.club||'',demo:false,aff:r.aff||'',em:r.em||'',exp:r.exp||'',pts:0,mj:0,dr:r.dr||0};if(r.age!=null)x.age=r.age;return x});
+ S.news=nw.data.map(function(r){return iso(new Date(r.date))+' : '+r.texte});S.sc={};SCSNAP={};rs.data.forEach(function(r){S.sc[r.cle]=r.score;SCSNAP[r.cle]=JSON.stringify(r.score)});
  SNAP.lic={};SNAP.aff={};S.lic.forEach(function(x){SNAP.lic[x.id]=fprint(x,LF)});S.aff.forEach(function(x){SNAP.aff[x.id]=fprint(x,AF)});
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all()}
 async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;return}
  var ai=S.aff.filter(function(x){return x._new}),au=S.aff.filter(function(x){return!x._new&&SNAP.aff[x.id]!==undefined&&SNAP.aff[x.id]!==fprint(x,AF)}),
  li=S.lic.filter(function(x){return x._new}),lu=S.lic.filter(function(x){return!x._new&&SNAP.lic[x.id]!==undefined&&SNAP.lic[x.id]!==fprint(x,LF)});
- if(!ai.length&&!au.length&&!li.length&&!lu.length)return;
- if(!CU){toast('Connectez-vous (Menu > Espace compte) pour enregistrer.');await pullAll();return}
- SYNCING=true;var bad=null;
+ var sk=Object.keys(S.sc),sup=sk.filter(function(k){return SCSNAP[k]!==JSON.stringify(S.sc[k])}),sdel=Object.keys(SCSNAP).filter(function(k){return !S.sc[k]});
+ if(!ai.length&&!au.length&&!li.length&&!lu.length&&!NEWQ.length&&!sup.length&&!sdel.length)return;
+ if(!CU){NEWQ=[];toast('Connectez-vous (Menu > Espace compte) pour enregistrer.');await pullAll();return}
+ SYNCING=true;var bad=null,NP=false;
  try{
   for(var i=0;i<ai.length&&!bad;i++){var a=ai[i],r=await SB.from('affiliations').insert({type:a.type,nom:a.nom,pays:a.pays||'',conf:a.conf||'',contact:a.contact||'',statut:a.statut}).select('id,date,statut').single();
    if(r.error){bad=r.error;break}var old=a.id;a.id=r.data.id;a.date=r.data.date;a.statut=r.data.statut;delete a._new;S.lic.forEach(function(l){if(l.aff===old)l.aff=a.id});SNAP.aff[a.id]=fprint(a,AF)}
@@ -493,9 +495,14 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
    if(w.error){bad=w.error;break}l.id=w.data.id;l.em=w.data.em;l.exp=w.data.exp;delete l._new;SNAP.lic[l.id]=fprint(l,LF)}
   for(i=0;i<lu.length&&!bad;i++){var m=lu[i],z=await SB.from('licences').update({nom:m.nom,cat:m.cat,poste:m.poste||'',pays:m.pays,club:m.club||'',aff:m.aff||null,dr:m.dr||0}).eq('id',m.id).select('id');
    if(z.error){bad=z.error;break}if(!z.data||!z.data.length){bad={code:'42501'};break}SNAP.lic[m.id]=fprint(m,LF)}
+  for(i=0;i<sup.length&&!bad;i++){var k=sup[i],y=await SB.from('resultats').upsert({cle:k,score:S.sc[k]}).select('cle');
+   if(y.error){bad=y.error;break}SCSNAP[k]=JSON.stringify(S.sc[k])}
+  for(i=0;i<sdel.length&&!bad;i++){var k2=sdel[i],d=await SB.from('resultats').delete().eq('cle',k2).select('cle');
+   if(d.error){bad=d.error;break}if(!d.data||!d.data.length){bad={code:'42501'};break}delete SCSNAP[k2]}
+  if(!bad&&NEWQ.length){var q2=NEWQ.map(function(t){return{texte:String(t).slice(0,300)}});NEWQ=[];var n2=await SB.from('actus').insert(q2);if(n2.error)bad=n2.error;else NP=true}
  }catch(e){bad=e}
  SYNCING=false;
- if(bad){toast(refusal(bad));await pullAll()}else{all()}
+ if(bad){toast(refusal(bad));await pullAll()}else if(NP){await pullAll()}else{all()}
  if(AGAIN){AGAIN=false;syncUp()}}
 function uidChanged(){var u=CU?CU.id:null;if(u!==LASTUID){LASTUID=u;pullAll()}}
 if(SB){window.__sync_ok=true;setTimeout(function(){if(LASTUID===undefined){LASTUID=null;pullAll()}},3000)}
