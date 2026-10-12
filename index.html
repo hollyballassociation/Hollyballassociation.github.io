@@ -62,8 +62,9 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 </style>
 </head>
 <body>
-<header><div class="w"><a class="brand" href="#p1">HOLLYBALL ASSOCIATION</a><button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="mpan"><svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="2"/></svg> Menu</button><nav aria-label="Phases du site"><a href="#p1">Accueil</a><a href="#p7">Association</a><a href="#p8">Affiliation</a><a href="#p9">Sport</a><a href="#p2">Licences</a><a href="#p3">Compétitions</a><a href="#p4">En direct</a><a href="#p5">Draft</a><a href="#p6">International</a></nav></div><div class="mpan" id="mpan" hidden><div class="w mc"><details><summary>Espace compte <span id="m-who"></span></summary><div class="dc"><div id="m-out"><div class="tb2" role="tablist"><button type="button" class="on" id="t-in" role="tab" aria-selected="true">Se connecter</button><button type="button" id="t-up" role="tab" aria-selected="false">S'inscrire</button></div>
+<header><div class="w"><a class="brand" href="#p1">HOLLYBALL ASSOCIATION</a><button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="mpan"><svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="2"/></svg> Menu</button><nav aria-label="Phases du site"><a href="#p1">Accueil</a><a href="#p7">Association</a><a href="#p8">Affiliation</a><a href="#p9">Sport</a><a href="#p2">Licences</a><a href="#p3">Compétitions</a><a href="#p4">En direct</a><a href="#p5">Draft</a><a href="#p6">International</a></nav></div><div class="mpan" id="mpan" hidden><div class="w mc"><details><summary>Espace compte <span id="m-who"></span></summary><div class="dc"><div id="m-out"><div class="tb2" role="tablist"><button type="button" class="on" id="t-in" role="tab" aria-selected="true">Se connecter</button><button type="button" id="t-up" role="tab" aria-selected="false">S'inscrire</button><button type="button" id="t-act" role="tab" aria-selected="false">Activer</button></div>
 <form id="f-in" autocomplete="on"><label for="l-u">Adresse e-mail</label><input id="l-u" type="email" maxlength="120" autocomplete="email" autocapitalize="none" spellcheck="false"><label for="l-p">Mot de passe</label><input id="l-p" type="password" maxlength="100" autocomplete="current-password"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="m-go" type="submit">Se connecter</button><button class="btn" id="m-forgot" type="button" style="color:var(--txt);border-color:var(--line)">Mot de passe oublié</button></div></form>
+<form id="f-act" autocomplete="on" hidden><p class="mn">Joueur : saisissez l'adresse e-mail où vous avez reçu votre numéro de licence et votre code d'activation, puis choisissez un mot de passe.</p><label for="v-u">Adresse e-mail</label><input id="v-u" type="email" maxlength="120" autocomplete="email" autocapitalize="none" spellcheck="false"><label for="v-c">Code d'activation (reçu par e-mail)</label><input id="v-c" inputmode="numeric" maxlength="10" autocomplete="one-time-code" placeholder="123456"><label for="v-p">Nouveau mot de passe (8 caractères minimum, avec lettre et chiffre)</label><input id="v-p" type="password" maxlength="100" autocomplete="new-password"><label for="v-p2">Confirmer le mot de passe</label><input id="v-p2" type="password" maxlength="100" autocomplete="new-password"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="v-go" type="submit">Activer mon compte</button></div></form>
 <form id="f-up" autocomplete="on" hidden><label for="s-nom">Nom complet</label><input id="s-nom" maxlength="60" autocomplete="name"><label for="s-u">Adresse e-mail</label><input id="s-u" type="email" maxlength="120" autocomplete="email" autocapitalize="none" spellcheck="false"><label for="s-niv">Niveau d'accès demandé</label><select id="s-niv"><option value="0">1. Administrateur Hollyball Association</option><option value="1">2. Administrateur FIHB</option><option value="2">3. Confédération</option><option value="3">4. Fédération nationale</option><option value="4">5. Ligue / District</option><option value="5">6. Club / Académie</option><option value="6">7. Entraîneur</option><option value="7">8. Arbitre</option><option value="8">9. Joueur</option><option value="9">10. Visiteur</option></select><div id="s-licw" hidden><label for="s-lic">Numéro de licence (obligatoire pour un compte Joueur)</label><input id="s-lic" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="HOL-J-RDC-000001"><p class="mn">Indiquez votre nom complet exactement comme sur votre licence. Entraîneurs et arbitres : pas de numéro de licence.</p></div><label for="s-p">Mot de passe (8 caractères minimum, avec lettre et chiffre)</label><input id="s-p" type="password" maxlength="100" autocomplete="new-password"><label for="s-p2">Confirmer le mot de passe</label><input id="s-p2" type="password" maxlength="100" autocomplete="new-password"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="s-go" type="submit">Créer mon compte</button></div></form>
 <label class="shw"><input type="checkbox" id="m-show"> Afficher les mots de passe</label><p id="m-msg" class="msg" role="status" aria-live="polite"></p></div>
 <div id="m-rec" hidden><p><b>Nouveau mot de passe</b></p><form id="f-new"><label for="n-p">Nouveau mot de passe (8 caractères minimum, avec lettre et chiffre)</label><input id="n-p" type="password" maxlength="100" autocomplete="new-password"><div class="ctl" style="justify-content:flex-start"><button class="btn p" type="submit">Enregistrer</button></div></form></div>
@@ -203,7 +204,7 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <label for="f-nom">Nom complet</label><input id="f-nom" value="Prénom Nom" maxlength="40">
 <label for="f-cat">Catégorie</label><select id="f-cat"><option value="J">Joueur</option><option value="E">Entraîneur</option><option value="A">Arbitre</option></select>
 <div id="f-jr"><label for="f-poste">Poste</label><select id="f-poste"><option>Esquiveur</option><option>Défenseur</option><option>Polyvalent</option><option>Attaquant</option></select>
-<label for="f-age">Âge</label><input id="f-age" type="number" min="18" max="45" value="22"></div>
+<label for="f-age">Âge</label><input id="f-age" type="number" min="18" max="45" value="22"><label for="f-mail">E-mail du joueur (reçoit le numéro de licence et le code d'activation)</label><input id="f-mail" type="email" maxlength="120" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="joueur@exemple.com"></div>
 <label for="f-pays">Code pays (3 lettres)</label><input id="f-pays" value="RDC" maxlength="3">
 <label for="f-club">Club</label><input id="f-club" list="dl" placeholder="Nom du club" maxlength="40"><datalist id="dl"></datalist>
 <label for="f-aff">Structure affiliée (académie ou école)</label><select id="f-aff"></select><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="f-ok" type="button">Créer la licence</button></div></div>
@@ -211,6 +212,7 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div class="lt">HOLLYBALL ASSOCIATION<br><small>Carte de licence (exemple)</small></div>
 <div class="lr"><div class="ph" id="c-ini">PN</div><div><div class="ln" id="c-nom"></div><div id="c-cat"></div><div id="c-club"></div></div></div>
 <div class="lr2"><div><div class="lid" id="c-id"></div><div>Émise le <span id="c-em"></span></div><div>Expire le <span id="c-ex"></span></div><div><span class="soon">Exemple, non valide</span></div></div><div class="qr" id="c-qr"></div></div></div></div>
+<div class="card ed" style="margin-top:16px" id="iv"><h3>Envoyer le code d'activation</h3><p class="mn">Un e-mail avec le numéro de licence et le code d'activation est envoyé automatiquement à la création d'une licence Joueur. Utilisez ce formulaire pour le renvoyer ou le corriger.</p><label for="iv-lic">Numéro de licence</label><input id="iv-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><label for="iv-mail">E-mail du joueur</label><input id="iv-mail" type="email" maxlength="120" autocapitalize="none" autocomplete="off" spellcheck="false"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="iv-ok" type="button">Envoyer le code</button></div><p class="mn" id="inv-m" role="status" aria-live="polite"></p></div>
 <div class="card" style="margin-top:16px"><h3>Registre</h3><div class="tw"><table id="t-r"><tr><th>N°</th><th>Nom</th><th>Catégorie</th><th>Club</th><th>Structure</th><th>Points</th><th>Draft</th></tr></table></div>
 <div class="ctl" style="justify-content:flex-start"><button class="btn bd" id="r-seed" type="button">Remettre les exemples</button><button class="btn bd" id="r-clr" type="button">Vider le registre</button></div></div>
 </div></section></div>
@@ -340,7 +342,11 @@ if(up.error)throw up.error;url=SB.storage.from('actus-media').getPublicUrl(path)
 var ins=await SB.from('actus').insert({texte:t||(type==='video'?'Vidéo':'Photo'),media_url:url,media_type:type});if(ins.error)throw ins.error;
 $('np-t').value='';$('np-f').value='';m.textContent='Publié.';await pullAll()}
 catch(e){m.textContent=(e&&e.message&&!/row-level|violates/i.test(e.message))?e.message:refusal(e)}
-b.disabled=false});if(!HAS_DB)$('np').hidden=true;
+b.disabled=false});if(!HAS_DB){$('np').hidden=true;$('iv').hidden=true}
+$('iv-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var id=$('iv-lic').value.trim().toUpperCase(),mail=$('iv-mail').value.trim().toLowerCase(),l=byId(id),o=$('inv-m');
+ if(!l||l.cat!=='J'){o.textContent='Numéro de licence Joueur introuvable.';return}
+ if(!okMail(mail)){o.textContent='Adresse e-mail invalide.';return}
+ this.disabled=true;o.textContent='Envoi en cours…';var x=await invite(l.id,l.nom,mail);o.textContent=x.text;this.disabled=false});
 /* Accueil */
 function rHome(){[cnt('J'),cnt('E'),cnt('A'),clubs().length,Object.keys(S.sc).length].forEach(function(v,i){$(['k-j','k-e','k-a','k-c','k-m'][i]).textContent=v});
 if(HAS_DB)rNews();else ul($('news'),S.news,'Aucune actualité pour l\'instant. Les licences créées, les résultats et les drafts apparaîtront ici.');
@@ -357,7 +363,9 @@ var dl=$('dl');dl.innerHTML='';teams().forEach(function(t){var o=document.create
 fill($('t-r'),S.lic.map(function(l){return [l.id,l.nom+(l.demo?' (exemple)':''),CAT[l.cat],l.club||'-',affName(l.aff),l.cat==='J'?l.pts+' pts, '+l.mj+' match(s)':'-',l.dr?'Sélectionné':'-']}))}
 $('f-ok').addEventListener('click',function(){var cat=$('f-cat').value,nom=$('f-nom').value.trim();if(!nom)return;
 var pays=(($('f-pays').value||'RDC').toUpperCase().replace(/[^A-Z]/g,'')+'XXX').slice(0,3);
-add(nom,cat,cat==='J'?$('f-poste').value:'',cat==='J'?+$('f-age').value||22:0,pays,$('f-club').value.trim(),false,$('f-aff').value);
+var ml=$('f-mail').value.trim().toLowerCase();if(HAS_DB&&cat==='J'&&ml&&!okMail(ml)){$('inv-m').textContent='Adresse e-mail du joueur invalide.';return}
+var nl=add(nom,cat,cat==='J'?$('f-poste').value:'',cat==='J'?+$('f-age').value||22:0,pays,$('f-club').value.trim(),false,$('f-aff').value);
+if(HAS_DB&&cat==='J'&&ml){nl._mail=ml;$('f-mail').value=''}
 news('nouvelle licence, '+nom+' ('+CAT[cat]+')');save();all()});
 $('r-seed').addEventListener('click',function(){seed();save();all()});
 $('r-clr').addEventListener('click',function(){fresh();save();all()});
@@ -463,10 +471,10 @@ async function rAdm(){var box=$('m-adl'),a=await SB.from('profiles').select('id,
   var sel=document.createElement('select');sel.setAttribute('aria-label','Niveau pour '+c.email);NV.forEach(function(x,i){var o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+x[0];if(i===cur)o.selected=true;sel.appendChild(o)});row.appendChild(sel);
   var bt=document.createElement('button');bt.type='button';bt.className='btn';bt.style.cssText='color:var(--txt);border-color:var(--line)';bt.textContent='Valider';
   bt.addEventListener('click',async function(){var x=await SB.from('roles').upsert({id:c.id,niv:+sel.value,updated_at:new Date().toISOString()});bt.textContent=x.error?'Refusé':'Validé'});row.appendChild(bt);box.appendChild(row)})}
-function tab(up){$('f-in').hidden=up;$('f-up').hidden=!up;$('t-in').className=up?'':'on';$('t-up').className=up?'on':'';$('t-in').setAttribute('aria-selected',!up);$('t-up').setAttribute('aria-selected',up);msg('')}
+function tab(m){var a=m==='act',u=m===true,i=!a&&!u;$('f-in').hidden=!i;$('f-up').hidden=!u;$('f-act').hidden=!a;$('t-in').className=i?'on':'';$('t-up').className=u?'on':'';$('t-act').className=a?'on':'';$('t-in').setAttribute('aria-selected',i);$('t-up').setAttribute('aria-selected',u);$('t-act').setAttribute('aria-selected',a);msg('')}
 function nodb(){if(SB)return false;msg('Base de données non configurée.','er');return true}
-$('t-in').addEventListener('click',function(){tab(false)});$('t-up').addEventListener('click',function(){tab(true)});
-$('m-show').addEventListener('change',function(){['l-p','s-p','s-p2','n-p'].forEach(function(i){$(i).type=$('m-show').checked?'text':'password'})});
+$('t-in').addEventListener('click',function(){tab(false)});$('t-up').addEventListener('click',function(){tab(true)});$('t-act').addEventListener('click',function(){tab('act')});
+$('m-show').addEventListener('change',function(){['l-p','s-p','s-p2','n-p','v-p','v-p2'].forEach(function(i){$(i).type=$('m-show').checked?'text':'password'})});
 $('s-niv').addEventListener('change',function(){$('s-licw').hidden=$('s-niv').value!=='8'});
 $('f-up').addEventListener('submit',async function(e){e.preventDefault();if(nodb())return;
  var nom=$('s-nom').value.trim(),m=$('s-u').value.trim().toLowerCase(),p=$('s-p').value,p2=$('s-p2').value;
@@ -485,6 +493,17 @@ $('f-up').addEventListener('submit',async function(e){e.preventDefault();if(nodb
   if(r.error){msg('Inscription impossible : '+(r.error.message||'erreur'),'er')}
   else{$('s-p').value='';$('s-p2').value='';if(r.data&&r.data.session){msg('Compte créé.','ok')}else{$('l-u').value=m;tab(false);msg(''+(nv===8?'Compte Joueur créé, licence vérifiée. Vérifiez votre boîte e-mail pour confirmer, puis connectez-vous.':'Compte créé. Vérifiez votre boîte e-mail pour confirmer, puis connectez-vous. Le niveau demandé sera validé par l\'administrateur.')+'','ok')}}
  }catch(x){msg('Inscription impossible pour le moment.','er')}bt.disabled=false});
+$('f-act').addEventListener('submit',async function(e){e.preventDefault();if(nodb())return;
+ var m=$('v-u').value.trim().toLowerCase(),c=$('v-c').value.replace(/\s/g,''),p=$('v-p').value,p2=$('v-p2').value;
+ if(!okMail(m))return msg('Adresse e-mail invalide.','er');
+ if(!/^[0-9]{6,10}$/.test(c))return msg('Code invalide : il comporte des chiffres (voir l\'e-mail reçu).','er');
+ if(!okPw(p))return msg('Mot de passe : 8 caractères minimum avec au moins une lettre et un chiffre.','er');
+ if(p!==p2)return msg('Les deux mots de passe sont différents.','er');
+ var bt=$('v-go');bt.disabled=true;msg('Activation en cours…');
+ try{var r=await SB.auth.verifyOtp({email:m,token:c,type:'email'});if(r.error)r=await SB.auth.verifyOtp({email:m,token:c,type:'signup'});
+  if(r.error||!r.data||!r.data.session){msg('Code incorrect ou expiré. Demandez un nouveau code à l\'association.','er')}
+  else{var u=await SB.auth.updateUser({password:p});if(u.error){msg('Code accepté, mais le mot de passe n\'a pas été enregistré. Réessayez avec un autre mot de passe.','er')}else{$('v-p').value='';$('v-p2').value='';$('v-c').value='';msg('Compte activé. Vous êtes connecté.','ok')}}
+ }catch(x){msg('Activation impossible pour le moment.','er')}bt.disabled=false});
 $('f-in').addEventListener('submit',async function(e){e.preventDefault();if(nodb())return;
  if(Date.now()<LOCK)return msg('Trop d\'essais. Réessayez dans '+Math.ceil((LOCK-Date.now())/1000)+' s.','er');
  var m=$('l-u').value.trim().toLowerCase(),p=$('l-p').value,bad='E-mail ou mot de passe incorrect.';
@@ -517,6 +536,13 @@ async function pullAll(){if(!SB||SYNCING)return;
  var sm={};st.data.forEach(function(r){sm[r.lic_id]=r});S.lic.forEach(function(x){var r=sm[x.id];if(r){x.pts=r.pts;x.mj=r.mj}});S.sel=ds.data.map(function(r){return r.lic_id});SELSNAP=S.sel.slice();S.hist=dh.data.map(function(r){return iso(new Date(r.date))+' : '+r.noms});
  SNAP.lic={};SNAP.aff={};S.lic.forEach(function(x){SNAP.lic[x.id]=fprint(x,LF)});S.aff.forEach(function(x){SNAP.aff[x.id]=fprint(x,AF)});
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all()}
+var INVQ=[];
+async function invite(id,nom,mail){try{var r=await SB.auth.signInWithOtp({email:mail,options:{shouldCreateUser:true,data:{nom:nom,niv_demande:8,licence:id,invite:'1'}}});
+ if(r.error){var lim=r.error.status===429||/rate|seconds|limit/i.test(r.error.message||'');return {ok:false,text:'Licence '+id+' : e-mail NON envoyé à '+mail+(lim?' (limite d\'envoi atteinte, réessayez plus tard).':' ('+(r.error.message||'erreur')+').')}}
+ return {ok:true,text:'Licence '+id+' : e-mail envoyé à '+mail+' avec le numéro de licence et le code d\'activation. Dites au joueur de vérifier sa boîte e-mail (et les courriers indésirables) pour créer son compte.'}}
+ catch(e){return {ok:false,text:'Licence '+id+' : e-mail NON envoyé à '+mail+'.'}}}
+async function sendInvites(){var q=INVQ;INVQ=[];var out=[];for(var i=0;i<q.length;i++){var x=await invite(q[i].id,q[i].nom,q[i].mail);out.push(x.text)}
+ $('inv-m').textContent=out.join(' ');toast(out[out.length-1])}
 async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;return}
  var ai=S.aff.filter(function(x){return x._new}),au=S.aff.filter(function(x){return!x._new&&SNAP.aff[x.id]!==undefined&&SNAP.aff[x.id]!==fprint(x,AF)}),
  li=S.lic.filter(function(x){return x._new}),lu=S.lic.filter(function(x){return!x._new&&SNAP.lic[x.id]!==undefined&&SNAP.lic[x.id]!==fprint(x,LF)});
@@ -531,7 +557,7 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
   for(i=0;i<au.length&&!bad;i++){var u=au[i],q=await SB.from('affiliations').update({type:u.type,nom:u.nom,pays:u.pays||'',conf:u.conf||'',statut:u.statut}).eq('id',u.id).select('id');
    if(q.error){bad=q.error;break}if(!q.data||!q.data.length){bad={code:'42501'};break}SNAP.aff[u.id]=fprint(u,AF)}
   for(i=0;i<li.length&&!bad;i++){var l=li[i],w=await SB.from('licences').insert({nom:l.nom,cat:l.cat,poste:l.poste||'',age:l.age||0,pays:l.pays,club:l.club||'',aff:l.aff||null}).select('id,em,exp').single();
-   if(w.error){bad=w.error;break}l.id=w.data.id;l.em=w.data.em;l.exp=w.data.exp;delete l._new;SNAP.lic[l.id]=fprint(l,LF)}
+   if(w.error){bad=w.error;break}l.id=w.data.id;l.em=w.data.em;l.exp=w.data.exp;delete l._new;if(l._mail){INVQ.push({id:l.id,nom:l.nom,mail:l._mail});delete l._mail}SNAP.lic[l.id]=fprint(l,LF)}
   for(i=0;i<lu.length&&!bad;i++){var m=lu[i],z=await SB.from('licences').update({nom:m.nom,cat:m.cat,poste:m.poste||'',pays:m.pays,club:m.club||'',aff:m.aff||null,dr:m.dr||0}).eq('id',m.id).select('id');
    if(z.error){bad=z.error;break}if(!z.data||!z.data.length){bad={code:'42501'};break}SNAP.lic[m.id]=fprint(m,LF)}
   for(i=0;i<sup.length&&!bad;i++){var k=sup[i],y=await SB.from('resultats').upsert({cle:k,score:S.sc[k]}).select('cle');
@@ -545,6 +571,7 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
   if(!bad&&NEWQ.length){var q2=NEWQ.map(function(t){return{texte:String(t).slice(0,300)}});NEWQ=[];var n2=await SB.from('actus').insert(q2);if(n2.error)bad=n2.error;else NP=true}
  }catch(e){bad=e}
  SYNCING=false;
+ if(INVQ.length)await sendInvites();
  if(bad){STATQ=[];HISTQ=[];NEWQ=[];toast(refusal(bad));await pullAll()}else if(NP){await pullAll()}else{all()}
  if(AGAIN){AGAIN=false;syncUp()}}
 function uidChanged(){var u=CU?CU.id:null;if(u!==LASTUID){LASTUID=u;pullAll()}}
