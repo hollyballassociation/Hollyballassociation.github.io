@@ -227,10 +227,11 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div><select id="l-a" aria-label="Équipe de gauche"></select><div class="sn" id="sa">0</div></div>
 <div class="mid"><div class="clk" id="clk">00:00</div><div id="half">1re mi-temps</div></div>
 <div><select id="l-b" aria-label="Équipe de droite"></select><div class="sn" id="sbb">0</div></div></div>
+<p id="tl" aria-live="polite" style="margin:14px 0 0;text-align:center;font-size:.95rem;line-height:1.7"></p>
 <div class="ctl"><button class="btn p" id="go" type="button">Démarrer</button><button class="btn" id="rz" type="button">Remettre à zéro</button><button class="btn p" id="fin" type="button">Terminer le match</button></div></div>
 <div class="grid g2" style="margin-top:16px;align-items:start">
 <div class="card"><h3>Saisie des actions</h3><label for="o-t">Équipe</label><select id="o-t"></select><label for="o-j">Joueur</label><select id="o-j"></select>
-<div class="ctl" style="margin-top:14px"><button class="btn p" data-e="pt" type="button">Point</button><button class="btn" data-e="ft" type="button">Faute technique</button><button class="btn" data-e="cj" type="button">Carton jaune</button><button class="btn" data-e="cr" type="button">Carton rouge</button><button class="btn" data-e="tm" type="button">Temps mort</button><button class="btn" id="undo" type="button">Annuler la dernière action</button></div></div>
+<div class="ctl" style="margin-top:14px"><button class="btn p" data-e="pt" type="button">Point</button><button class="btn" data-e="ft" type="button">Faute technique</button><button class="btn" data-e="cj" type="button">Carton jaune</button><button class="btn" data-e="cr" type="button">Carton rouge</button><button class="btn" data-e="tm" type="button">Temps mort</button><button class="btn" id="undo" type="button">Annuler la dernière action</button></div><p id="lastact" role="status" aria-live="polite" style="margin:14px 0 0;font-weight:700"></p></div>
 <div class="card"><h3>Fil du match</h3><ul class="feed" id="feed"></ul></div></div>
 <div class="card" style="margin-top:16px"><h3>Performances individuelles</h3><div class="tw"><table id="t-p"><tr><th>Joueur</th><th>Équipe</th><th>Points</th><th>Fautes</th><th>Jaunes</th><th>Rouges</th></tr></table></div></div>
 </div></section></div>
@@ -368,6 +369,9 @@ if(!pl.length){pl=[];for(var i=1;i<=10;i++)pl.push(['n'+i,'N° '+i])}opts($('o-j
 var sc=[0,0],stt={};L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++;if(e.j){var id=e.t+'|'+e.j;stt[id]=stt[id]||{lab:e.lab,t:e.t,p:0,f:0,y:0,r:0};
 if(e.k==='pt')stt[id].p++;if(e.k==='ft')stt[id].f++;if(e.k==='cj')stt[id].y++;if(e.k==='cr')stt[id].r++}});
 $('sa').textContent=sc[0];$('sbb').textContent=sc[1];
+var tc=[{ft:0,cj:0,cr:0,tm:0},{ft:0,cj:0,cr:0,tm:0}];L.ev.forEach(function(e){if(tc[e.t]&&tc[e.t][e.k]!==undefined)tc[e.t][e.k]++});
+$('tl').innerHTML='';[0,1].forEach(function(t){var d=document.createElement('div'),c=tc[t];d.textContent=s[t]+' : '+c.ft+' faute(s) technique(s), '+c.cj+' jaune(s), '+c.cr+' rouge(s), '+c.tm+' temps mort(s)';$('tl').appendChild(d)});
+$('lastact').textContent=L.ev.length?'Dernière action : '+EV[L.ev[L.ev.length-1].k]+' — '+s[L.ev[L.ev.length-1].t]+(L.ev[L.ev.length-1].j?' ('+L.ev[L.ev.length-1].lab+')':''):'';
 ul($('feed'),L.ev.slice().reverse().map(function(e){return mm(e.at)+'  '+s[e.t]+' : '+EV[e.k]+(e.j?' ('+e.lab+')':'')}),'Aucune action pour l\'instant.');
 fill($('t-p'),Object.keys(stt).map(function(k){return stt[k]}).sort(function(a,b){return b.p-a.p}).map(function(x){return [x.lab,s[x.t],x.p,x.f,x.y,x.r]}))}
 function tick(){$('clk').textContent=mm(L.secs);$('half').textContent=L.secs<2100?'1re mi-temps':'2e mi-temps'}
