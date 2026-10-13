@@ -7,10 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--nuit:#0a0a2c;--royal:#2f2fc8;--soleil:#f7d618;--bg:#f5f6ff;--card:#fff;--txt:#14143a;--mute:#55557a;--line:#d9dbf2;
+:root{--nuit:#0a0a2c;--royal:#2f2fc8;--soleil:#f7d618;--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e;color-scheme:dark;
 --hero:linear-gradient(135deg,#000 0%,#0a0a2c 35%,#2f2fc8 100%);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e}}
 :root[data-theme="dark"]{--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e}
 html{scroll-behavior:smooth;scroll-padding-top:120px}
 *{box-sizing:border-box}
@@ -41,7 +40,7 @@ nav a:hover,nav a:focus-visible{background:var(--royal);outline:2px solid var(--
 @media(min-width:700px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
 .big{font:700 3rem/1 'Barlow Condensed',sans-serif;color:var(--royal)}
-@media(prefers-color-scheme:dark){.big{color:var(--soleil)}}
+.big{color:var(--soleil)}
 .card p{margin:.3em 0 0;color:var(--mute)}
 .band{background:var(--nuit);color:#fff}
 .band .lead,.band .card p{color:#c9cbf5}
