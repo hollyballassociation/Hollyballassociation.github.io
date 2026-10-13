@@ -277,9 +277,10 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div class="card ed" id="pa" style="margin-top:16px"><h3>Paiements Mobile Money</h3><h4 style="margin:8px 0">À vérifier</h4><div id="pa-l"></div><p class="mn" id="pa-m" role="status" aria-live="polite"></p>
 <label for="pa-lic">Marquer une licence payée (espèces ou autre)</label><input id="pa-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><div class="ctl" style="justify-content:flex-start"><button class="btn" id="pa-ok" type="button">Marquer payée</button></div>
 <h4 style="margin:16px 0 6px">Tarifs et numéros de l'association</h4>
+<label for="pp-t">Nom du titulaire des comptes</label><input id="pp-t" maxlength="60" autocomplete="off">
 <label for="pp-d">Devise</label><select id="pp-d"><option>CDF</option><option>USD</option></select>
-<label for="pp-j">Prix licence Joueur</label><input id="pp-j" type="number" inputmode="numeric" min="0"><label for="pp-e">Prix licence Entraîneur</label><input id="pp-e" type="number" inputmode="numeric" min="0"><label for="pp-a">Prix licence Arbitre</label><input id="pp-a" type="number" inputmode="numeric" min="0">
-<label for="pp-o">Numéro Orange Money</label><input id="pp-o" type="tel" maxlength="16"><label for="pp-m">Numéro M-Pesa</label><input id="pp-m" type="tel" maxlength="16"><label for="pp-l">Numéro Airtel Money</label><input id="pp-l" type="tel" maxlength="16"><label for="pp-t">Nom du titulaire des comptes</label><input id="pp-t" maxlength="60">
+<label for="pp-c">Prix de la licence selon la catégorie</label><select id="pp-c"><option value="prix_j">Joueur</option><option value="prix_e">Entraîneur</option><option value="prix_a">Arbitre</option></select><input id="pp-p" type="number" inputmode="numeric" min="0" aria-label="Prix de la licence" style="margin-top:8px">
+<label for="pp-q">Numéro de réception selon l'opérateur</label><select id="pp-q"><option value="orange">Orange Money</option><option value="mpesa">M-Pesa</option><option value="airtel">Airtel Money</option></select><input id="pp-n" type="tel" inputmode="tel" maxlength="16" aria-label="Numéro de réception" placeholder="0812345678" style="margin-top:8px">
 <div class="ctl" style="justify-content:flex-start"><button class="btn p" id="pp-ok" type="button">Enregistrer les tarifs et numéros</button></div><p class="mn" id="pp-msg" role="status" aria-live="polite"></p></div>
 <div class="grid g2" style="margin-top:16px;align-items:start">
 <div class="card"><h3>API Hollyball</h3><p>Réponse d'exemple pour le licencié choisi ci-dessus :</p><pre class="api" id="api"></pre></div>
@@ -363,7 +364,7 @@ if(up.error)throw up.error;url=SB.storage.from('actus-media').getPublicUrl(path)
 var ins=await SB.from('actus').insert({texte:t||(type==='video'?'Vidéo':'Photo'),media_url:url,media_type:type});if(ins.error)throw ins.error;
 $('np-t').value='';$('np-f').value='';m.textContent='Publié.';await pullAll()}
 catch(e){m.textContent=(e&&e.message&&!/row-level|violates/i.test(e.message))?e.message:refusal(e)}
-b.disabled=false});if(!HAS_DB){$('np').hidden=true;$('iv').hidden=true;$('ph2').hidden=true}else $('pay-dis').hidden=true
+b.disabled=false});if(!HAS_DB){$('np').hidden=true;$('iv').hidden=true;$('ph2').hidden=true}else $('pay-dis').style.display='none'
 $('iv-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var id=$('iv-lic').value.trim().toUpperCase(),mail=$('iv-mail').value.trim().toLowerCase(),l=byId(id),o=$('inv-m');
  if(!l||l.cat!=='J'){o.textContent='Numéro de licence Joueur introuvable.';return}
  if(!okMail(mail)){o.textContent='Adresse e-mail invalide.';return}
@@ -570,7 +571,10 @@ function rPA(){if(!HAS_DB||!ADM)return;var L=$('pa-l');L.textContent='';var q=PA
    bt.addEventListener('click',async function(){if(bt.dataset.ok!=='1'){bt.dataset.ok='1';bt.textContent='Cliquez pour confirmer : '+b[0];return}bt.disabled=true;
     var r=await SB.from('paiements').update({statut:b[1]}).eq('id',x.id).select('id');if(r.error||!r.data||!r.data.length){toast('Opération refusée.');bt.disabled=false;return}
     await pullAll()});d.appendChild(bt)});L.appendChild(d)});
- if(PAYP&&!PAYSET){PAYSET=true;[['pp-d','devise'],['pp-j','prix_j'],['pp-e','prix_e'],['pp-a','prix_a'],['pp-o','orange'],['pp-m','mpesa'],['pp-l','airtel'],['pp-t','titulaire']].forEach(function(f){$(f[0]).value=PAYP[f[1]]==null?'':PAYP[f[1]]})}}
+ if(PAYP&&!PAYSET){PAYSET=true;PPD={};['devise','prix_j','prix_e','prix_a','orange','mpesa','airtel','titulaire'].forEach(function(k){PPD[k]=PAYP[k]==null?'':PAYP[k]});$('pp-t').value=PPD.titulaire;$('pp-d').value=PPD.devise;PPC='prix_j';PPQ='orange';$('pp-c').value=PPC;$('pp-q').value=PPQ;$('pp-p').value=PPD[PPC];$('pp-n').value=PPD[PPQ]}}
+var PPD={},PPC='prix_j',PPQ='orange';function ppKeep(){PPD[PPC]=$('pp-p').value;PPD[PPQ]=$('pp-n').value}
+$('pp-c').addEventListener('change',function(){PPD[PPC]=$('pp-p').value;PPC=this.value;$('pp-p').value=PPD[PPC]});
+$('pp-q').addEventListener('change',function(){PPD[PPQ]=$('pp-n').value;PPQ=this.value;$('pp-n').value=PPD[PPQ]});
 async function rPay(){if(!HAS_DB||!SB)return;$('mm').hidden=false;
  try{var r=await SB.from('paiement_params').select('*').maybeSingle();PAYP=r.data||null;MYPAY=[];PAYALL=[];
   if(CU){var q=await SB.from('paiements').select('id,lic_id,user_id,operateur,montant,devise,reference,telephone,statut,created_at').order('created_at',{ascending:false}).limit(60);
@@ -585,9 +589,9 @@ $('mm-go').addEventListener('click',async function(){if(!SB||!CU||!PAYP)return;v
  this.disabled=true;m.textContent='Envoi…';var r=await SB.from('paiements').insert({lic_id:l.id,operateur:$('mm-op').value,reference:ref,telephone:tel});
  this.disabled=false;if(r.error){var t=(r.error.message||'')+(r.error.code||'');m.textContent=/duplicate|unique|23505/i.test(t)?'Cette référence a déjà été déclarée.':/Trop de paiements/i.test(t)?'Trop de paiements en attente : attendez la vérification.':'Paiement non enregistré. Vérifiez les informations.';return}
  $('mm-ref').value='';m.textContent='Paiement déclaré. L\'administrateur va vérifier le SMS et confirmer votre licence.';await rPay()});
-$('pp-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('pp-msg'),n=function(i){var v=$(i).value.replace(/[\s.-]/g,'');return v||null},g=function(i){return parseInt($(i).value,10)};
- var o={devise:$('pp-d').value,prix_j:g('pp-j'),prix_e:g('pp-e'),prix_a:g('pp-a'),orange:n('pp-o'),mpesa:n('pp-m'),airtel:n('pp-l'),titulaire:$('pp-t').value.trim()||null};
- if(!(o.prix_j>=0&&o.prix_e>=0&&o.prix_a>=0)){m.textContent='Indiquez les trois prix.';return}
+$('pp-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('pp-msg');ppKeep();var n=function(k){var v=String(PPD[k]||'').replace(/[\s.-]/g,'');return v||null},g=function(k){return parseInt(PPD[k],10)};
+ var o={devise:$('pp-d').value,prix_j:g('prix_j'),prix_e:g('prix_e'),prix_a:g('prix_a'),orange:n('orange'),mpesa:n('mpesa'),airtel:n('airtel'),titulaire:$('pp-t').value.trim()||null};
+ if(!(o.prix_j>=0&&o.prix_e>=0&&o.prix_a>=0)){m.textContent='Indiquez un prix pour chaque catégorie (Joueur, Entraîneur, Arbitre).';return}
  this.disabled=true;var r=await SB.from('paiement_params').update(o).eq('id',1).select('id');this.disabled=false;
  if(r.error||!r.data||!r.data.length){m.textContent=/check|23514/i.test((r.error&&r.error.message||'')+(r.error&&r.error.code||''))?'Numéro invalide (8 à 15 chiffres).':'Enregistrement refusé.';return}
  m.textContent='Tarifs et numéros enregistrés.';PAYSET=false;await rPay()});
