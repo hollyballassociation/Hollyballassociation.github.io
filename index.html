@@ -70,6 +70,9 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div id="m-in" hidden><div class="pf"><div class="pfc"></div><div class="ph pfa" id="m-av">?</div><h3 class="pfn" id="m-nom"></h3><p class="pfs"><b id="m-niv"></b></p><p class="pfs"><small id="m-uid"></small></p><p class="pfs"><small id="m-acc2"></small></p>
 <div id="m-phw"><label class="btn" for="m-ph" style="margin:8px 0 0;display:inline-block">Changer la photo</label><input id="m-ph" class="pfl" type="file" accept="image/*"><p class="mn" id="m-phm" role="status" aria-live="polite"></p></div></div>
 <p id="m-pend" class="msg" hidden></p>
+<div id="m-pj" hidden><h4>Mon profil joueur</h4><p class="mn">Points et passes décisives de carrière se mettent à jour automatiquement après chaque match enregistré par l'administrateur.</p><div id="pj-st"></div>
+<label for="pj-s">Sexe</label><select id="pj-s"><option value="">Non renseigné</option><option value="M">Masculin</option><option value="F">Féminin</option></select><label for="pj-t">Taille (cm)</label><input id="pj-t" type="number" inputmode="numeric" min="100" max="260" placeholder="180"><label for="pj-p">Poids (kg)</label><input id="pj-p" type="number" inputmode="numeric" min="30" max="200" placeholder="75">
+<div class="ctl" style="justify-content:flex-start"><button class="btn p" id="pj-ok" type="button">Enregistrer mon profil</button></div><p class="mn" id="pj-m" role="status" aria-live="polite"></p><p class="mn">Votre sexe, âge, taille et poids sont visibles uniquement par les clubs, entraîneurs, ligues, fédérations et l'association.</p></div>
 <div id="m-ex" hidden><h4>Mes expériences Hollyball</h4><p class="mn">Uniquement vos expériences dans le Hollyball. Chaque expérience ajoutée est publiée dans le fil d'actualité.</p><div id="m-exl"></div>
 <div class="ctl" style="justify-content:flex-start"><button class="btn" id="x-open" type="button">Ajouter une expérience</button></div>
 <div id="x-form" hidden><label for="x-t">Rôle ou fonction (ex. Attaquant, Entraîneur adjoint, Arbitre central)</label><input id="x-t" maxlength="80" autocomplete="off"><label for="x-s">Club, équipe ou structure</label><input id="x-s" maxlength="80" autocomplete="off"><label for="x-d">Année de début</label><input id="x-d" type="number" inputmode="numeric" min="1990" max="2100" placeholder="2024"><label for="x-f">Année de fin</label><input id="x-f" type="number" inputmode="numeric" min="1990" max="2100" placeholder="2025"><label class="shw"><input type="checkbox" id="x-now"> En cours (aujourd'hui)</label><label for="x-r">Description (facultatif)</label><textarea id="x-r" maxlength="200" rows="2" style="width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--txt)"></textarea><label class="shw"><input type="checkbox" id="x-ok2"> Je confirme que cette expérience concerne le Hollyball.</label><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="x-ok" type="button">Enregistrer et publier</button></div><p class="mn" id="x-m" role="status" aria-live="polite"></p></div></div>
@@ -217,9 +220,10 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div class="lt">HOLLYBALL ASSOCIATION<br><small>Carte de licence (exemple)</small></div>
 <div class="lr"><div class="ph" id="c-ini">PN</div><div><div class="ln" id="c-nom"></div><div id="c-cat"></div><div id="c-club"></div></div></div>
 <div class="lr2"><div><div class="lid" id="c-id"></div><div>Émise le <span id="c-em"></span></div><div>Expire le <span id="c-ex"></span></div><div><span class="soon">Exemple, non valide</span></div></div><div class="qr" id="c-qr"></div></div></div></div>
+<div class="card" id="pj-v" hidden style="margin-top:16px"><h3>Profil du joueur</h3><div id="pj-b"></div></div>
 <div class="card ed" style="margin-top:16px" id="iv"><h3>Envoyer le code d'activation</h3><p class="mn">Un e-mail avec le numéro de licence et le code d'activation est envoyé automatiquement à la création d'une licence Joueur. Utilisez ce formulaire pour le renvoyer ou le corriger.</p><label for="iv-lic">Numéro de licence</label><input id="iv-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><label for="iv-mail">E-mail du joueur</label><input id="iv-mail" type="email" maxlength="120" autocapitalize="none" autocomplete="off" spellcheck="false"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="iv-ok" type="button">Envoyer le code</button></div><p class="mn" id="inv-m" role="status" aria-live="polite"></p></div>
 <div class="card ed" style="margin-top:16px" id="ph2"><h3>Changer la photo d'un licencié</h3><label for="ph2-lic">Numéro de licence</label><input id="ph2-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><label for="ph2-f">Nouvelle photo</label><input id="ph2-f" type="file" accept="image/*"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="ph2-ok" type="button">Enregistrer la photo</button></div><p class="mn" id="ph2-m" role="status" aria-live="polite"></p></div>
-<div class="card" style="margin-top:16px"><h3>Registre</h3><div class="tw"><table id="t-r"><tr><th>Photo</th><th>N°</th><th>Nom</th><th>Catégorie</th><th>Club</th><th>Structure</th><th>Points</th><th>Draft</th><th>Paiement</th></tr></table></div>
+<div class="card" style="margin-top:16px"><h3>Registre</h3><p class="mn" id="reg-h" hidden>Touchez une ligne pour ouvrir la carte et le profil du joueur.</p><div class="tw"><table id="t-r"><tr><th>Photo</th><th>N°</th><th>Nom</th><th>Catégorie</th><th>Club</th><th>Structure</th><th>Points</th><th>Draft</th><th>Paiement</th></tr></table></div>
 <div class="ctl" style="justify-content:flex-start"><button class="btn bd" id="r-seed" type="button">Remettre les exemples</button><button class="btn bd" id="r-clr" type="button">Vider le registre</button></div></div>
 </div></section></div>
 <div class="page" id="p3"><section id="competitions"><div class="w">
@@ -242,9 +246,9 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div class="ctl ed"><button class="btn p" id="go" type="button">Démarrer</button><button class="btn" id="rz" type="button">Remettre à zéro</button><button class="btn p" id="fin" type="button">Terminer le match</button></div></div>
 <div class="grid g2" style="margin-top:16px;align-items:start">
 <div class="card ed"><h3>Saisie des actions</h3><label for="o-t">Équipe</label><select id="o-t"></select><label for="o-j">Joueur</label><select id="o-j"></select>
-<div class="ctl" style="margin-top:14px"><button class="btn p" data-e="pt" type="button">Point</button><button class="btn" data-e="ft" type="button">Faute technique</button><button class="btn" data-e="cj" type="button">Carton jaune</button><button class="btn" data-e="cr" type="button">Carton rouge</button><button class="btn" data-e="tm" type="button">Temps mort</button><button class="btn" id="undo" type="button">Annuler la dernière action</button></div><p id="lastact" role="status" aria-live="polite" style="margin:14px 0 0;font-weight:700"></p></div>
+<div class="ctl" style="margin-top:14px"><button class="btn p" data-e="pt" type="button">Point</button><button class="btn" data-e="pd" type="button">Passe décisive</button><button class="btn" data-e="ft" type="button">Faute technique</button><button class="btn" data-e="cj" type="button">Carton jaune</button><button class="btn" data-e="cr" type="button">Carton rouge</button><button class="btn" data-e="tm" type="button">Temps mort</button><button class="btn" id="undo" type="button">Annuler la dernière action</button></div><p id="lastact" role="status" aria-live="polite" style="margin:14px 0 0;font-weight:700"></p></div>
 <div class="card"><h3>Fil du match</h3><ul class="feed" id="feed"></ul></div></div>
-<div class="card" style="margin-top:16px"><h3>Performances individuelles</h3><div class="tw"><table id="t-p"><tr><th>Joueur</th><th>Équipe</th><th>Points</th><th>Fautes</th><th>Jaunes</th><th>Rouges</th></tr></table></div></div>
+<div class="card" style="margin-top:16px"><h3>Performances individuelles</h3><div class="tw"><table id="t-p"><tr><th>Joueur</th><th>Équipe</th><th>Points</th><th>Passes</th><th>Fautes</th><th>Jaunes</th><th>Rouges</th></tr></table></div></div>
 </div></section></div>
 <div class="page" id="p5"><section id="draft"><div class="w">
 <h2>Draft Internationale</h2>
@@ -299,7 +303,7 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 (function(){
 var $=function(i){return document.getElementById(i)},Q=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
 var KEY='hol_demo_v3',DT=['Équipe A','Équipe B','Équipe C','Équipe D'],CAT={J:'Joueur',E:'Entraîneur',A:'Arbitre'},TAR={J:15000,E:100000,A:50000},S,L={secs:0,run:null,ev:[]};
-var EV={pt:'Point validé',ft:'Faute technique',cj:'Carton jaune',cr:'Carton rouge',tm:'Temps mort'};
+var EV={pt:'Point validé',pd:'Passe décisive',ft:'Faute technique',cj:'Carton jaune',cr:'Carton rouge',tm:'Temps mort'};
 var LG={fr:['Accueil','Association','Affiliation','Sport','Licences','Compétitions','En direct','Draft','International','Le nouveau souffle du sport collectif','Découvrez le Hollyball et trouvez votre fédération.','Numéro de licence unique'],
 en:['Home','Association','Affiliation','Sport','Licences','Competitions','Live','Draft','International','The new breath of team sport','Discover Hollyball and find your federation.','Unique licence number'],
 es:['Inicio','Asociación','Afiliación','Deporte','Licencias','Competiciones','En vivo','Draft','Internacional','El nuevo aliento del deporte colectivo','Descubre el Hollyball y encuentra tu federación.','Número de licencia único']};
@@ -317,7 +321,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(HAS
 function nid(c,p){var n=S.lic.filter(function(l){return l.cat===c&&l.pays===p}).length+1;return 'HOL-'+c+'-'+p+'-'+('00000'+n).slice(-6)}
 function add(nom,cat,poste,age,pays,club,demo,aff){var d=new Date(),e=new Date(d);e.setFullYear(d.getFullYear()+1);
 var r={id:HAS_DB?tmpId():nid(cat,pays),_new:HAS_DB,nom:nom,cat:cat,poste:poste,age:age,pays:pays,club:club,demo:demo,aff:aff||'',em:iso(d),exp:iso(e),pts:0,mj:0,dr:0};S.lic.push(r);return r}
-var STATQ=[],HISTQ=[];function addstat(id,dp,dm){var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm}else{l.pts+=dp;l.mj+=dm}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
+var STATQ=[],HISTQ=[];function addstat(id,dp,dm,dd){dd=dd||0;var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0,pd:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm;q.pd+=dd}else{l.pts+=dp;l.mj+=dm;l.pd=(l.pd||0)+dd}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
 function seed(){fresh();mkA('confederation','Confédération Africaine de Hollyball (CAHB)','','','Affiliée',true);mkA('federation','Fédération de Hollyball de RDC','RDC','Confédération Africaine de Hollyball (CAHB)','Affiliée',true);
 var ac=mkA('academie','Académie d\'exemple','RDC','','Affiliée',true),ec=mkA('ecole','École d\'exemple','RDC','','Affiliée',true);mkA('federation','Fédération de Hollyball de France','FRA','Confédération Européenne de Hollyball (CEHB)','En attente',true);
 [['Joueur A1','Attaquant',22,'Équipe A',ac.id],['Joueur A2','Esquiveur',24,'Équipe A',''],['Joueur B1','Défenseur',20,'Équipe B',ec.id],['Joueur C1','Polyvalent',27,'Équipe C',''],['Joueur D1','Attaquant',23,'Équipe D','']].forEach(function(x){add(x[0],'J',x[1],x[2],'RDC',x[3],true,x[4])});add('Arbitre exemple','A','',0,'RDC','',true,'');add('Entraîneur exemple','E','',0,'RDC','Équipe A',true,'')}
@@ -382,7 +386,7 @@ async function upPhoto(path,file){var b=await shrink(file,480),up=await SB.stora
 function showCard(l){$('c-nom').textContent=l.nom;$('c-cat').textContent=CAT[l.cat];$('c-club').textContent=l.club||'-';$('c-id').textContent=l.id;$('c-em').textContent=l.em||'';$('c-ex').textContent=l.exp||'';avatar($('c-ini'),l.photo,l.nom);
 try{var q=qrcode(0,'M');q.addData(l.id+' | '+l.nom);q.make();$('c-qr').innerHTML=q.createSvgTag(4,2)}catch(x){$('c-qr').textContent=''}
 var sn=document.querySelector('.lic .lt small');if(sn)sn.textContent=l.demo?'Carte de licence (exemple)':'Carte de licence';var so=document.querySelector('.lic .soon');if(so)so.style.display=l.demo?'':'none';
-$('c-ini').closest('.lic').scrollIntoView({behavior:'smooth',block:'center'})}
+$('c-ini').closest('.lic').scrollIntoView({behavior:'smooth',block:'center'});rConsult(l)}
 function photoRows(){var t=$('t-r');for(var i=0;i<S.lic.length;i++){(function(l,r){if(!r)return;var c=r.cells[0];c.textContent='';var d=document.createElement('div');d.className='ph s';avatar(d,l.photo,l.nom);c.appendChild(d);r.className='cl';r.title='Afficher la carte';r.addEventListener('click',function(){showCard(l)})})(S.lic[i],t.rows[i+1])}}
 $('f-photo').addEventListener('change',function(){if(PHPREV){URL.revokeObjectURL(PHPREV);PHPREV=null}var f=this.files[0];if(f&&/^image\//.test(f.type))PHPREV=URL.createObjectURL(f);rLic()});
 if(!HAS_DB)$('f-phw').hidden=true;
@@ -433,14 +437,14 @@ if($('l-a').value===$('l-b').value){var o=tm.filter(function(x){return x!==$('l-
 var s=side();opts($('o-t'),[['0',s[0]],['1',s[1]]]);
 var club=s[+$('o-t').value||0],pl=S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]});
 if(!pl.length){pl=[];for(var i=1;i<=10;i++)pl.push(['n'+i,'N° '+i])}opts($('o-j'),pl);
-var sc=[0,0],stt={};L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++;if(e.j){var id=e.t+'|'+e.j;stt[id]=stt[id]||{lab:e.lab,t:e.t,p:0,f:0,y:0,r:0};
-if(e.k==='pt')stt[id].p++;if(e.k==='ft')stt[id].f++;if(e.k==='cj')stt[id].y++;if(e.k==='cr')stt[id].r++}});
+var sc=[0,0],stt={};L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++;if(e.j){var id=e.t+'|'+e.j;stt[id]=stt[id]||{lab:e.lab,t:e.t,p:0,a:0,f:0,y:0,r:0};
+if(e.k==='pt')stt[id].p++;if(e.k==='pd')stt[id].a++;if(e.k==='ft')stt[id].f++;if(e.k==='cj')stt[id].y++;if(e.k==='cr')stt[id].r++}});
 $('sa').textContent=sc[0];$('sbb').textContent=sc[1];
 var tc=[{ft:0,cj:0,cr:0,tm:0},{ft:0,cj:0,cr:0,tm:0}];L.ev.forEach(function(e){if(tc[e.t]&&tc[e.t][e.k]!==undefined)tc[e.t][e.k]++});
 $('tl').innerHTML='';[0,1].forEach(function(t){var d=document.createElement('div'),c=tc[t];d.textContent=s[t]+' : '+c.ft+' faute(s) technique(s), '+c.cj+' jaune(s), '+c.cr+' rouge(s), '+c.tm+' temps mort(s)';$('tl').appendChild(d)});
 $('lastact').textContent=L.ev.length?'Dernière action : '+EV[L.ev[L.ev.length-1].k]+' — '+s[L.ev[L.ev.length-1].t]+(L.ev[L.ev.length-1].j?' ('+L.ev[L.ev.length-1].lab+')':''):'';
 ul($('feed'),L.ev.slice().reverse().map(function(e){return mm(e.at)+'  '+s[e.t]+' : '+EV[e.k]+(e.j?' ('+e.lab+')':'')}),'Aucune action pour l\'instant.');
-fill($('t-p'),Object.keys(stt).map(function(k){return stt[k]}).sort(function(a,b){return b.p-a.p}).map(function(x){return [x.lab,s[x.t],x.p,x.f,x.y,x.r]}))}
+fill($('t-p'),Object.keys(stt).map(function(k){return stt[k]}).sort(function(a,b){return b.p-a.p}).map(function(x){return [x.lab,s[x.t],x.p,x.a,x.f,x.y,x.r]}))}
 function tick(){$('clk').textContent=mm(L.secs);$('half').textContent=L.secs<2100?'1re mi-temps':'2e mi-temps'}
 function stop(){clearInterval(L.run);L.run=null;$('go').textContent='Démarrer'}
 $('go').addEventListener('click',function(){if(L.run){clearInterval(L.run);L.run=null;this.textContent='Reprendre'}else{L.run=setInterval(function(){L.secs++;tick()},1000);this.textContent='Pause'}});
@@ -450,7 +454,7 @@ $('undo').addEventListener('click',function(){L.ev.pop();rLive()});
 ['l-a','l-b'].forEach(function(i){$(i).addEventListener('change',function(){L.ev=[];rLive()})});
 $('o-t').addEventListener('change',rLive);
 $('fin').addEventListener('click',function(){if(!L.ev.length)return;var s=side(),sc=[0,0],seen={};
-L.ev.forEach(function(e){if(e.k==='pt'){sc[e.t]++;addstat(e.j,1,0)}var m=e.j&&byId(e.j);if(m&&!seen[e.j]){seen[e.j]=1;addstat(e.j,0,1)}});
+L.ev.forEach(function(e){if(e.k==='pt'){sc[e.t]++;addstat(e.j,1,0)}if(e.k==='pd')addstat(e.j,0,0,1);var m=e.j&&byId(e.j);if(m&&!seen[e.j]){seen[e.j]=1;addstat(e.j,0,1)}});
 var k=ck(s[0],s[1]);S.sc[k]={};S.sc[k][s[0]]=sc[0];S.sc[k][s[1]]=sc[1];
 news('résultat ('+CN()+'), '+s[0]+' '+sc[0]+' - '+sc[1]+' '+s[1]);stop();L.secs=0;L.ev=[];tick();save();all()});
 
@@ -490,14 +494,14 @@ function okPw(p){return p.length>=8&&/[A-Za-z]/.test(p)&&/[0-9]/.test(p)}
 function lockUI(){document.body.classList.toggle('lock',!!HAS_DB&&!ADM)}lockUI();
 function rUser(){lockUI();$('m-out').hidden=!!CU||REC;$('m-rec').hidden=!REC;$('m-in').hidden=!CU||REC;$('m-who').textContent=CU?'('+CU.nom+')':'';
  $('m-db').textContent=SB?'Comptes sécurisés : connectés à la base de données.':'Base de données non configurée : renseignez config.js (voir LISEZMOI).';
- if(CU){var n=CU.niv==null?9:CU.niv;$('m-nom').textContent=CU.nom;avatar($('m-av'),CU.photo,CU.nom);$('m-phw').hidden=!SB;if(!SB||!(n>=6&&n<=8))$('m-ex').hidden=true;$('m-uid').textContent=CU.u;$('m-niv').textContent=NV[n][0];$('m-acc2').textContent=NV[n][1];
+ if(CU){var n=CU.niv==null?9:CU.niv;$('m-nom').textContent=CU.nom;avatar($('m-av'),CU.photo,CU.nom);$('m-phw').hidden=!SB;if(!SB||!(n>=6&&n<=8))$('m-ex').hidden=true;if(!CU||n!==8)$('m-pj').hidden=true;$('m-uid').textContent=CU.u;$('m-niv').textContent=NV[n][0];$('m-acc2').textContent=NV[n][1];
   var p=$('m-pend');if(CU.req!=null&&CU.req!==n){p.hidden=false;p.textContent='Niveau demandé : '+NV[CU.req][0]+'. En attente de validation par l\'administrateur.'}else p.hidden=true;
   $('m-adm').hidden=!ADM;if(ADM)rAdm()}else $('m-adm').hidden=true}
 async function loadUser(ses){
  if(!ses||!ses.user){CU=null;ADM=false;rUser();uidChanged();return}
  try{var id=ses.user.id,p=await SB.from('profiles').select('nom,niv_demande,photo,licence').eq('id',id).maybeSingle(),r=await SB.from('roles').select('niv').eq('id',id).maybeSingle(),niv=r.data?r.data.niv:9;
   CU={u:ses.user.email,id:id,nom:(p.data&&p.data.nom)||ses.user.email,req:p.data?p.data.niv_demande:9,photo:(p.data&&p.data.photo)||'',lic:(p.data&&p.data.licence)||'',niv:niv};ADM=niv===0}catch(e){CU=null;ADM=false}
- rUser();uidChanged();rExp()}
+ rUser();uidChanged();rExp();rPJ();$('reg-h').hidden=!(HAS_DB&&CU&&CU.niv<=6)}
 async function rAdm(){var box=$('m-adl'),a=await SB.from('profiles').select('id,nom,email,niv_demande,licence,photo').order('created_at'),r=await SB.from('roles').select('id,niv'),map={};
  (r.data||[]).forEach(function(x){map[x.id]=x.niv});box.textContent='';
  if(a.error||!a.data||!a.data.length){box.textContent='Aucun compte pour le moment.';return}
@@ -597,6 +601,19 @@ $('pp-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$
  m.textContent='Tarifs et numéros enregistrés.';PAYSET=false;await rPay()});
 $('pa-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var id=$('pa-lic').value.trim().toUpperCase(),l=byId(id),m=$('pa-m');if(!l){m.textContent='Numéro de licence introuvable.';return}
  var r=await SB.from('licences').update({paye:true}).eq('id',id).select('id');if(r.error||!r.data||!r.data.length){m.textContent='Refusé.';return}m.textContent=l.nom+' : licence marquée payée.';$('pa-lic').value='';await pullAll()});
+function pjRows(box,rows){box.textContent='';rows.forEach(function(r){var d=document.createElement('div');d.className='xr';var b=document.createElement('b');b.textContent=r[0];var v=document.createElement('span');v.textContent=r[1];d.appendChild(b);d.appendChild(v);box.appendChild(d)})}
+function sx(v){return v==='M'?'Masculin':v==='F'?'Féminin':'Non renseigné'}
+async function rPJ(){var on=!!SB&&!!CU&&CU.niv===8&&!!CU.lic;$('m-pj').hidden=!on;if(!on)return;var l=byId(CU.lic);
+ var r=await SB.from('joueur_profils').select('sexe,taille,poids').eq('lic_id',CU.lic).maybeSingle(),d=r.data||{};
+ pjRows($('pj-st'),[['Âge',l&&l.age?l.age+' ans':'Non renseigné'],['Points de carrière',l?l.pts:0],['Passes décisives de carrière',l?(l.pd||0):0],['Matchs joués',l?l.mj:0]]);
+ $('pj-s').value=d.sexe||'';$('pj-t').value=d.taille||'';$('pj-p').value=d.poids||''}
+$('pj-ok').addEventListener('click',async function(){if(!SB||!CU||!CU.lic)return;var m=$('pj-m'),t=parseInt($('pj-t').value,10),w=parseInt($('pj-p').value,10);
+ if($('pj-t').value&&!(t>=100&&t<=260)){m.textContent='Taille invalide (100 à 260 cm).';return}if($('pj-p').value&&!(w>=30&&w<=200)){m.textContent='Poids invalide (30 à 200 kg).';return}
+ this.disabled=true;m.textContent='Enregistrement…';var o={lic_id:CU.lic,sexe:$('pj-s').value||null,taille:t||null,poids:w||null},r=await SB.from('joueur_profils').upsert(o).select('lic_id');this.disabled=false;
+ m.textContent=r.error||!r.data||!r.data.length?'Profil non enregistré.':'Profil enregistré.'});
+async function rConsult(l){var v=$('pj-v');if(!HAS_DB||!SB||!CU||!(CU.niv<=6)||!l||l.cat!=='J'){v.hidden=true;return}v.hidden=false;pjRows($('pj-b'),[['Chargement…','']]);
+ var r=await SB.from('joueur_profils').select('sexe,taille,poids').eq('lic_id',l.id).maybeSingle(),d=r.data||{};
+ pjRows($('pj-b'),[['Nom',l.nom],['Poste',l.poste||'-'],['Club',l.club||'-'],['Sexe',sx(d.sexe)],['Âge',l.age?l.age+' ans':'Non renseigné'],['Taille',d.taille?d.taille+' cm':'Non renseignée'],['Poids',d.poids?d.poids+' kg':'Non renseigné'],['Points de carrière',l.pts],['Passes décisives de carrière',l.pd||0],['Matchs joués',l.mj]])}
 $('ph2-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var o=$('ph2-m'),id=$('ph2-lic').value.trim().toUpperCase(),l=byId(id),f=$('ph2-f').files[0];
  if(!l){o.textContent='Numéro de licence introuvable.';return}if(!f||!/^image\//.test(f.type)){o.textContent='Choisissez une photo.';return}
  this.disabled=true;o.textContent='Envoi de la photo…';try{var old=l.photo,url=await upPhoto('lic/'+l.id+'-'+Date.now()+'.jpg',f),r=await SB.from('licences').update({photo:url}).eq('id',l.id).select('id');if(r.error||!r.data||!r.data.length)throw r.error||new Error('x');
@@ -633,14 +650,14 @@ function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(t
 function fprint(o,F){return JSON.stringify(F.map(function(k){return o[k]==null?'':o[k]}))}
 function refusal(e){return e&&(e.code==='42501'||/row-level|permission|niveau|administrateur/i.test(e.message||''))?'Votre niveau d\'accès ne permet pas cette opération.':'Enregistrement impossible pour le moment.'}
 async function pullAll(){if(!SB||SYNCING)return;
- var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score'),st=await SB.from('stats').select('lic_id,pts,mj'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
+ var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score'),st=await SB.from('stats').select('lic_id,pts,mj,pd'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
  if(a.error||l.error||nw.error||rs.error||st.error||ds.error||dh.error){toast('Base de données indisponible : données non chargées.');return}
  S.aff=a.data.map(function(r){return{id:r.id,type:r.type,nom:r.nom,pays:r.pays||'',conf:r.conf||'',contact:'',statut:r.statut,demo:false,date:r.date||''}});
  S.lic=l.data.map(function(r){var x={id:r.id,nom:r.nom,cat:r.cat,poste:r.poste||'',pays:r.pays,club:r.club||'',demo:false,aff:r.aff||'',em:r.em||'',exp:r.exp||'',pts:0,mj:0,dr:r.dr||0,photo:r.photo||'',paye:!!r.paye};if(r.age!=null)x.age=r.age;return x});
  S.newsm=nw.data;S.news=nw.data.map(function(r){return iso(new Date(r.date))+' : '+r.texte});S.sc={};SCSNAP={};rs.data.forEach(function(r){S.sc[r.cle]=r.score;SCSNAP[r.cle]=JSON.stringify(r.score)});
- var sm={};st.data.forEach(function(r){sm[r.lic_id]=r});S.lic.forEach(function(x){var r=sm[x.id];if(r){x.pts=r.pts;x.mj=r.mj}});S.sel=ds.data.map(function(r){return r.lic_id});SELSNAP=S.sel.slice();S.hist=dh.data.map(function(r){return iso(new Date(r.date))+' : '+r.noms});
+ var sm={};st.data.forEach(function(r){sm[r.lic_id]=r});S.lic.forEach(function(x){var r=sm[x.id];if(r){x.pts=r.pts;x.mj=r.mj;x.pd=r.pd||0}});S.sel=ds.data.map(function(r){return r.lic_id});SELSNAP=S.sel.slice();S.hist=dh.data.map(function(r){return iso(new Date(r.date))+' : '+r.noms});
  SNAP.lic={};SNAP.aff={};S.lic.forEach(function(x){SNAP.lic[x.id]=fprint(x,LF)});S.aff.forEach(function(x){SNAP.aff[x.id]=fprint(x,AF)});
- try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all();rPay()}
+ try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all();rPay();rPJ()}
 var INVQ=[];
 async function invite(id,nom,mail){try{var r=await SB.auth.signInWithOtp({email:mail,options:{shouldCreateUser:true,data:{nom:nom,niv_demande:8,licence:id,invite:'1'}}});
  if(r.error){var lim=r.error.status===429||/rate|seconds|limit/i.test(r.error.message||'');return {ok:false,text:'Licence '+id+' : e-mail NON envoyé à '+mail+(lim?' (limite d\'envoi atteinte, réessayez plus tard).':' ('+(r.error.message||'erreur')+').')}}
