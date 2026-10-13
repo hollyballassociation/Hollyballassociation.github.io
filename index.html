@@ -219,7 +219,7 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div class="lr2"><div><div class="lid" id="c-id"></div><div>Émise le <span id="c-em"></span></div><div>Expire le <span id="c-ex"></span></div><div><span class="soon">Exemple, non valide</span></div></div><div class="qr" id="c-qr"></div></div></div></div>
 <div class="card ed" style="margin-top:16px" id="iv"><h3>Envoyer le code d'activation</h3><p class="mn">Un e-mail avec le numéro de licence et le code d'activation est envoyé automatiquement à la création d'une licence Joueur. Utilisez ce formulaire pour le renvoyer ou le corriger.</p><label for="iv-lic">Numéro de licence</label><input id="iv-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><label for="iv-mail">E-mail du joueur</label><input id="iv-mail" type="email" maxlength="120" autocapitalize="none" autocomplete="off" spellcheck="false"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="iv-ok" type="button">Envoyer le code</button></div><p class="mn" id="inv-m" role="status" aria-live="polite"></p></div>
 <div class="card ed" style="margin-top:16px" id="ph2"><h3>Changer la photo d'un licencié</h3><label for="ph2-lic">Numéro de licence</label><input id="ph2-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><label for="ph2-f">Nouvelle photo</label><input id="ph2-f" type="file" accept="image/*"><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="ph2-ok" type="button">Enregistrer la photo</button></div><p class="mn" id="ph2-m" role="status" aria-live="polite"></p></div>
-<div class="card" style="margin-top:16px"><h3>Registre</h3><div class="tw"><table id="t-r"><tr><th>Photo</th><th>N°</th><th>Nom</th><th>Catégorie</th><th>Club</th><th>Structure</th><th>Points</th><th>Draft</th></tr></table></div>
+<div class="card" style="margin-top:16px"><h3>Registre</h3><div class="tw"><table id="t-r"><tr><th>Photo</th><th>N°</th><th>Nom</th><th>Catégorie</th><th>Club</th><th>Structure</th><th>Points</th><th>Draft</th><th>Paiement</th></tr></table></div>
 <div class="ctl" style="justify-content:flex-start"><button class="btn bd" id="r-seed" type="button">Remettre les exemples</button><button class="btn bd" id="r-clr" type="button">Vider le registre</button></div></div>
 </div></section></div>
 <div class="page" id="p3"><section id="competitions"><div class="w">
@@ -265,7 +265,22 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <div id="lg-box" lang="fr"><div class="tn" id="lg-t"></div><p id="lg-s"></p><p><span class="soon" id="lg-c"></span></p></div></div>
 <div class="card"><h3>Paiement des licences</h3><label for="pay-l">Licencié</label><select id="pay-l"></select>
 <p class="sn" style="font-size:2.6rem;margin:12px 0 0" id="pay-v"></p><p id="pay-t" style="font-size:.9rem"></p>
-<p style="font-size:.9rem">Tarifs indicatifs du règlement (joueur amateur), hors frais de dossier.</p><button class="btn bd" type="button" disabled>Paiement bientôt disponible</button></div></div>
+<p style="font-size:.9rem">Tarifs indicatifs du règlement (joueur amateur), hors frais de dossier.</p><button class="btn bd" type="button" disabled id="pay-dis">Paiement bientôt disponible</button>
+<div id="mm" hidden><h4 style="margin:14px 0 6px">Payer par Mobile Money</h4>
+<p id="mm-off" class="mn">Connectez-vous (Menu, Espace compte) pour déclarer un paiement.</p>
+<div id="mm-on" hidden><p id="mm-none" class="mn" hidden>Le paiement Mobile Money n'est pas encore ouvert : l'association n'a pas encore indiqué ses numéros.</p>
+<div id="mm-f"><label for="mm-op">Opérateur</label><select id="mm-op"></select><p id="mm-how" style="margin:10px 0"></p>
+<label for="mm-ref">Référence de la transaction (reçue par SMS)</label><input id="mm-ref" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false">
+<label for="mm-tel">Votre numéro Mobile Money</label><input id="mm-tel" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" placeholder="0812345678">
+<div class="ctl" style="justify-content:flex-start"><button class="btn p" id="mm-go" type="button">J'ai payé</button></div></div>
+<p class="mn" id="mm-m" role="status" aria-live="polite"></p><h4 style="margin:14px 0 6px">Mes paiements</h4><div id="mm-list"></div></div></div></div></div>
+<div class="card ed" id="pa" style="margin-top:16px"><h3>Paiements Mobile Money</h3><h4 style="margin:8px 0">À vérifier</h4><div id="pa-l"></div><p class="mn" id="pa-m" role="status" aria-live="polite"></p>
+<label for="pa-lic">Marquer une licence payée (espèces ou autre)</label><input id="pa-lic" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="HOL-J-RDC-000001"><div class="ctl" style="justify-content:flex-start"><button class="btn" id="pa-ok" type="button">Marquer payée</button></div>
+<h4 style="margin:16px 0 6px">Tarifs et numéros de l'association</h4>
+<label for="pp-d">Devise</label><select id="pp-d"><option>CDF</option><option>USD</option></select>
+<label for="pp-j">Prix licence Joueur</label><input id="pp-j" type="number" inputmode="numeric" min="0"><label for="pp-e">Prix licence Entraîneur</label><input id="pp-e" type="number" inputmode="numeric" min="0"><label for="pp-a">Prix licence Arbitre</label><input id="pp-a" type="number" inputmode="numeric" min="0">
+<label for="pp-o">Numéro Orange Money</label><input id="pp-o" type="tel" maxlength="16"><label for="pp-m">Numéro M-Pesa</label><input id="pp-m" type="tel" maxlength="16"><label for="pp-l">Numéro Airtel Money</label><input id="pp-l" type="tel" maxlength="16"><label for="pp-t">Nom du titulaire des comptes</label><input id="pp-t" maxlength="60">
+<div class="ctl" style="justify-content:flex-start"><button class="btn p" id="pp-ok" type="button">Enregistrer les tarifs et numéros</button></div><p class="mn" id="pp-msg" role="status" aria-live="polite"></p></div>
 <div class="grid g2" style="margin-top:16px;align-items:start">
 <div class="card"><h3>API Hollyball</h3><p>Réponse d'exemple pour le licencié choisi ci-dessus :</p><pre class="api" id="api"></pre></div>
 <div class="card"><h3>Hollyball Mobile</h3><ul class="sel"><li>Matchs en direct et résultats</li><li>Notifications</li><li>Licence numérique avec QR Code</li><li>Profils, statistiques et classements</li><li>Actualités et Draft</li></ul><p>L'application utilisera la même base de données que le site.</p></div></div>
@@ -348,7 +363,7 @@ if(up.error)throw up.error;url=SB.storage.from('actus-media').getPublicUrl(path)
 var ins=await SB.from('actus').insert({texte:t||(type==='video'?'Vidéo':'Photo'),media_url:url,media_type:type});if(ins.error)throw ins.error;
 $('np-t').value='';$('np-f').value='';m.textContent='Publié.';await pullAll()}
 catch(e){m.textContent=(e&&e.message&&!/row-level|violates/i.test(e.message))?e.message:refusal(e)}
-b.disabled=false});if(!HAS_DB){$('np').hidden=true;$('iv').hidden=true;$('ph2').hidden=true}
+b.disabled=false});if(!HAS_DB){$('np').hidden=true;$('iv').hidden=true;$('ph2').hidden=true}else $('pay-dis').hidden=true
 $('iv-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var id=$('iv-lic').value.trim().toUpperCase(),mail=$('iv-mail').value.trim().toLowerCase(),l=byId(id),o=$('inv-m');
  if(!l||l.cat!=='J'){o.textContent='Numéro de licence Joueur introuvable.';return}
  if(!okMail(mail)){o.textContent='Adresse e-mail invalide.';return}
@@ -377,7 +392,7 @@ $('c-nom').textContent=nom;$('c-cat').textContent=CAT[cat];$('c-club').textConte
 avatar($('c-ini'),PHPREV,nom);
 try{var q=qrcode(0,'M');q.addData(id+' | '+nom+' | exemple');q.make();$('c-qr').innerHTML=q.createSvgTag(4,2)}catch(x){$('c-qr').textContent=''}
 var dl=$('dl');dl.innerHTML='';teams().forEach(function(t){var o=document.createElement('option');o.value=t;dl.appendChild(o)});
-fill($('t-r'),S.lic.map(function(l){return ['',l.id,l.nom+(l.demo?' (exemple)':''),CAT[l.cat],l.club||'-',affName(l.aff),l.cat==='J'?l.pts+' pts, '+l.mj+' match(s)':'-',l.dr?'Sélectionné':'-']}));photoRows()}
+fill($('t-r'),S.lic.map(function(l){return ['',l.id,l.nom+(l.demo?' (exemple)':''),CAT[l.cat],l.club||'-',affName(l.aff),l.cat==='J'?l.pts+' pts, '+l.mj+' match(s)':'-',l.dr?'Sélectionné':'-',HAS_DB?(l.paye?'Payée':'Non payée'):'-']}));photoRows()}
 $('f-ok').addEventListener('click',function(){var cat=$('f-cat').value,nom=$('f-nom').value.trim();if(!nom)return;
 var pays=(($('f-pays').value||'RDC').toUpperCase().replace(/[^A-Z]/g,'')+'XXX').slice(0,3);
 var ml=$('f-mail').value.trim().toLowerCase();if(HAS_DB&&cat==='J'&&ml&&!okMail(ml)){$('inv-m').textContent='Adresse e-mail du joueur invalide.';return}
@@ -454,12 +469,13 @@ $('d-ok').addEventListener('click',function(){if(!S.sel.length)return;var n=S.se
 if(HAS_DB)HISTQ.push(n.join(', '));else S.hist.unshift(iso(new Date())+' : '+n.join(', '));news('draft, '+n.join(', '));S.sel=[];save();all()});
 
 /* International */
+var PAYP=null,MYPAY=[],PAYALL=[],PAYSET=false;function amt(l){var c=l.cat.toLowerCase();return PAYP&&PAYP['prix_'+c]!=null?[PAYP['prix_'+c],PAYP.devise]:[TAR[l.cat],'CDF']}
 function rInt(){var v=$('pay-l').value;opts($('pay-l'),S.lic.map(function(l){return [l.id,l.nom+' - '+l.id]}));
 var l=byId($('pay-l').value),k=clubs().length,tot=S.lic.reduce(function(s,x){return s+TAR[x.cat]},0)+k*250000;
-$('pay-v').textContent=l?TAR[l.cat].toLocaleString('fr-FR')+' CDF par an':'Aucun licencié';
-$('pay-t').textContent='Total du registre : '+tot.toLocaleString('fr-FR')+' CDF ('+S.lic.length+' licence(s), '+k+' club(s) à 250 000 CDF).';
+$('pay-v').textContent=l?amt(l)[0].toLocaleString('fr-FR')+' '+amt(l)[1]+' par an':'Aucun licencié';
+if(HAS_DB)$('pay-t').textContent=l?(l.paye?'Cette licence est payée.':'Cette licence n\'est pas encore payée.'):'';else $('pay-t').textContent='Total du registre : '+tot.toLocaleString('fr-FR')+' CDF ('+S.lic.length+' licence(s), '+k+' club(s) à 250 000 CDF).';
 $('api').textContent=l?'GET /api/v1/licences/'+l.id+'\n\n'+JSON.stringify({licence:l.id,nom:l.nom,categorie:CAT[l.cat].toLowerCase(),club:l.club||null,structure:l.aff?affName(l.aff):null,pays:l.pays,points:l.pts,matchs:l.mj,draft:l.dr>0,expire:l.exp},null,2):'Aucun licencié dans le registre.'}
-$('pay-l').addEventListener('input',rInt);
+$('pay-l').addEventListener('input',function(){rInt();rMM()});
 function lang(k){S.lang=k;var d=LG[k];Q('nav[aria-label="Phases du site"] a').forEach(function(a,i){a.textContent=d[i]});$('lg-box').lang=k;$('lg-t').textContent=d[9];$('lg-s').textContent=d[10];$('lg-c').textContent=d[11];save()}
 Q('.lg').forEach(function(b){b.addEventListener('click',function(){lang(b.getAttribute('data-l'))})});
 
@@ -478,8 +494,8 @@ function rUser(){lockUI();$('m-out').hidden=!!CU||REC;$('m-rec').hidden=!REC;$('
   $('m-adm').hidden=!ADM;if(ADM)rAdm()}else $('m-adm').hidden=true}
 async function loadUser(ses){
  if(!ses||!ses.user){CU=null;ADM=false;rUser();uidChanged();return}
- try{var id=ses.user.id,p=await SB.from('profiles').select('nom,niv_demande,photo').eq('id',id).maybeSingle(),r=await SB.from('roles').select('niv').eq('id',id).maybeSingle(),niv=r.data?r.data.niv:9;
-  CU={u:ses.user.email,id:id,nom:(p.data&&p.data.nom)||ses.user.email,req:p.data?p.data.niv_demande:9,photo:(p.data&&p.data.photo)||'',niv:niv};ADM=niv===0}catch(e){CU=null;ADM=false}
+ try{var id=ses.user.id,p=await SB.from('profiles').select('nom,niv_demande,photo,licence').eq('id',id).maybeSingle(),r=await SB.from('roles').select('niv').eq('id',id).maybeSingle(),niv=r.data?r.data.niv:9;
+  CU={u:ses.user.email,id:id,nom:(p.data&&p.data.nom)||ses.user.email,req:p.data?p.data.niv_demande:9,photo:(p.data&&p.data.photo)||'',lic:(p.data&&p.data.licence)||'',niv:niv};ADM=niv===0}catch(e){CU=null;ADM=false}
  rUser();uidChanged();rExp()}
 async function rAdm(){var box=$('m-adl'),a=await SB.from('profiles').select('id,nom,email,niv_demande,licence,photo').order('created_at'),r=await SB.from('roles').select('id,niv'),map={};
  (r.data||[]).forEach(function(x){map[x.id]=x.niv});box.textContent='';
@@ -538,6 +554,45 @@ $('f-new').addEventListener('submit',async function(e){e.preventDefault();var p=
  if(!okPw(p))return msg('Mot de passe : 8 caractères minimum avec au moins une lettre et un chiffre.','er');
  var r=await SB.auth.updateUser({password:p});if(r.error)return msg('Changement impossible : '+r.error.message,'er');
  REC=false;$('n-p').value='';rUser();msg('Mot de passe modifié.','ok')});
+var OPS=[['Orange Money','orange'],['M-Pesa','mpesa'],['Airtel Money','airtel']];
+function pstat(x){return x==='Confirmé'?'Confirmé':x==='Refusé'?'Refusé':'En attente de vérification'}
+function rMM(){if(!HAS_DB)return;var on=!!CU,l=byId($('pay-l').value);$('mm-off').hidden=on;$('mm-on').hidden=!on;if(!on)return;
+ var av=PAYP?OPS.filter(function(o){return PAYP[o[1]]}):[];$('mm-none').hidden=av.length>0;$('mm-f').hidden=!av.length;
+ if(av.length){var cur=$('mm-op').value;opts($('mm-op'),av.map(function(o){return [o[0],o[0]]}));if(cur)$('mm-op').value=cur;
+  var o=OPS.filter(function(x){return x[0]===$('mm-op').value})[0]||av[0],a=l?amt(l):null;
+  $('mm-how').textContent=l?(l.paye?'Cette licence est déjà payée.':'Envoyez '+a[0].toLocaleString('fr-FR')+' '+a[1]+' par '+o[0]+' au '+PAYP[o[1]]+(PAYP.titulaire?' (au nom de '+PAYP.titulaire+')':'')+'. Puis recopiez ci-dessous la référence reçue par SMS.'):'Choisissez le licencié ci-dessus.'}
+ var L=$('mm-list');L.textContent='';var mine=MYPAY;if(!mine.length){var e=document.createElement('p');e.className='mn';e.textContent='Aucun paiement déclaré.';L.appendChild(e)}
+ mine.forEach(function(x){var d=document.createElement('div');d.className='xr';var li=byId(x.lic_id);d.textContent=(li?li.nom+' : ':'')+x.lic_id+' · '+x.montant.toLocaleString('fr-FR')+' '+x.devise+' · '+x.operateur+' · '+pstat(x.statut);L.appendChild(d)})}
+function rPA(){if(!HAS_DB||!ADM)return;var L=$('pa-l');L.textContent='';var q=PAYALL.filter(function(x){return x.statut==='En attente'});
+ if(!q.length){var e=document.createElement('p');e.className='mn';e.textContent='Aucun paiement à vérifier.';L.appendChild(e)}
+ q.forEach(function(x){var d=document.createElement('div');d.className='xr';var li=byId(x.lic_id);var t=document.createElement('div');t.textContent=(li?li.nom+' ':'')+'('+x.lic_id+') · '+x.montant.toLocaleString('fr-FR')+' '+x.devise+' · '+x.operateur+' · réf. '+x.reference+' · tél. '+x.telephone+' · '+iso(new Date(x.created_at));d.appendChild(t);
+  [['Confirmer','Confirmé'],['Refuser','Refusé']].forEach(function(b){var bt=document.createElement('button');bt.type='button';bt.className='bd';bt.style.cssText='margin:6px 8px 0 0;color:var(--soleil);border-color:var(--soleil)';bt.textContent=b[0];
+   bt.addEventListener('click',async function(){if(bt.dataset.ok!=='1'){bt.dataset.ok='1';bt.textContent='Cliquez pour confirmer : '+b[0];return}bt.disabled=true;
+    var r=await SB.from('paiements').update({statut:b[1]}).eq('id',x.id).select('id');if(r.error||!r.data||!r.data.length){toast('Opération refusée.');bt.disabled=false;return}
+    await pullAll()});d.appendChild(bt)});L.appendChild(d)});
+ if(PAYP&&!PAYSET){PAYSET=true;[['pp-d','devise'],['pp-j','prix_j'],['pp-e','prix_e'],['pp-a','prix_a'],['pp-o','orange'],['pp-m','mpesa'],['pp-l','airtel'],['pp-t','titulaire']].forEach(function(f){$(f[0]).value=PAYP[f[1]]==null?'':PAYP[f[1]]})}}
+async function rPay(){if(!HAS_DB||!SB)return;$('mm').hidden=false;
+ try{var r=await SB.from('paiement_params').select('*').maybeSingle();PAYP=r.data||null;MYPAY=[];PAYALL=[];
+  if(CU){var q=await SB.from('paiements').select('id,lic_id,user_id,operateur,montant,devise,reference,telephone,statut,created_at').order('created_at',{ascending:false}).limit(60);
+   if(!q.error&&q.data){PAYALL=ADM?q.data:[];MYPAY=q.data.filter(function(x){return x.user_id===CU.id})}}
+  if(CU&&CU.lic&&!rPay.d&&byId(CU.lic)){rPay.d=true;$('pay-l').value=CU.lic}}catch(e){}
+ rInt();rMM();rPA()}
+if(!HAS_DB){$('pa').hidden=true}
+$('mm-op').addEventListener('input',rMM);
+$('mm-go').addEventListener('click',async function(){if(!SB||!CU||!PAYP)return;var m=$('mm-m'),l=byId($('pay-l').value),ref=$('mm-ref').value.trim(),tel=$('mm-tel').value.replace(/[\s.-]/g,'');
+ if(!l){m.textContent='Choisissez le licencié.';return}if(l.paye){m.textContent='Cette licence est déjà payée.';return}
+ if(ref.length<4){m.textContent='Saisissez la référence de la transaction (reçue par SMS).';return}if(!/^\+?[0-9]{8,15}$/.test(tel)){m.textContent='Numéro Mobile Money invalide.';return}
+ this.disabled=true;m.textContent='Envoi…';var r=await SB.from('paiements').insert({lic_id:l.id,operateur:$('mm-op').value,reference:ref,telephone:tel});
+ this.disabled=false;if(r.error){var t=(r.error.message||'')+(r.error.code||'');m.textContent=/duplicate|unique|23505/i.test(t)?'Cette référence a déjà été déclarée.':/Trop de paiements/i.test(t)?'Trop de paiements en attente : attendez la vérification.':'Paiement non enregistré. Vérifiez les informations.';return}
+ $('mm-ref').value='';m.textContent='Paiement déclaré. L\'administrateur va vérifier le SMS et confirmer votre licence.';await rPay()});
+$('pp-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('pp-msg'),n=function(i){var v=$(i).value.replace(/[\s.-]/g,'');return v||null},g=function(i){return parseInt($(i).value,10)};
+ var o={devise:$('pp-d').value,prix_j:g('pp-j'),prix_e:g('pp-e'),prix_a:g('pp-a'),orange:n('pp-o'),mpesa:n('pp-m'),airtel:n('pp-l'),titulaire:$('pp-t').value.trim()||null};
+ if(!(o.prix_j>=0&&o.prix_e>=0&&o.prix_a>=0)){m.textContent='Indiquez les trois prix.';return}
+ this.disabled=true;var r=await SB.from('paiement_params').update(o).eq('id',1).select('id');this.disabled=false;
+ if(r.error||!r.data||!r.data.length){m.textContent=/check|23514/i.test((r.error&&r.error.message||'')+(r.error&&r.error.code||''))?'Numéro invalide (8 à 15 chiffres).':'Enregistrement refusé.';return}
+ m.textContent='Tarifs et numéros enregistrés.';PAYSET=false;await rPay()});
+$('pa-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var id=$('pa-lic').value.trim().toUpperCase(),l=byId(id),m=$('pa-m');if(!l){m.textContent='Numéro de licence introuvable.';return}
+ var r=await SB.from('licences').update({paye:true}).eq('id',id).select('id');if(r.error||!r.data||!r.data.length){m.textContent='Refusé.';return}m.textContent=l.nom+' : licence marquée payée.';$('pa-lic').value='';await pullAll()});
 $('ph2-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var o=$('ph2-m'),id=$('ph2-lic').value.trim().toUpperCase(),l=byId(id),f=$('ph2-f').files[0];
  if(!l){o.textContent='Numéro de licence introuvable.';return}if(!f||!/^image\//.test(f.type)){o.textContent='Choisissez une photo.';return}
  this.disabled=true;o.textContent='Envoi de la photo…';try{var old=l.photo,url=await upPhoto('lic/'+l.id+'-'+Date.now()+'.jpg',f),r=await SB.from('licences').update({photo:url}).eq('id',l.id).select('id');if(r.error||!r.data||!r.data.length)throw r.error||new Error('x');
@@ -577,11 +632,11 @@ async function pullAll(){if(!SB||SYNCING)return;
  var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score'),st=await SB.from('stats').select('lic_id,pts,mj'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
  if(a.error||l.error||nw.error||rs.error||st.error||ds.error||dh.error){toast('Base de données indisponible : données non chargées.');return}
  S.aff=a.data.map(function(r){return{id:r.id,type:r.type,nom:r.nom,pays:r.pays||'',conf:r.conf||'',contact:'',statut:r.statut,demo:false,date:r.date||''}});
- S.lic=l.data.map(function(r){var x={id:r.id,nom:r.nom,cat:r.cat,poste:r.poste||'',pays:r.pays,club:r.club||'',demo:false,aff:r.aff||'',em:r.em||'',exp:r.exp||'',pts:0,mj:0,dr:r.dr||0,photo:r.photo||''};if(r.age!=null)x.age=r.age;return x});
+ S.lic=l.data.map(function(r){var x={id:r.id,nom:r.nom,cat:r.cat,poste:r.poste||'',pays:r.pays,club:r.club||'',demo:false,aff:r.aff||'',em:r.em||'',exp:r.exp||'',pts:0,mj:0,dr:r.dr||0,photo:r.photo||'',paye:!!r.paye};if(r.age!=null)x.age=r.age;return x});
  S.newsm=nw.data;S.news=nw.data.map(function(r){return iso(new Date(r.date))+' : '+r.texte});S.sc={};SCSNAP={};rs.data.forEach(function(r){S.sc[r.cle]=r.score;SCSNAP[r.cle]=JSON.stringify(r.score)});
  var sm={};st.data.forEach(function(r){sm[r.lic_id]=r});S.lic.forEach(function(x){var r=sm[x.id];if(r){x.pts=r.pts;x.mj=r.mj}});S.sel=ds.data.map(function(r){return r.lic_id});SELSNAP=S.sel.slice();S.hist=dh.data.map(function(r){return iso(new Date(r.date))+' : '+r.noms});
  SNAP.lic={};SNAP.aff={};S.lic.forEach(function(x){SNAP.lic[x.id]=fprint(x,LF)});S.aff.forEach(function(x){SNAP.aff[x.id]=fprint(x,AF)});
- try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all()}
+ try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all();rPay()}
 var INVQ=[];
 async function invite(id,nom,mail){try{var r=await SB.auth.signInWithOtp({email:mail,options:{shouldCreateUser:true,data:{nom:nom,niv_demande:8,licence:id,invite:'1'}}});
  if(r.error){var lim=r.error.status===429||/rate|seconds|limit/i.test(r.error.message||'');return {ok:false,text:'Licence '+id+' : e-mail NON envoyé à '+mail+(lim?' (limite d\'envoi atteinte, réessayez plus tard).':' ('+(r.error.message||'erreur')+').')}}
