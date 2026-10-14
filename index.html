@@ -292,12 +292,12 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 </div></section></div>
 <div class="page" id="p5"><section id="draft"><div class="w">
 <h2>Draft Internationale</h2>
-<p class="lead">Phase 5 : les candidats sont les joueurs du registre (page Licences), avec les points marqués en direct. Une sélection validée s'ajoute au profil du joueur et à l'actualité. Aperçu.</p>
+<p class="lead">Phase 5 : la liste des candidats se construit automatiquement : les 100 meilleurs joueurs du registre, classés selon leurs performances (points + passes décisives) tirées en temps réel des onglets En direct et Compétitions. Une sélection validée s'ajoute au profil du joueur et à l'actualité.</p>
 <div class="grid g2" style="margin-top:24px;align-items:start">
 <div class="card"><h3>Joueurs disponibles</h3>
 <div class="pts"><div><label for="d-p">Poste</label><select id="d-p"><option value="">Tous</option><option>Esquiveur</option><option>Défenseur</option><option>Polyvalent</option><option>Attaquant</option></select></div><div><label for="d-c">Pays</label><select id="d-c"></select></div><div><label for="d-cl">Club</label><select id="d-cl"></select></div></div>
-<div class="pts" style="margin-top:8px"><div><label for="d-a">Âge maximum</label><input id="d-a" type="number" min="18" max="45" value="45"></div><div><label for="d-s">Points minimum</label><input id="d-s" type="number" min="0" value="0"></div></div>
-<div class="tw"><table id="t-d"><tr><th>Candidat</th><th>Poste</th><th>Pays</th><th>Âge</th><th>Club</th><th>Points</th><th></th></tr></table></div></div>
+<div class="pts" style="margin-top:8px"><div><label for="d-a">Âge maximum</label><input id="d-a" type="number" min="18" max="45" value="45"></div><div><label for="d-s">Indice minimum</label><input id="d-s" type="number" min="0" value="0"></div></div>
+<p class="mn" id="d-n" role="status"></p><div class="tw"><table id="t-d"><tr><th>Rang</th><th>Candidat</th><th>Poste</th><th>Pays</th><th>Âge</th><th>Club</th><th>Pts</th><th>Passes</th><th>MJ</th><th>Indice</th><th></th></tr></table></div></div>
 <div><div class="card"><h3>Ma sélection</h3><ul class="sel" id="sel"></ul><button class="btn bd ed" id="d-ok" type="button">Valider la sélection</button></div>
 <div class="card" style="margin-top:16px"><h3>Historique des drafts</h3><ul class="sel" id="hist"></ul></div></div></div>
 </div></section></div>
@@ -548,8 +548,10 @@ function rDraft(){var J=S.lic.filter(function(l){return l.cat==='J'}),pays=[];J.
 opts($('d-c'),pays,true);opts($('d-cl'),clubs(),true);
 var p=$('d-p').value,c=$('d-c').value,cl=$('d-cl').value,a=+$('d-a').value||99,m=+$('d-s').value||0,t=$('t-d');
 while(t.rows.length>1)t.deleteRow(1);
-J.filter(function(l){return(!p||l.poste===p)&&(!c||l.pays===c)&&(!cl||l.club===cl)&&l.age<=a&&l.pts>=m}).forEach(function(l){var r=t.insertRow();
-[l.nom,l.poste,l.pays,l.age,l.club||'-',l.pts].forEach(function(v){r.insertCell().textContent=v});
+var RK=J.map(function(l){return {l:l,ix:(l.pts||0)+(l.pd||0)}}).filter(function(x){return x.ix>0}).sort(function(x,y){return y.ix-x.ix||(y.l.pts||0)-(x.l.pts||0)||(x.l.mj||0)-(y.l.mj||0)||(x.l.nom<y.l.nom?-1:1)}).slice(0,100);
+RK.forEach(function(x,i){x.rk=i+1});$('d-n').textContent=RK.length?('Top '+RK.length+' automatique, mis à jour à chaque match enregistré.'):'Aucun joueur classé pour le moment : le classement se remplit dès que des points ou des passes sont enregistrés en direct.';
+RK.filter(function(x){var l=x.l;return(!p||l.poste===p)&&(!c||l.pays===c)&&(!cl||l.club===cl)&&l.age<=a&&x.ix>=m}).forEach(function(x){var l=x.l,r=t.insertRow();
+[x.rk,l.nom,l.poste,l.pays,l.age,l.club||'-',l.pts||0,l.pd||0,l.mj||0,x.ix].forEach(function(v){r.insertCell().textContent=v});
 if(HAS_DB&&!ADM)return;var b=document.createElement('button');b.type='button';b.className='btn bd';b.textContent=S.sel.indexOf(l.id)<0?'Sélectionner':'Retirer';
 b.addEventListener('click',function(){var i=S.sel.indexOf(l.id);if(i<0)S.sel.push(l.id);else S.sel.splice(i,1);save();rDraft()});r.insertCell().appendChild(b)});
 ul($('sel'),S.sel.map(function(id){var l=byId(id);return l?l.nom:id}),'Aucun joueur sélectionné.');
