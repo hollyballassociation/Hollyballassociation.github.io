@@ -336,9 +336,9 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 var $=function(i){return document.getElementById(i)},Q=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
 var KEY='hol_demo_v3',DT=['Équipe A','Équipe B','Équipe C','Équipe D'],CAT={J:'Joueur',E:'Entraîneur',A:'Arbitre'},TAR={J:15000,E:100000,A:50000},S,L={secs:0,run:null,ev:[]};
 var EV={pt:'Point validé',pd:'Passe décisive',ft:'Faute technique',cj:'Carton jaune',cr:'Carton rouge',tm:'Temps mort'};
-var LG={fr:['Accueil','Association','Affiliation','Sport','Licences','Compétitions','En direct','Draft','International','Le nouveau souffle du sport collectif','Découvrez le Hollyball et trouvez votre fédération.','Numéro de licence unique'],
-en:['Home','Association','Affiliation','Sport','Licences','Competitions','Live','Draft','International','The new breath of team sport','Discover Hollyball and find your federation.','Unique licence number'],
-es:['Inicio','Asociación','Afiliación','Deporte','Licencias','Competiciones','En vivo','Draft','Internacional','El nuevo aliento del deporte colectivo','Descubre el Hollyball y encuentra tu federación.','Número de licencia único']};
+var LG={fr:['Accueil','Association','Affiliation','Sport','Licences','Compétitions','En direct','Draft','International','Boutique','Le nouveau souffle du sport collectif','Découvrez le Hollyball et trouvez votre fédération.','Numéro de licence unique'],
+en:['Home','Association','Affiliation','Sport','Licences','Competitions','Live','Draft','International','Shop','The new breath of team sport','Discover Hollyball and find your federation.','Unique licence number'],
+es:['Inicio','Asociación','Afiliación','Deporte','Licencias','Competiciones','En vivo','Draft','Internacional','Tienda','El nuevo aliento del deporte colectivo','Descubre el Hollyball y encuentra tu federación.','Número de licencia único']};
 var HAS_DB=!!(window.supabase&&window.HOL_CONFIG&&HOL_CONFIG.url&&String(HOL_CONFIG.url).indexOf('VOTRE')<0);
 function tmpId(){return 'NEW-'+Math.random().toString(36).slice(2,9)}
 var COMPS=[['culturelle','Ligue Hollyball culturelle'],['scolaire','Hollyball inter-scolaire'],['district','Hollyball ligue district'],['championnat','Championnat']];
@@ -558,7 +558,7 @@ $('pay-v').textContent=l?amt(l)[0].toLocaleString('fr-FR')+' '+amt(l)[1]+' par a
 if(HAS_DB)$('pay-t').textContent=l?(l.paye?'Cette licence est payée.':'Cette licence n\'est pas encore payée.'):'';else $('pay-t').textContent='Total du registre : '+tot.toLocaleString('fr-FR')+' CDF ('+S.lic.length+' licence(s), '+k+' club(s) à 250 000 CDF).';
 $('api').textContent=l?'GET /api/v1/licences/'+l.id+'\n\n'+JSON.stringify({licence:l.id,nom:l.nom,categorie:CAT[l.cat].toLowerCase(),club:l.club||null,structure:l.aff?affName(l.aff):null,pays:l.pays,points:l.pts,matchs:l.mj,draft:l.dr>0,expire:l.exp},null,2):'Aucun licencié dans le registre.'}
 $('pay-l').addEventListener('input',function(){rInt();rMM()});
-function lang(k){S.lang=k;var d=LG[k];Q('nav[aria-label="Phases du site"] a').forEach(function(a,i){a.textContent=d[i]});$('lg-box').lang=k;$('lg-t').textContent=d[9];$('lg-s').textContent=d[10];$('lg-c').textContent=d[11];save()}
+function lang(k){S.lang=k;var d=LG[k];Q('nav[aria-label="Phases du site"] a').forEach(function(a,i){a.textContent=d[i]});$('lg-box').lang=k;$('lg-t').textContent=d[10];$('lg-s').textContent=d[11];$('lg-c').textContent=d[12];save()}
 Q('.lg').forEach(function(b){b.addEventListener('click',function(){lang(b.getAttribute('data-l'))})});
 
 /* Espace compte et menu */
