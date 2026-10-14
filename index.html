@@ -435,10 +435,10 @@ if(a>b){x.v++;y.d++;x.pts+=W;y.pts+=Lo}else if(a<b){y.v++;x.d++;y.pts+=W;x.pts+=
 var rows=Object.keys(st).map(function(k){return st[k]}).sort(function(p,q){return q.pts-p.pts||(q.pm-q.pe)-(p.pm-p.pe)||q.pm-p.pm});
 fill($('t-c'),rows.map(function(s,i){return [i+1,s.n,s.j,s.v,s.nu,s.d,s.pm,s.pe,s.pm-s.pe,s.pts]}))}
 ['p-v','p-n','p-d'].forEach(function(i){$(i).addEventListener('input',function(){rComp(false)})});
-function setComp(v){S.comp=v;save();all()}
+function setComp(v,go){S.comp=v;save();all();Q('[data-c]').forEach(function(x){var on=x.getAttribute('data-c')===v;x.style.background=on?'#f7d917':'';x.style.color=on?'#0a0a2a':'';x.textContent=on?'Compétition affichée ↓':'Voir cette compétition'});if(go){var t=$('c-title');if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'})},80)}}
 $('c-sel').addEventListener('change',function(){setComp(this.value)});
 $('l-c').addEventListener('change',function(){setComp(this.value)});
-Q('[data-c]').forEach(function(b){b.addEventListener('click',function(){setComp(b.getAttribute('data-c'))})});
+Q('[data-c]').forEach(function(b){b.addEventListener('click',function(){setComp(b.getAttribute('data-c'),1)})});
 
 /* En direct */
 function side(){return [$('l-a').value,$('l-b').value]}
