@@ -232,15 +232,23 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 <h2>Compétitions</h2>
 <p class="lead">Phase 3 : quatre compétitions, chacune avec son calendrier, ses résultats et son classement. Les équipes sont les clubs du registre (page Licences) ; un match terminé en direct arrive dans la compétition choisie. Aperçu.</p><div class="grid g2" style="margin-top:24px"><div class="card" id="cc-0"><h3>Ligue Hollyball culturelle</h3><p>Compétitions de la Ligue Culturelle, structure parallèle de la Hollyball avec son propre espace pour publier ses activités, ses compétitions et ses événements.</p><p><b id="cc-n0"></b></p><button class="btn bd" type="button" data-c="culturelle">Voir cette compétition</button></div><div class="card" id="cc-1"><h3>Hollyball inter-scolaire</h3><p>Compétitions entre établissements scolaires, dans le volet développement de la discipline auprès des jeunes.</p><p><b id="cc-n1"></b></p><button class="btn bd" type="button" data-c="scolaire">Voir cette compétition</button></div><div class="card" id="cc-2"><h3>Hollyball ligue district</h3><p>Compétitions organisées par les ligues et les districts, à l'échelle territoriale.</p><p><b id="cc-n2"></b></p><button class="btn bd" type="button" data-c="district">Voir cette compétition</button></div><div class="card" id="cc-3"><h3>Championnat</h3><p>Championnat national entre clubs, la compétition de référence de la discipline.</p><p><b id="cc-n3"></b></p><button class="btn bd" type="button" data-c="championnat">Voir cette compétition</button></div></div><p style="font-size:.9rem;margin-top:12px">Le format, le calendrier et les règles propres à chaque compétition restent à préciser.</p><div class="card" style="margin-top:24px"><label for="c-sel">Compétition affichée</label><select id="c-sel"></select></div><h3 style="margin-top:28px" id="c-title"></h3>
 <div class="grid g2" style="margin-top:24px;align-items:start">
-<div class="card"><h3>Calendrier et résultats</h3><div class="tw"><table id="t-m"><tr><th>Match</th><th>Score</th></tr></table></div>
+<div class="card"><h3>Calendrier et résultats</h3><div class="tw"><table id="t-m"><tr><th>Match</th><th>Date</th><th>Score</th></tr></table></div>
 <h3 style="margin-top:20px">Règles de points</h3><div class="pts"><div><label for="p-v">Victoire</label><input id="p-v" type="number" min="0" value="3"></div><div><label for="p-n">Nul</label><input id="p-n" type="number" min="0" value="1"></div><div><label for="p-d">Défaite</label><input id="p-d" type="number" min="0" value="0"></div></div></div>
 <div class="card"><h3>Classement</h3><div class="tw"><table id="t-c"><tr><th>#</th><th>Équipe</th><th>J</th><th>V</th><th>N</th><th>D</th><th>PM</th><th>PE</th><th>Diff</th><th>Pts</th></tr></table></div>
 <p style="font-size:.9rem"><span class="soon">Exemple, non officiel</span></p><p style="font-size:.9rem">J joués, V victoires, N nuls, D défaites, PM points marqués, PE points encaissés.</p></div></div>
+<div id="cdb" hidden>
+<div class="grid g2" style="margin-top:16px;align-items:start">
+<div class="card" id="ce"><h3>Équipes éligibles</h3><p class="mn" id="ce-n"></p><div id="ce-l"></div>
+<div class="ed" id="ce-f"><h4 style="margin:14px 0 4px">Ajouter une équipe à la compétition</h4><label for="ce-nom">Nom de l'équipe (facultatif si une structure est choisie)</label><input id="ce-nom" maxlength="60" autocomplete="off"><label for="ce-s">Structure autorisée à inscrire les joueurs</label><select id="ce-s"></select><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="ce-ok" type="button">Ajouter à la compétition</button></div><p class="mn" id="ce-m" role="status" aria-live="polite"></p></div></div>
+<div class="card" id="cj"><h3>Joueurs inscrits</h3><p class="mn" id="cj-x" hidden>Votre structure n'est pas encore éligible à cette compétition : l'administrateur doit d'abord l'ajouter à ses équipes.</p><div id="cj-f" hidden><p class="mn" id="cj-i"></p><div id="cj-tw"><label for="cj-t">Équipe</label><select id="cj-t"></select></div><label for="cj-p">Joueur</label><select id="cj-p"></select><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="cj-ok" type="button">Inscrire le joueur</button></div><p class="mn" id="cj-m" role="status" aria-live="polite"></p></div><div id="cj-l"></div></div></div>
+<div class="grid g2" style="margin-top:16px;align-items:start"><div class="card" id="ch"><h3>Historique de la compétition</h3><ul class="sel" id="ch-l"></ul></div>
+<div class="card" id="cs"><h3>Statistiques de la compétition</h3><div id="cs-aw"></div><div class="tw"><table id="t-cs"><tr><th>#</th><th>Joueur</th><th>Équipe</th><th>Pts</th><th>Passes</th><th>MJ</th><th>V</th><th>N</th><th>D</th></tr></table></div><p class="mn">Meilleur Hollymen : plus grand total points + passes décisives (départage : victoires). Meilleur toucheur : le plus de points. Meilleur passeur : le plus de passes décisives. Pts = points marqués, MJ = matchs joués, V/N/D = victoires, nuls, défaites de l'équipe du joueur.</p></div></div>
+</div>
 </div></section></div>
 <div class="page" id="p4"><section id="direct" class="band"><div class="w">
 <h2>En direct</h2>
 <p class="lead">Phase 4 : le centre de match. Choisissez deux équipes ; les joueurs viennent du registre. En terminant le match, le score entre dans les compétitions et les points dans les profils et la Draft. Aperçu.</p>
-<div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><select id="l-c"></select><div class="sb" aria-live="polite">
+<div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><select id="l-c"></select><p class="mn" id="l-note" hidden>Aucune équipe dans cette compétition : l'administrateur doit d'abord ajouter les équipes (onglet Compétitions).</p><div class="sb" aria-live="polite">
 <div><select id="l-a" aria-label="Équipe de gauche"></select><div class="sn" id="sa">0</div></div>
 <div class="mid"><div class="clk" id="clk">00:00</div><div id="half">1re mi-temps</div></div>
 <div><select id="l-b" aria-label="Équipe de droite"></select><div class="sn" id="sbb">0</div></div></div>
@@ -323,14 +331,14 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(HAS
 function nid(c,p){var n=S.lic.filter(function(l){return l.cat===c&&l.pays===p}).length+1;return 'HOL-'+c+'-'+p+'-'+('00000'+n).slice(-6)}
 function add(nom,cat,poste,age,pays,club,demo,aff){var d=new Date(),e=new Date(d);e.setFullYear(d.getFullYear()+1);
 var r={id:HAS_DB?tmpId():nid(cat,pays),_new:HAS_DB,nom:nom,cat:cat,poste:poste,age:age,pays:pays,club:club,demo:demo,aff:aff||'',em:iso(d),exp:iso(e),pts:0,mj:0,dr:0};S.lic.push(r);return r}
-var STATQ=[],HISTQ=[];function addstat(id,dp,dm,dd){dd=dd||0;var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0,pd:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm;q.pd+=dd}else{l.pts+=dp;l.mj+=dm;l.pd=(l.pd||0)+dd}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
+var STATQ=[],HISTQ=[],COMPQ=[],CE=[],CD={},CJ=[],CS={},SCM={};function addstat(id,dp,dm,dd){dd=dd||0;var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0,pd:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm;q.pd+=dd}else{l.pts+=dp;l.mj+=dm;l.pd=(l.pd||0)+dd}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
 function seed(){fresh();mkA('confederation','Confédération Africaine de Hollyball (CAHB)','','','Affiliée',true);mkA('federation','Fédération de Hollyball de RDC','RDC','Confédération Africaine de Hollyball (CAHB)','Affiliée',true);
 var ac=mkA('academie','Académie d\'exemple','RDC','','Affiliée',true),ec=mkA('ecole','École d\'exemple','RDC','','Affiliée',true);mkA('federation','Fédération de Hollyball de France','FRA','Confédération Européenne de Hollyball (CEHB)','En attente',true);
 [['Joueur A1','Attaquant',22,'Équipe A',ac.id],['Joueur A2','Esquiveur',24,'Équipe A',''],['Joueur B1','Défenseur',20,'Équipe B',ec.id],['Joueur C1','Polyvalent',27,'Équipe C',''],['Joueur D1','Attaquant',23,'Équipe D','']].forEach(function(x){add(x[0],'J',x[1],x[2],'RDC',x[3],true,x[4])});add('Arbitre exemple','A','',0,'RDC','',true,'');add('Entraîneur exemple','E','',0,'RDC','Équipe A',true,'')}
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
 if(!S||!S.lic||!S.aff){if(HAS_DB)fresh();else seed()}
 function clubs(){var c=[];S.lic.forEach(function(l){if(l.club&&c.indexOf(l.club)<0)c.push(l.club)});return c}
-function teams(){var t=DT.slice();clubs().forEach(function(c){if(t.indexOf(c)<0)t.push(c)});return t}
+function teams(){if(HAS_DB){var kc=S.comp||'culturelle';return CE.filter(function(e){return e.comp===kc}).map(function(e){return e.nom})}var t=DT.slice();clubs().forEach(function(c){if(t.indexOf(c)<0)t.push(c)});return t}
 function pairs(){var t=teams(),r=[],i,j;for(i=0;i<t.length;i++)for(j=i+1;j<t.length;j++)r.push([t[i],t[j]]);return r}
 function key(a,b){return [a,b].sort().join('|')}
 function cnt(c){return S.lic.filter(function(l){return l.cat===c}).length}
@@ -398,7 +406,7 @@ $('f-jr').style.display=cat==='J'?'block':'none';
 $('c-nom').textContent=nom;$('c-cat').textContent=CAT[cat];$('c-club').textContent=club;$('c-id').textContent=id;$('c-em').textContent=iso(d);$('c-ex').textContent=iso(e);
 avatar($('c-ini'),PHPREV,nom);
 try{var q=qrcode(0,'M');q.addData(id+' | '+nom+' | exemple');q.make();$('c-qr').innerHTML=q.createSvgTag(4,2)}catch(x){$('c-qr').textContent=''}
-var dl=$('dl');dl.innerHTML='';teams().forEach(function(t){var o=document.createElement('option');o.value=t;dl.appendChild(o)});
+var dl=$('dl');dl.innerHTML='';(HAS_DB?clubs():teams()).forEach(function(t){var o=document.createElement('option');o.value=t;dl.appendChild(o)});
 fill($('t-r'),S.lic.map(function(l){return ['',l.id,l.nom+(l.demo?' (exemple)':''),CAT[l.cat],l.club||'-',affName(l.aff),l.cat==='J'?l.pts+' pts, '+l.mj+' match(s)':'-',l.dr?'Sélectionné':'-',HAS_DB?(l.paye?'Payée':'Non payée'):'-']}));photoRows()}
 $('f-ok').addEventListener('click',function(){var cat=$('f-cat').value,nom=$('f-nom').value.trim();if(!nom)return;
 var pays=(($('f-pays').value||'RDC').toUpperCase().replace(/[^A-Z]/g,'')+'XXX').slice(0,3);
@@ -417,7 +425,7 @@ function rComp(rb){var t=$('t-m');
 opts($('c-sel'),COMPS);$('c-sel').value=S.comp||'culturelle';
 COMPS.forEach(function(c,n){var q=Object.keys(S.sc).filter(function(k){return k.indexOf(c[0]+'::')===0}).length;$('cc-n'+n).textContent=q+' match(s) joué(s)';$('cc-'+n).classList.toggle('cur',c[0]===(S.comp||'culturelle'))});
 $('c-title').textContent=CN();
-if(rb){while(t.rows.length>1)t.deleteRow(1);pairs().forEach(function(p){var k=ck(p[0],p[1]),s=S.sc[k]||{},r=t.insertRow();r.insertCell().textContent=p[0]+' contre '+p[1];
+if(rb){while(t.rows.length>1)t.deleteRow(1);pairs().sort(function(x,y){var a=CD[ck(x[0],x[1])]||'9',b=CD[ck(y[0],y[1])]||'9';return a<b?-1:a>b?1:0}).forEach(function(p){var k=ck(p[0],p[1]),s=S.sc[k]||{},r=t.insertRow();r.insertCell().textContent=p[0]+' contre '+p[1];dateCell(r.insertCell(),k);
 var c=r.insertCell();c.innerHTML='<input class="sc" type="number" min="0" aria-label="Score '+p[0]+'"> - <input class="sc" type="number" min="0" aria-label="Score '+p[1]+'">';
 var i=c.querySelectorAll('input');if(HAS_DB&&!ADM){i[0].disabled=true;i[1].disabled=true}i[0].value=s[p[0]]===undefined?'':s[p[0]];i[1].value=s[p[1]]===undefined?'':s[p[1]];
 [i[0],i[1]].forEach(function(x){x.addEventListener('input',function(){var a=i[0].value,b=i[1].value;if(a===''||b===''){delete S.sc[k]}else{S.sc[k]={};S.sc[k][p[0]]=+a;S.sc[k][p[1]]=+b}save();rComp(false);rHome()})})})}
@@ -437,7 +445,7 @@ function side(){return [$('l-a').value,$('l-b').value]}
 function rLive(){opts($('l-c'),COMPS);$('l-c').value=S.comp||'culturelle';var tm=teams();opts($('l-a'),tm);opts($('l-b'),tm);
 if($('l-a').value===$('l-b').value){var o=tm.filter(function(x){return x!==$('l-a').value})[0];if(o)$('l-b').value=o}
 var s=side();opts($('o-t'),[['0',s[0]],['1',s[1]]]);
-var club=s[+$('o-t').value||0],pl=S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]});
+var club=s[+$('o-t').value||0],kcm=S.comp||'culturelle',pl=HAS_DB?CJ.filter(function(j){return j.comp===kcm&&teamName(j.equipe_id)===club}).map(function(j){return ['cj:'+j.id,j.nom]}):S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]});$('l-note').hidden=!(HAS_DB&&tm.length<2);
 if(!pl.length){pl=[];for(var i=1;i<=10;i++)pl.push(['n'+i,'N° '+i])}opts($('o-j'),pl);
 var sc=[0,0],stt={};L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++;if(e.j){var id=e.t+'|'+e.j;stt[id]=stt[id]||{lab:e.lab,t:e.t,p:0,a:0,f:0,y:0,r:0};
 if(e.k==='pt')stt[id].p++;if(e.k==='pd')stt[id].a++;if(e.k==='ft')stt[id].f++;if(e.k==='cj')stt[id].y++;if(e.k==='cr')stt[id].r++}});
@@ -455,8 +463,10 @@ Q('[data-e]').forEach(function(b){b.addEventListener('click',function(){var k=b.
 $('undo').addEventListener('click',function(){L.ev.pop();rLive()});
 ['l-a','l-b'].forEach(function(i){$(i).addEventListener('change',function(){L.ev=[];rLive()})});
 $('o-t').addEventListener('change',rLive);
-$('fin').addEventListener('click',function(){if(!L.ev.length)return;var s=side(),sc=[0,0],seen={};
-L.ev.forEach(function(e){if(e.k==='pt'){sc[e.t]++;addstat(e.j,1,0)}if(e.k==='pd')addstat(e.j,0,0,1);var m=e.j&&byId(e.j);if(m&&!seen[e.j]){seen[e.j]=1;addstat(e.j,0,1)}});
+$('fin').addEventListener('click',function(){if(!L.ev.length)return;var s=side(),sc=[0,0],seen={};if(HAS_DB&&(!s[0]||!s[1]||s[0]===s[1])){toast('Choisissez deux équipes de la compétition.');return}
+var cmap={};L.ev.forEach(function(e){var cj=cjOf(e.j),lid=cj?cj.lic_id:e.j;if(e.k==='pt'){sc[e.t]++;if(lid)addstat(lid,1,0)}if(e.k==='pd'&&lid)addstat(lid,0,0,1);var m=lid&&byId(lid);if(m&&!seen[lid]){seen[lid]=1;addstat(lid,0,1)}
+if(cj){var c=cmap[cj.id]=cmap[cj.id]||{id:cj.id,t:e.t,pts:0,pd:0};if(e.k==='pt')c.pts++;if(e.k==='pd')c.pd++}});
+if(HAS_DB)Object.keys(cmap).forEach(function(id){var c=cmap[id],a=sc[c.t],b=sc[1-c.t];COMPQ.push({id:c.id,pts:c.pts,pd:c.pd,mj:1,v:a>b?1:0,n:a===b?1:0,d:a<b?1:0})});
 var k=ck(s[0],s[1]);S.sc[k]={};S.sc[k][s[0]]=sc[0];S.sc[k][s[1]]=sc[1];
 news('résultat ('+CN()+'), '+s[0]+' '+sc[0]+' - '+sc[1]+' '+s[1]);stop();L.secs=0;L.ev=[];tick();save();all()});
 
@@ -638,9 +648,9 @@ function repLine(x){var d=document.createElement('div');d.className='xr';var l=x
   var q=await SB.from('repertoire').delete().eq('id',x.id).select('id');if(q.error||!q.data||!q.data.length){toast('Retrait impossible.');return}rRep()});d.appendChild(del);return d}
 async function rRep(){var on=HAS_DB&&!!SB&&!!CU&&(!!CU.aff||ADM);$('rp').hidden=!on;if(!on)return;$('rp-f').hidden=!CU.aff;$('rp-h').textContent=ADM&&!CU.aff?'Répertoires des structures':'Répertoire de mes joueurs';
  var r=await SB.from('repertoire').select('id,aff_id,nom,poste,age,lic_id').order('created_at',{ascending:false}).limit(300),L=$('rp-l2');L.textContent='';
- if(r.error){L.textContent='Répertoire indisponible pour le moment.';return}REP=r.data||[];
+ if(r.error){L.textContent='Répertoire indisponible pour le moment.';return}REP=r.data||[];rCx();
  if(!REP.length){var e=document.createElement('p');e.className='mn';e.textContent='Aucun joueur dans le répertoire.';L.appendChild(e);return}
- var h=document.createElement('h4');h.style.margin='14px 0 4px';h.textContent=REP.length+' joueur(s) · '+REP.filter(function(x){return x.lic_id}).length+' avec licence';L.appendChild(h);REP.forEach(function(x){L.appendChild(repLine(x))})}
+ var h=document.createElement('h4');h.style.margin='14px 0 4px';h.textContent=REP.length+' joueur(s) · '+REP.filter(function(x){return x.lic_id}).length+' avec licence';L.appendChild(h);REP.forEach(function(x){L.appendChild(repLine(x))});rCx()}
 $('rp-o').addEventListener('change',function(){$('rp-lw').hidden=this.value!=='1'});
 $('rp-ok').addEventListener('click',async function(){if(!SB||!CU||!CU.aff)return;var m=$('rp-m'),nom=$('rp-n').value.trim(),has=$('rp-o').value==='1',lic=$('rp-l').value.trim().toUpperCase(),age=parseInt($('rp-a').value,10);
  if(nom.length<2){m.textContent='Indiquez le nom du joueur.';return}if($('rp-a').value&&!(age>=10&&age<=60)){m.textContent='Âge invalide (10 à 60 ans).';return}
@@ -648,6 +658,44 @@ $('rp-ok').addEventListener('click',async function(){if(!SB||!CU||!CU.aff)return
  this.disabled=true;m.textContent='Enregistrement…';var r=await SB.from('repertoire').insert({nom:nom,poste:$('rp-p').value||null,age:age||null,lic_id:has?lic:null});this.disabled=false;
  if(r.error){var t=(r.error.message||'')+(r.error.code||'');m.textContent=/inconnue/i.test(t)?'Numéro de licence inconnu : rejeté.':/duplicate|23505/i.test(t)?'Cette licence est déjà dans votre répertoire.':/plein/i.test(t)?'Répertoire plein.':'Ajout refusé.';return}
  ['rp-n','rp-a','rp-l'].forEach(function(i){$(i).value=''});$('rp-o').value='0';$('rp-lw').hidden=true;$('rp-p').value='';m.textContent='Joueur ajouté au répertoire.';await rRep()});
+function teamName(id){var e=CE.filter(function(x){return x.id===id})[0];return e?e.nom:''}
+function cjOf(j){var s=String(j||'');if(s.indexOf('cj:')!==0)return null;var n=+s.slice(3);return CJ.filter(function(x){return x.id===n})[0]||null}
+function dateFr(d){var p=String(d).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d}
+function dateCell(td,k){td.textContent='';if(HAS_DB&&ADM){var i=document.createElement('input');i.type='date';i.value=CD[k]||'';i.setAttribute('aria-label','Date du match');i.addEventListener('change',async function(){var v=i.value,r=v?await SB.from('comp_dates').upsert({cle:k,date_match:v}).select('cle'):await SB.from('comp_dates').delete().eq('cle',k).select('cle');
+ if(r.error){toast('Date non enregistrée.');return}if(v)CD[k]=v;else delete CD[k];rComp(true);rCx()});td.appendChild(i)}else td.textContent=CD[k]?dateFr(CD[k]):'-'}
+function twoClick(txt,fn){var b=document.createElement('button');b.type='button';b.className='bd';b.style.cssText='margin-top:6px;color:var(--soleil);border-color:var(--soleil)';b.textContent=txt;b.addEventListener('click',function(){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.textContent='Confirmer : '+txt;return}b.disabled=true;fn()});return b}
+var CJC=[];
+function rCx(){if(!HAS_DB)return;$('cdb').hidden=false;var k=S.comp||'culturelle',eq=CE.filter(function(e){return e.comp===k}),js=CJ.filter(function(j){return j.comp===k});
+ $('ce-n').textContent=eq.length?eq.length+' équipe(s) dans '+CN()+'.':'Aucune équipe dans '+CN()+' pour l\'instant : l\'administrateur ajoute les équipes éligibles.';
+ var L=$('ce-l');L.textContent='';eq.forEach(function(e){var d=document.createElement('div');d.className='xr';var b=document.createElement('b');b.textContent=e.nom;var sm=document.createElement('span'),a=e.aff_id?S.aff.filter(function(x){return x.id===e.aff_id})[0]:null;sm.textContent=(a?'Structure : '+a.nom+' · ':'Sans structure rattachée · ')+js.filter(function(j){return j.equipe_id===e.id}).length+' joueur(s) inscrit(s)';d.appendChild(b);d.appendChild(sm);
+  if(ADM)d.appendChild(twoClick('Retirer l\'équipe',async function(){var r=await SB.from('comp_equipes').delete().eq('id',e.id).select('id');if(r.error||!r.data||!r.data.length)toast('Retrait impossible.');await pullAll()}));L.appendChild(d)});
+ opts($('ce-s'),[['','Aucune (l\'administrateur inscrit les joueurs)']].concat(S.aff.filter(function(a){return a.statut==='Affiliée'&&!eq.some(function(e){return e.aff_id===a.id})}).map(function(a){return [a.id,a.nom+' ('+AT[a.type][0]+')']})));
+ var mine=CU&&CU.aff?eq.filter(function(e){return e.aff_id===CU.aff})[0]:null,canReg=ADM||!!mine;$('cj-f').hidden=!canReg;$('cj-x').hidden=!(CU&&CU.aff&&!mine&&!ADM);
+ if(canReg){$('cj-tw').hidden=!ADM;if(ADM)opts($('cj-t'),eq.map(function(e){return [String(e.id),e.nom]}));
+  var have={};js.forEach(function(j){if(j.lic_id)have[j.lic_id]=1});var cand=[];
+  if(ADM){S.lic.filter(function(l){return l.cat==='J'&&!have[l.id]}).forEach(function(l){cand.push({nom:l.nom,lic:l.id,lab:l.nom+' ('+l.id+')'})})}
+  else REP.forEach(function(r){if(r.lic_id&&have[r.lic_id])return;if(js.some(function(j){return j.equipe_id===mine.id&&j.nom.toLowerCase()===r.nom.toLowerCase()}))return;cand.push({nom:r.nom,lic:r.lic_id||'',lab:r.nom+(r.lic_id?' ('+r.lic_id+')':' (sans licence)')})});
+  CJC=cand;opts($('cj-p'),cand.map(function(c,i){return [String(i),c.lab]}));
+  $('cj-i').textContent=ADM?'Inscrivez un joueur licencié dans une équipe de la compétition.':'Équipe : '+mine.nom+'. Choisissez parmi les joueurs de votre répertoire (onglet Affiliation).'}
+ var P=$('cj-l');P.textContent='';if(!eq.length){var e0=document.createElement('p');e0.className='mn';e0.textContent='Aucune équipe.';P.appendChild(e0)}
+ eq.forEach(function(e){var h=document.createElement('h4');h.style.margin='14px 0 4px';var pl=js.filter(function(j){return j.equipe_id===e.id});h.textContent=e.nom+' : '+pl.length+' joueur(s)';P.appendChild(h);
+  pl.forEach(function(j){var d=document.createElement('div');d.className='xr';var b=document.createElement('b');b.textContent=j.nom;var sm=document.createElement('span');sm.textContent=j.lic_id?'Licence : OUI, n° '+j.lic_id:'Licence : NON';d.appendChild(b);d.appendChild(sm);
+   if(ADM||(CU&&CU.aff&&e.aff_id===CU.aff))d.appendChild(twoClick('Retirer',async function(){var r=await SB.from('comp_joueurs').delete().eq('id',j.id).select('id');if(r.error||!r.data||!r.data.length)toast('Retrait impossible (le joueur a déjà joué ?).');await pullAll()}));P.appendChild(d)})});
+ var rows=js.map(function(j){var s=CS[j.id]||{pts:0,pd:0,mj:0,v:0,n:0,d:0};return {nom:j.nom,t:teamName(j.equipe_id),pts:s.pts,pd:s.pd,mj:s.mj,v:s.v,n:s.n,d:s.d,imp:s.pts+s.pd}});
+ function best(f){var b=null;rows.forEach(function(r){if(f(r)>0&&(!b||f(r)>f(b)||(f(r)===f(b)&&r.v>b.v)))b=r});return b}
+ var aw=$('cs-aw');aw.textContent='';[['Meilleur Hollymen',best(function(r){return r.imp}),function(r){return r.pts+' pts + '+r.pd+' passes'}],['Meilleur toucheur',best(function(r){return r.pts}),function(r){return r.pts+' point(s)'}],['Meilleur passeur',best(function(r){return r.pd}),function(r){return r.pd+' passe(s) décisive(s)'}]].forEach(function(a){var d=document.createElement('div');d.className='xr';var b=document.createElement('b');b.textContent=a[0];var sm=document.createElement('span');sm.textContent=a[1]?a[1].nom+' ('+a[1].t+') : '+a[2](a[1]):'Pas encore de statistiques';d.appendChild(b);d.appendChild(sm);aw.appendChild(d)});
+ rows.sort(function(a,b){return b.imp-a.imp||b.v-a.v||a.nom.localeCompare(b.nom)});fill($('t-cs'),rows.length?rows.map(function(r,i){return [i+1,r.nom,r.t,r.pts,r.pd,r.mj,r.v,r.n,r.d]}):[['','Aucun joueur inscrit','','','','','','','']]);
+ var ks=Object.keys(S.sc).filter(function(x){return x.indexOf(k+'::')===0}).sort(function(a,b){return (SCM[b]||'')<(SCM[a]||'')?-1:1});
+ ul($('ch-l'),ks.map(function(x){var nm=x.slice(k.length+2).split('|'),s=S.sc[x]||{},dt=SCM[x]?iso(new Date(SCM[x])):(CD[x]?dateFr(CD[x]):'');return (dt?dt+' : ':'')+nm[0]+' '+s[nm[0]]+' - '+s[nm[1]]+' '+nm[1]}),'Aucun match terminé dans cette compétition.')}
+$('ce-ok').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('ce-m'),sid=$('ce-s').value,nm=$('ce-nom').value.trim();if(!nm&&sid){var a=S.aff.filter(function(x){return x.id===sid})[0];nm=a?a.nom:''}
+ if(nm.length<2){m.textContent='Indiquez le nom de l\'équipe.';return}this.disabled=true;var r=await SB.from('comp_equipes').insert({comp:S.comp||'culturelle',nom:nm,aff_id:sid||null});this.disabled=false;
+ if(r.error){m.textContent=/duplicate|23505/i.test((r.error.message||'')+(r.error.code||''))?'Cette équipe ou cette structure est déjà dans la compétition.':'Ajout refusé.';return}
+ $('ce-nom').value='';m.textContent='Équipe ajoutée à '+CN()+'.';await pullAll()});
+$('cj-ok').addEventListener('click',async function(){if(!SB||!CU)return;var m=$('cj-m'),k=S.comp||'culturelle',eq=CE.filter(function(e){return e.comp===k}),mine=CU.aff?eq.filter(function(e){return e.aff_id===CU.aff})[0]:null,eid=ADM?+$('cj-t').value:(mine&&mine.id),c=CJC[+$('cj-p').value];
+ if(!eid||!c){m.textContent='Choisissez un joueur.';return}this.disabled=true;m.textContent='Inscription…';var r=await SB.from('comp_joueurs').insert({equipe_id:eid,nom:c.nom,lic_id:c.lic||null});this.disabled=false;
+ if(r.error){var t=(r.error.message||'')+(r.error.code||'');m.textContent=/inconnue/i.test(t)?'Licence inconnue : rejetée.':/éligible|42501/i.test(t)?'Votre structure n\'est pas éligible à cette compétition.':/duplicate|23505/i.test(t)?'Ce joueur est déjà inscrit.':/complète/i.test(t)?'Équipe complète (40 joueurs).':'Inscription refusée.';return}
+ m.textContent=c.nom+' inscrit.';await pullAll()});
+if(!HAS_DB)$('cdb').hidden=true;
 $('ph2-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)return;var o=$('ph2-m'),id=$('ph2-lic').value.trim().toUpperCase(),l=byId(id),f=$('ph2-f').files[0];
  if(!l){o.textContent='Numéro de licence introuvable.';return}if(!f||!/^image\//.test(f.type)){o.textContent='Choisissez une photo.';return}
  this.disabled=true;o.textContent='Envoi de la photo…';try{var old=l.photo,url=await upPhoto('lic/'+l.id+'-'+Date.now()+'.jpg',f),r=await SB.from('licences').update({photo:url}).eq('id',l.id).select('id');if(r.error||!r.data||!r.data.length)throw r.error||new Error('x');
@@ -684,13 +732,15 @@ function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(t
 function fprint(o,F){return JSON.stringify(F.map(function(k){return o[k]==null?'':o[k]}))}
 function refusal(e){return e&&(e.code==='42501'||/row-level|permission|niveau|administrateur/i.test(e.message||''))?'Votre niveau d\'accès ne permet pas cette opération.':'Enregistrement impossible pour le moment.'}
 async function pullAll(){if(!SB||SYNCING)return;
- var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score'),st=await SB.from('stats').select('lic_id,pts,mj,pd'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
+ var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score,maj'),st=await SB.from('stats').select('lic_id,pts,mj,pd'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
  if(a.error||l.error||nw.error||rs.error||st.error||ds.error||dh.error){toast('Base de données indisponible : données non chargées.');return}
  S.aff=a.data.map(function(r){return{id:r.id,type:r.type,nom:r.nom,pays:r.pays||'',conf:r.conf||'',contact:'',statut:r.statut,demo:false,date:r.date||''}});
  S.lic=l.data.map(function(r){var x={id:r.id,nom:r.nom,cat:r.cat,poste:r.poste||'',pays:r.pays,club:r.club||'',demo:false,aff:r.aff||'',em:r.em||'',exp:r.exp||'',pts:0,mj:0,dr:r.dr||0,photo:r.photo||'',paye:!!r.paye};if(r.age!=null)x.age=r.age;return x});
- S.newsm=nw.data;S.news=nw.data.map(function(r){return iso(new Date(r.date))+' : '+r.texte});S.sc={};SCSNAP={};rs.data.forEach(function(r){S.sc[r.cle]=r.score;SCSNAP[r.cle]=JSON.stringify(r.score)});
+ S.newsm=nw.data;S.news=nw.data.map(function(r){return iso(new Date(r.date))+' : '+r.texte});S.sc={};SCSNAP={};SCM={};rs.data.forEach(function(r){S.sc[r.cle]=r.score;SCSNAP[r.cle]=JSON.stringify(r.score);SCM[r.cle]=r.maj});
  var sm={};st.data.forEach(function(r){sm[r.lic_id]=r});S.lic.forEach(function(x){var r=sm[x.id];if(r){x.pts=r.pts;x.mj=r.mj;x.pd=r.pd||0}});S.sel=ds.data.map(function(r){return r.lic_id});SELSNAP=S.sel.slice();S.hist=dh.data.map(function(r){return iso(new Date(r.date))+' : '+r.noms});
  SNAP.lic={};SNAP.aff={};S.lic.forEach(function(x){SNAP.lic[x.id]=fprint(x,LF)});S.aff.forEach(function(x){SNAP.aff[x.id]=fprint(x,AF)});
+ try{var qe=await SB.from('comp_equipes').select('id,comp,nom,aff_id'),qd=await SB.from('comp_dates').select('cle,date_match'),qj=await SB.from('comp_joueurs').select('id,comp,equipe_id,nom,lic_id'),qs=await SB.from('comp_stats').select('joueur_id,pts,pd,mj,v,n,d');
+  CE=qe.error?[]:qe.data;CD={};if(!qd.error)qd.data.forEach(function(r){CD[r.cle]=r.date_match});CJ=qj.error?[]:qj.data;CS={};if(!qs.error)qs.data.forEach(function(r){CS[r.joueur_id]=r})}catch(e){}
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all();rPay();rPJ();rRep();rStr()}
 var INVQ=[];
 async function invite(id,nom,mail){try{var r=await SB.auth.signInWithOtp({email:mail,options:{shouldCreateUser:true,data:{nom:nom,niv_demande:8,licence:id,invite:'1'}}});
@@ -704,8 +754,8 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
  li=S.lic.filter(function(x){return x._new}),lu=S.lic.filter(function(x){return!x._new&&SNAP.lic[x.id]!==undefined&&SNAP.lic[x.id]!==fprint(x,LF)});
  var selAdd=S.sel.filter(function(x){return SELSNAP.indexOf(x)<0&&String(x).indexOf('NEW-')!==0}),selDel=SELSNAP.filter(function(x){return S.sel.indexOf(x)<0});
  var sk=Object.keys(S.sc),sup=sk.filter(function(k){return SCSNAP[k]!==JSON.stringify(S.sc[k])}),sdel=Object.keys(SCSNAP).filter(function(k){return !S.sc[k]});
- if(!ai.length&&!au.length&&!li.length&&!lu.length&&!NEWQ.length&&!sup.length&&!sdel.length&&!STATQ.length&&!HISTQ.length&&!selAdd.length&&!selDel.length)return;
- if(!CU){NEWQ=[];STATQ=[];HISTQ=[];toast('Connectez-vous (Menu > Espace compte) pour enregistrer.');await pullAll();return}
+ if(!ai.length&&!au.length&&!li.length&&!lu.length&&!NEWQ.length&&!sup.length&&!sdel.length&&!STATQ.length&&!HISTQ.length&&!COMPQ.length&&!selAdd.length&&!selDel.length)return;
+ if(!CU){NEWQ=[];STATQ=[];HISTQ=[];COMPQ=[];toast('Connectez-vous (Menu > Espace compte) pour enregistrer.');await pullAll();return}
  SYNCING=true;var bad=null,NP=false;
  try{
   for(var i=0;i<ai.length&&!bad;i++){var a=ai[i],r=await SB.from('affiliations').insert({type:a.type,nom:a.nom,pays:a.pays||'',conf:a.conf||'',contact:a.contact||'',statut:a.statut}).select('id,date,statut').single();
@@ -722,6 +772,7 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
   for(i=0;i<sdel.length&&!bad;i++){var k2=sdel[i],d=await SB.from('resultats').delete().eq('cle',k2).select('cle');
    if(d.error){bad=d.error;break}if(!d.data||!d.data.length){bad={code:'42501'};break}delete SCSNAP[k2]}
   if(!bad&&STATQ.length){var sq=STATQ;STATQ=[];var s2=await SB.rpc('add_stats',{p:sq});if(s2.error)bad=s2.error;else NP=true}
+  if(!bad&&COMPQ.length){var cq=COMPQ;COMPQ=[];var c2=await SB.rpc('comp_add_stats',{p:cq});if(c2.error)bad=c2.error;else NP=true}
   if(!bad&&selDel.length){var dd=await SB.from('draft_sel').delete().in('lic_id',selDel).select('lic_id');if(dd.error)bad=dd.error;else if(!dd.data||dd.data.length<selDel.length)bad={code:'42501'};else NP=true}
   if(!bad&&selAdd.length){var da=await SB.from('draft_sel').insert(selAdd.map(function(x){return{lic_id:x}}));if(da.error)bad=da.error;else NP=true}
   if(!bad&&HISTQ.length){var hq=HISTQ.map(function(t){return{noms:String(t).slice(0,1500)}});HISTQ=[];var h2=await SB.from('draft_hist').insert(hq);if(h2.error)bad=h2.error;else NP=true}
@@ -729,7 +780,7 @@ async function syncUp(){if(!SB||!window.__sync_ok)return;if(SYNCING){AGAIN=true;
  }catch(e){bad=e}
  SYNCING=false;
  if(INVQ.length)await sendInvites();
- if(bad){STATQ=[];HISTQ=[];NEWQ=[];toast(refusal(bad));await pullAll()}else if(NP){await pullAll()}else{all()}
+ if(bad){STATQ=[];HISTQ=[];NEWQ=[];COMPQ=[];toast(refusal(bad));await pullAll()}else if(NP){await pullAll()}else{all()}
  if(AGAIN){AGAIN=false;syncUp()}}
 function uidChanged(){var u=CU?CU.id:null;if(u!==LASTUID){LASTUID=u;pullAll()}}
 if(SB){window.__sync_ok=true;setTimeout(function(){if(LASTUID===undefined){LASTUID=null;pullAll()}},3000)}
@@ -777,7 +828,7 @@ var fb=function(){try{var a=document.createElement('textarea');a.value=t;a.setAt
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb)}else{fb()}}
 document.addEventListener('click',function(e){var c=e.target.closest('[data-copy]');if(c){copyTxt(c.getAttribute('data-copy'),c);return}
 var l=e.target.closest('a.em,a.tl');if(l){var x=l.closest('#fab-p')?$('hint'):$('hint2');if(x)setTimeout(function(){x.hidden=false},1200)}});
-function all(){rHome();rLic();rComp(true);rLive();rDraft();rInt();rAff();rSport()}
+function all(){rHome();rLic();rComp(true);rCx();rLive();rDraft();rInt();rAff();rSport()}
 all();tick();lang(S.lang||'fr');
 var h0=location.hash.slice(1);show(/^p[1-9]$/.test(h0)?h0:'p1');
 })();
