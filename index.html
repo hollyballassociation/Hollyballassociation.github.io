@@ -125,7 +125,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 
 <section id="chiffres"><div class="w"><h2>Chiffres clés</h2><div class="kpi">
 <div class="card"><div class="big" id="k-j">0</div><p>Joueurs</p></div><div class="card"><div class="big" id="k-e">0</div><p>Entraîneurs</p></div><div class="card"><div class="big" id="k-a">0</div><p>Arbitres</p></div><div class="card"><div class="big" id="k-c">0</div><p>Clubs</p></div><div class="card"><div class="big" id="k-m">0</div><p>Matchs joués</p></div></div>
-<p class="lead" style="margin-top:12px">Ces chiffres se mettent à jour depuis le registre des licences et les résultats des autres pages. Aperçu : données d'exemple.</p></div></section>
+<p class="lead" style="margin-top:12px">Ces chiffres se mettent à jour automatiquement depuis le registre des licences et les résultats.</p><p class="mn" id="k-note" role="status"></p></div></section>
 <nav class="subn" aria-label="Sections de l'accueil"><a href="#chiffres">Chiffres clés</a><a href="#apercu-sport">Le Hollyball en bref</a><a href="#actualites">Actualités</a><a href="#contact">Contact</a></nav>
 
 
@@ -380,7 +380,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(HAS
 function nid(c,p){var n=S.lic.filter(function(l){return l.cat===c&&l.pays===p}).length+1;return 'HOL-'+c+'-'+p+'-'+('00000'+n).slice(-6)}
 function add(nom,cat,poste,age,pays,club,demo,aff){var d=new Date(),e=new Date(d);e.setFullYear(d.getFullYear()+1);
 var r={id:HAS_DB?tmpId():nid(cat,pays),_new:HAS_DB,nom:nom,cat:cat,poste:poste,age:age,pays:pays,club:club,demo:demo,aff:aff||'',em:iso(d),exp:iso(e),pts:0,mj:0,dr:0};S.lic.push(r);return r}
-var PUBC=null,SHOP=[],SPON=[],STATQ=[],HISTQ=[],COMPQ=[],CE=[],CD={},CJ=[],CS={},SCM={};function addstat(id,dp,dm,dd){dd=dd||0;var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0,pd:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm;q.pd+=dd}else{l.pts+=dp;l.mj+=dm;l.pd=(l.pd||0)+dd}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
+var PUBE='',PUBC=null,SHOP=[],SPON=[],STATQ=[],HISTQ=[],COMPQ=[],CE=[],CD={},CJ=[],CS={},SCM={};function addstat(id,dp,dm,dd){dd=dd||0;var l=byId(id);if(!l)return;if(HAS_DB){var q=STATQ.filter(function(x){return x.id===id})[0];if(!q){q={id:id,pts:0,mj:0,pd:0};STATQ.push(q)}q.pts+=dp;q.mj+=dm;q.pd+=dd}else{l.pts+=dp;l.mj+=dm;l.pd=(l.pd||0)+dd}}var NEWQ=[];function news(t){if(HAS_DB){NEWQ.push(t);return}S.news.unshift(iso(new Date())+' : '+t);S.news=S.news.slice(0,8)}
 function seed(){fresh();mkA('confederation','Confédération Africaine de Hollyball (CAHB)','','','Affiliée',true);mkA('federation','Fédération de Hollyball de RDC','RDC','Confédération Africaine de Hollyball (CAHB)','Affiliée',true);
 var ac=mkA('academie','Académie d\'exemple','RDC','','Affiliée',true),ec=mkA('ecole','École d\'exemple','RDC','','Affiliée',true);mkA('federation','Fédération de Hollyball de France','FRA','Confédération Européenne de Hollyball (CEHB)','En attente',true);
 [['Joueur A1','Attaquant',22,'Équipe A',ac.id],['Joueur A2','Esquiveur',24,'Équipe A',''],['Joueur B1','Défenseur',20,'Équipe B',ec.id],['Joueur C1','Polyvalent',27,'Équipe C',''],['Joueur D1','Attaquant',23,'Équipe D','']].forEach(function(x){add(x[0],'J',x[1],x[2],'RDC',x[3],true,x[4])});add('Arbitre exemple','A','',0,'RDC','',true,'');add('Entraîneur exemple','E','',0,'RDC','Équipe A',true,'')}
@@ -434,7 +434,7 @@ $('iv-ok').addEventListener('click',async function(){if(!HAS_DB||!ADM||!SB)retur
  if(!okMail(mail)){o.textContent='Adresse e-mail invalide.';return}
  this.disabled=true;o.textContent='Envoi en cours…';var x=await invite(l.id,l.nom,mail);o.textContent=x.text;this.disabled=false});
 /* Accueil */
-function rHome(){var pc=(HAS_DB&&!CU&&PUBC)?PUBC:null;[pc?pc.j:cnt('J'),pc?pc.e:cnt('E'),pc?pc.a:cnt('A'),pc?pc.c:clubs().length,pc?pc.m:Object.keys(S.sc).length].forEach(function(v,i){$(['k-j','k-e','k-a','k-c','k-m'][i]).textContent=v});
+function rHome(){var kn=$('k-note');if(kn)kn.textContent=(HAS_DB&&!CU&&!PUBC&&PUBE)?'Compteurs indisponibles pour le moment ('+PUBE+').':'';var pc=(HAS_DB&&!CU&&PUBC)?PUBC:null;[pc?pc.j:cnt('J'),pc?pc.e:cnt('E'),pc?pc.a:cnt('A'),pc?pc.c:clubs().length,pc?pc.m:Object.keys(S.sc).length].forEach(function(v,i){$(['k-j','k-e','k-a','k-c','k-m'][i]).textContent=v});
 if(HAS_DB)rNews();else ul($('news'),S.news,'Aucune actualité pour l\'instant. Les licences créées, les résultats et les drafts apparaîtront ici.');
 ul($('struct'),S.aff.filter(function(a){return a.statut==='Affiliée'}).map(function(a){return AT[a.type][0]+' : '+a.nom}).concat(clubs().map(function(c){return 'Club : '+c+' ('+S.lic.filter(function(l){return l.club===c}).length+' licencié(s))'})),'Aucune structure affiliée pour l\'instant.')}
 
@@ -836,6 +836,8 @@ function busy(d){BUSY=Math.max(0,BUSY+d);var b=document.getElementById('ldbar');
 function hideSplash(){var x=document.getElementById('splash');if(x){x.classList.add('off');setTimeout(function(){if(x.parentNode)x.parentNode.removeChild(x)},600)}}
 async function pullAll(){busy(1);try{return await pullAll0()}finally{busy(-1);hideSplash()}}
 async function pullAll0(){if(!SB||SYNCING)return;
+ try{var pcr=await SB.rpc('compteurs_publics');PUBC=(pcr&&!pcr.error&&pcr.data)?pcr.data:null;PUBE=pcr&&pcr.error?(pcr.error.message||'erreur'):''}catch(e){PUBC=null;PUBE='erreur'}
+ if(!CU)try{rHome()}catch(e){}
  var a=await SB.from('affiliations_pub').select('*'),l=await SB.from('licences_pub').select('*'),nw=await SB.from('actus').select('id,texte,date,media_url,media_type').order('date',{ascending:false}).limit(15),rs=await SB.from('resultats').select('cle,score,maj'),st=await SB.from('stats').select('lic_id,pts,mj,pd'),ds=await SB.from('draft_sel').select('lic_id'),dh=await SB.from('draft_hist').select('noms,date').order('date',{ascending:false}).limit(20);
  if(a.error||l.error||nw.error||rs.error||st.error||ds.error||dh.error){toast('Base de données indisponible : données non chargées.');return}
  S.aff=a.data.map(function(r){return{id:r.id,type:r.type,nom:r.nom,pays:r.pays||'',conf:r.conf||'',contact:'',statut:r.statut,demo:false,date:r.date||''}});
@@ -846,7 +848,6 @@ async function pullAll0(){if(!SB||SYNCING)return;
  try{var qe=await SB.from('comp_equipes').select('id,comp,nom,aff_id'),qd=await SB.from('comp_dates').select('cle,date_match'),qj=await SB.from('comp_joueurs').select('id,comp,equipe_id,nom,lic_id'),qs=await SB.from('comp_stats').select('joueur_id,pts,pd,mj,v,n,d');
   CE=qe.error?[]:qe.data;CD={};if(!qd.error)qd.data.forEach(function(r){CD[r.cle]=r.date_match});CJ=qj.error?[]:qj.data;CS={};if(!qs.error)qs.data.forEach(function(r){CS[r.joueur_id]=r})}catch(e){}
  try{var qb=await SB.from('boutique_produits').select('id,nom,description,prix,devise,photo,dispo').order('created_at',{ascending:false}),qp=await SB.from('sponsors').select('id,nom,niveau,lien,logo').order('created_at',{ascending:true});SHOP=qb.error?[]:qb.data;SPON=qp.error?[]:qp.data}catch(e){}
- try{var pcr=await SB.rpc('compteurs_publics');PUBC=(pcr&&!pcr.error&&pcr.data)?pcr.data:null}catch(e){PUBC=null}
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}all();rPay();rPJ();rRep();rStr()}
 var INVQ=[];
 async function invite(id,nom,mail){try{var r=await SB.auth.signInWithOtp({email:mail,options:{shouldCreateUser:true,data:{nom:nom,niv_demande:8,licence:id,invite:'1'}}});
