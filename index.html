@@ -7,6 +7,13 @@
 <meta name="description" content="Site officiel de la Hollyball Association : le Hollyball, un sport collectif né en République Démocratique du Congo. Licences, compétitions, matchs en direct, affiliation et draft.">
 <link rel="canonical" href="https://hollyballassociation.github.io/">
 <meta name="theme-color" content="#070720">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Hollyball"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hollyball"><meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Hollyball Association"><meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Hollyball Association – Le nouveau souffle du sport collectif">
 <meta property="og:description" content="Licences, compétitions, matchs en direct, affiliation et draft du Hollyball, sport collectif né en RDC.">
@@ -72,6 +79,8 @@ footer{background:var(--nuit);color:#c9cbf5;padding:36px 0;font-size:.95rem}
 #ldbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:9998;background:transparent;opacity:0;transition:opacity .25s;pointer-events:none;overflow:hidden}
 #ldbar.on{opacity:1}
 #ldbar:after{content:"";position:absolute;top:0;bottom:0;width:35%;background:#f7d618;animation:hbar 1s ease-in-out infinite}
+#inst{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9990;background:#10103a;border:1px solid #f7d618;border-radius:12px;padding:14px 44px 14px 14px;color:#eceeff;font-size:.92rem;line-height:1.4;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#inst b{color:#f7d618}#inst button{position:absolute;top:6px;right:6px;width:36px;height:36px;border:0;background:transparent;color:#eceeff;font-size:1.3rem}
 @keyframes hsp{to{transform:rotate(360deg)}}
 @keyframes hbar{0%{left:-40%}100%{left:100%}}
 @media(prefers-reduced-motion:reduce){#splash .bl,#splash i:after,#ldbar:after{animation-duration:3s}}
@@ -897,6 +906,14 @@ function rAs(){var S0=$('acc-shop'),L=$('as-l');if(!S0||!L)return;L.textContent=
   var a=document.createElement('a');a.className='btn';a.href='#p10';a.textContent='Voir dans la boutique';c.appendChild(a);L.appendChild(c)})}
 (function(){if(!HAS_DB||!SB)return;try{if(sessionStorage.getItem('hol_vis'))return;sessionStorage.setItem('hol_vis','1');var d=new Date().toISOString().slice(0,10),nw=true;try{nw=localStorage.getItem('hol_vd')!==d;localStorage.setItem('hol_vd',d)}catch(e){}
  SB.rpc('log_visite',{p_new:nw}).then(function(){},function(){})}catch(e){}})();
+
+/* Appli installable (iPhone : Partager > Sur l'écran d'accueil) */
+(function(){try{if('serviceWorker' in navigator&&/^https:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
+ try{var ios=/iPhone|iPad|iPod/.test(navigator.userAgent),st=window.navigator.standalone===true||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
+  if(!ios||st||localStorage.getItem('hol_inst'))return;
+  setTimeout(function(){var d=document.createElement('div');d.id='inst';d.setAttribute('role','status');
+   d.innerHTML='<b>Installer Hollyball</b> sur votre iPhone : appuyez sur le bouton Partager <span aria-hidden="true">&#x2B06;&#xFE0E;</span> de Safari, puis sur « Sur l\u2019écran d\u2019accueil ».';
+   var x=document.createElement('button');x.type='button';x.setAttribute('aria-label','Fermer');x.textContent='\u00d7';x.addEventListener('click',function(){try{localStorage.setItem('hol_inst','1')}catch(e){}d.remove()});d.appendChild(x);document.body.appendChild(d)},4500)}catch(e){}})();
 setTimeout(hideSplash,SB?7000:600);
 if(SB){window.__sync_ok=true;setTimeout(function(){if(LASTUID===undefined){LASTUID=null;pullAll()}},3000)}
 if(SB){SB.auth.onAuthStateChange(function(ev,ses){setTimeout(function(){
