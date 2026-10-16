@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Hollyball"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
+
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hollyball"><meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Hollyball Association"><meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Hollyball Association – Le nouveau souffle du sport collectif">
@@ -200,7 +200,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <div class="card" style="margin-top:16px"><h3>Répertoire de tous les comptes</h3><label for="db-f">Type</label><select id="db-f"><option value="">Tous les types</option><option value="membre">Membres</option><option value="joueur">Joueurs</option><option value="entraineur">Entraîneurs</option><option value="arbitre">Arbitres</option><option value="club">Clubs</option><option value="ligue">Ligues / Districts</option><option value="academie">Académies</option><option value="ecole">Écoles</option><option value="federation">Fédérations</option><option value="confederation">Confédérations</option><option value="admin">Administrateurs</option></select><label for="db-q">Rechercher (nom ou e-mail)</label><input id="db-q" maxlength="60" autocomplete="off"><p class="mn" id="db-c"></p><div id="db-l"></div></div>
 <p class="mn" style="margin-top:12px">Une visite = une ouverture du site par session ; un « visiteur différent » = un appareil par jour. Les compteurs commencent à partir de l'installation du tableau de bord.</p></div></section></div>
 <div class="page" id="p10"><section id="boutique"><div class="w"><h2>Boutique officielle</h2><p class="lead">Maillots, ballons et articles de la Hollyball Association. Pour commander, appuyez sur « Commander » : un message WhatsApp est prêt à envoyer à l'association, qui confirme la disponibilité et le paiement.</p>
-<div class="card ed" id="sh-f" style="margin:24px 0"><h3>Ajouter un article</h3><label for="sh-n">Nom de l'article</label><input id="sh-n" maxlength="80"><label for="sh-p">Prix</label><div class="ctl" style="justify-content:flex-start;gap:8px"><input id="sh-p" type="number" min="0" step="0.01" inputmode="decimal" style="max-width:160px"><select id="sh-d"><option value="USD">USD</option><option value="CDF">CDF</option></select></div><label for="sh-t">Description (facultatif)</label><textarea id="sh-t" maxlength="400" rows="2" style="width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--txt)"></textarea><label for="sh-i">Photo (facultatif)</label><input id="sh-i" type="file" accept="image/*"><p class="mn" id="sh-m" role="status" aria-live="polite"></p><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="sh-ok" type="button">Ajouter à la boutique</button></div></div>
+<div class="card ed" id="sh-f" style="margin:24px 0"><h3>Ajouter un article</h3><label for="sh-n">Nom de l'article</label><input id="sh-n" maxlength="80"><label for="sh-p">Prix</label><div class="ctl" style="justify-content:flex-start;gap:8px"><input id="sh-p" type="number" min="0" step="0.01" inputmode="decimal" style="max-width:160px"><select id="sh-d" aria-label="Devise"><option value="USD">USD</option><option value="CDF">CDF</option></select></div><label for="sh-t">Description (facultatif)</label><textarea id="sh-t" maxlength="400" rows="2" style="width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--txt)"></textarea><label for="sh-i">Photo (facultatif)</label><input id="sh-i" type="file" accept="image/*"><p class="mn" id="sh-m" role="status" aria-live="polite"></p><div class="ctl" style="justify-content:flex-start"><button class="btn p" id="sh-ok" type="button">Ajouter à la boutique</button></div></div>
 <div class="grid g3" id="sh-l" style="margin-top:24px"></div><p class="mn" id="sh-e"></p></div></section></div>
 <div class="page" id="p7"><section id="assoc-pres"><div class="w">
 <h2>Hollyball Association</h2>
@@ -246,7 +246,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div>
 <div class="page" id="p8"><nav class="subn" aria-label="Sections de l'affiliation"><a href="#aff-demande">Demande d'affiliation</a><a href="#aff-federation">Fédérations</a><a href="#aff-confederation">Confédérations</a><a href="#aff-ligue">Ligues</a><a href="#aff-club">Clubs</a><a href="#aff-academie">Académies</a><a href="#aff-ecole">Écoles</a></nav>
 <section id="aff-demande" class="band"><div class="w"><h2>Demande d'affiliation</h2>
-<p class="lead">Phase d'affiliation : une structure dépose sa demande, l'administration l'approuve ou la refuse. Une demande approuvée apparaît dans sa liste d'affiliés, et ses licenciés (créés dans l'onglet Licences) sont comptés. Aperçu : les données restent dans ce navigateur.</p>
+<p class="lead">Phase d'affiliation : une structure dépose sa demande, l'administration l'approuve ou la refuse. Une demande approuvée apparaît dans sa liste d'affiliés, et ses licenciés (créés dans l'onglet Licences) sont comptés. </p>
 <div class="kpi" id="k-demande" style="margin-top:20px"></div>
 <div class="grid g2" style="margin-top:20px;align-items:start">
 <div class="card"><h3>Nouvelle demande</h3>
@@ -303,7 +303,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div>
 <div class="page" id="p2"><section id="licences" class="band"><div class="w">
 <h2>Licences</h2>
-<p class="lead">Phase 2 : le registre sportif. Une licence créée ici entre aussitôt dans les compétitions, le direct, la Draft, les paiements et les chiffres de la page Site. Aperçu : les données restent seulement dans ce navigateur.</p>
+<p class="lead">Le registre sportif officiel. Une licence créée ici entre aussitôt dans les compétitions, le direct, la Draft, les paiements et les chiffres de l'Accueil.</p>
 <div class="grid g2" style="margin-top:24px;align-items:start">
 <div class="card ed"><h3>Nouvelle licence</h3>
 <label for="f-nom">Nom complet</label><input id="f-nom" value="Prénom Nom" maxlength="40">
@@ -325,7 +325,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div></section></div>
 <div class="page" id="p3"><section id="competitions"><div class="w">
 <h2>Compétitions</h2>
-<p class="lead">Phase 3 : quatre compétitions, chacune avec son calendrier, ses résultats et son classement. Les équipes sont les clubs du registre (page Licences) ; un match terminé en direct arrive dans la compétition choisie. Aperçu.</p><div class="grid g2" style="margin-top:24px"><div class="card" id="cc-0"><h3>Ligue Hollyball culturelle</h3><p>Compétitions de la Ligue Culturelle, structure parallèle de la Hollyball avec son propre espace pour publier ses activités, ses compétitions et ses événements.</p><p><b id="cc-n0"></b></p><button class="btn bd" type="button" data-c="culturelle">Voir cette compétition</button></div><div class="card" id="cc-1"><h3>Hollyball inter-scolaire</h3><p>Compétitions entre établissements scolaires, dans le volet développement de la discipline auprès des jeunes.</p><p><b id="cc-n1"></b></p><button class="btn bd" type="button" data-c="scolaire">Voir cette compétition</button></div><div class="card" id="cc-2"><h3>Hollyball ligue district</h3><p>Compétitions organisées par les ligues et les districts, à l'échelle territoriale.</p><p><b id="cc-n2"></b></p><button class="btn bd" type="button" data-c="district">Voir cette compétition</button></div><div class="card" id="cc-3"><h3>Championnat</h3><p>Championnat national entre clubs, la compétition de référence de la discipline.</p><p><b id="cc-n3"></b></p><button class="btn bd" type="button" data-c="championnat">Voir cette compétition</button></div></div><p style="font-size:.9rem;margin-top:12px">Le format, le calendrier et les règles propres à chaque compétition restent à préciser.</p><div class="card" style="margin-top:24px"><label for="c-sel">Compétition affichée</label><select id="c-sel"></select></div><h3 style="margin-top:28px" id="c-title"></h3>
+<p class="lead">Quatre compétitions, chacune avec son calendrier, ses résultats et son classement. Les équipes sont les clubs du registre (page Licences) ; un match terminé en direct arrive dans la compétition choisie.</p><div class="grid g2" style="margin-top:24px"><div class="card" id="cc-0"><h3>Ligue Hollyball culturelle</h3><p>Compétitions de la Ligue Culturelle, structure parallèle de la Hollyball avec son propre espace pour publier ses activités, ses compétitions et ses événements.</p><p><b id="cc-n0"></b></p><button class="btn bd" type="button" data-c="culturelle">Voir cette compétition</button></div><div class="card" id="cc-1"><h3>Hollyball inter-scolaire</h3><p>Compétitions entre établissements scolaires, dans le volet développement de la discipline auprès des jeunes.</p><p><b id="cc-n1"></b></p><button class="btn bd" type="button" data-c="scolaire">Voir cette compétition</button></div><div class="card" id="cc-2"><h3>Hollyball ligue district</h3><p>Compétitions organisées par les ligues et les districts, à l'échelle territoriale.</p><p><b id="cc-n2"></b></p><button class="btn bd" type="button" data-c="district">Voir cette compétition</button></div><div class="card" id="cc-3"><h3>Championnat</h3><p>Championnat national entre clubs, la compétition de référence de la discipline.</p><p><b id="cc-n3"></b></p><button class="btn bd" type="button" data-c="championnat">Voir cette compétition</button></div></div><p style="font-size:.9rem;margin-top:12px">Le format, le calendrier et les règles propres à chaque compétition restent à préciser.</p><div class="card" style="margin-top:24px"><label for="c-sel">Compétition affichée</label><select id="c-sel"></select></div><h3 style="margin-top:28px" id="c-title"></h3>
 <div class="grid g2" style="margin-top:24px;align-items:start">
 <div class="card"><h3>Calendrier et résultats</h3><div class="tw"><table id="t-m"><tr><th>Match</th><th>Date</th><th>Score</th></tr></table></div>
 <h3 style="margin-top:20px">Règles de points</h3><div class="pts"><div><label for="p-v">Victoire</label><input id="p-v" type="number" min="0" value="3"></div><div><label for="p-n">Nul</label><input id="p-n" type="number" min="0" value="1"></div><div><label for="p-d">Défaite</label><input id="p-d" type="number" min="0" value="0"></div></div></div>
@@ -342,7 +342,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div></section></div>
 <div class="page" id="p4"><section id="direct" class="band"><div class="w">
 <h2>En direct</h2>
-<p class="lead">Phase 4 : le centre de match. Choisissez deux équipes ; les joueurs viennent du registre. En terminant le match, le score entre dans les compétitions et les points dans les profils et la Draft. Aperçu.</p>
+<p class="lead">Le centre de match. Choisissez deux équipes ; les joueurs viennent du registre. En terminant le match, le score entre dans les compétitions et les points dans les profils et la Draft.</p>
 <div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><select id="l-c"></select><p class="mn" id="l-note" hidden>Aucune équipe dans cette compétition : l'administrateur doit d'abord ajouter les équipes (onglet Compétitions).</p><div class="sb" aria-live="polite">
 <div><select id="l-a" aria-label="Équipe de gauche"></select><div class="sn" id="sa">0</div></div>
 <div class="mid"><div class="clk" id="clk">00:00</div><div id="half">1re mi-temps</div></div>
@@ -357,7 +357,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div></section></div>
 <div class="page" id="p5"><section id="draft"><div class="w">
 <h2>Draft Internationale</h2>
-<p class="lead">Phase 5 : la liste des candidats se construit automatiquement : les 100 meilleurs joueurs du registre, classés selon leurs performances (points + passes décisives) tirées en temps réel des onglets En direct et Compétitions. Une sélection validée s'ajoute au profil du joueur et à l'actualité.</p>
+<p class="lead">La liste des candidats se construit automatiquement : les 100 meilleurs joueurs du registre, classés selon leurs performances (points + passes décisives) tirées en temps réel des onglets En direct et Compétitions. Une sélection validée s'ajoute au profil du joueur et à l'actualité.</p>
 <div class="grid g2" style="margin-top:24px;align-items:start">
 <div class="card"><h3>Joueurs disponibles</h3>
 <div class="pts"><div><label for="d-p">Poste</label><select id="d-p"><option value="">Tous</option><option>Esquiveur</option><option>Défenseur</option><option>Polyvalent</option><option>Attaquant</option></select></div><div><label for="d-c">Pays</label><select id="d-c"></select></div><div><label for="d-cl">Club</label><select id="d-cl"></select></div></div>
@@ -368,7 +368,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </div></section></div>
 <div class="page" id="p6"><section id="international" class="band"><div class="w">
 <h2>International</h2>
-<p class="lead">Phase 6 : langues, paiements, API et application mobile. Les paiements et l'API utilisent le registre des licences ; la langue change les onglets du site. Aperçu.</p>
+<p class="lead">Langues, paiements et application mobile. Les paiements utilisent le registre des licences ; la langue change les onglets du site.</p>
 <div class="grid g2" style="margin-top:24px;align-items:start">
 <div class="card"><h3>Multilingue</h3><div class="ctl" style="justify-content:flex-start;margin:0 0 12px"><button class="btn bd lg" data-l="fr" type="button">Français</button><button class="btn bd lg" data-l="en" type="button">English</button><button class="btn bd lg" data-l="es" type="button">Español</button></div>
 <div id="lg-box" lang="fr"><div class="tn" id="lg-t"></div><p id="lg-s"></p><p><span class="soon" id="lg-c"></span></p></div></div>
@@ -394,7 +394,6 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <div class="grid g2" style="margin-top:16px;align-items:start">
 <div class="card ed" id="api-card"><h3>API Hollyball</h3><p>Réponse d'exemple pour le licencié choisi ci-dessus :</p><pre class="api" id="api"></pre></div>
 <div class="card"><h3>Hollyball Mobile</h3><ul class="sel"><li>Matchs en direct et résultats</li><li>Notifications</li><li>Licence numérique avec QR Code</li><li>Profils, statistiques et classements</li><li>Actualités et Draft</li></ul><p>L'application utilisera la même base de données que le site.</p></div></div>
-<p class="lead" style="margin-top:24px">Prochaine étape : le développement réel (base de données, comptes sécurisés, serveur en direct, nom de domaine).</p>
 </div></section></div>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
