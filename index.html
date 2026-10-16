@@ -458,7 +458,7 @@ if(Array.prototype.some.call(sel.options,function(o){return o.value===v}))sel.va
 
 /* Pages et onglets */
 var PEND=null,SKNOWN=false;
-function show(id){if(id==='p11'&&!ADM)id='p1';if(HAS_DB&&!CU&&id!=='p1'&&id!=='p9'&&id!=='p12'&&id!=='p13'){PEND=id;id='p1';if(SKNOWN)setTimeout(function(){askLogin()},0)}else if(CU&&id===PEND)PEND=null;Q('.page').forEach(function(p){p.classList.toggle('on',p.id===id)});Q('nav[aria-label="Phases du site"] a').forEach(function(a){if(a.getAttribute('href')==='#'+id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});if(id==='p11')loadDb()}
+function show(id){if(id==='p11'&&!ADM)id='p1';if(HAS_DB&&!CU&&id!=='p1'&&id!=='p7'&&id!=='p9'&&id!=='p12'&&id!=='p13'){PEND=id;id='p1';if(SKNOWN)setTimeout(function(){askLogin()},0)}else if(CU&&id===PEND)PEND=null;Q('.page').forEach(function(p){p.classList.toggle('on',p.id===id)});Q('nav[aria-label="Phases du site"] a').forEach(function(a){if(a.getAttribute('href')==='#'+id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});if(id==='p11')loadDb()}
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1),t=$(id);
 if(/^p([1-9]|1[0-3])$/.test(id)){show(id);window.scrollTo(0,0);e.preventDefault();return}
 if(id==='top'||!t){show('p1');window.scrollTo(0,0);e.preventDefault();return}
@@ -657,7 +657,7 @@ function okMail(x){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(x)}
 function okPw(p){return p.length>=8&&/[A-Za-z]/.test(p)&&/[0-9]/.test(p)}
 function lockUI(){document.body.classList.toggle('lock',!!HAS_DB&&!ADM);var n=document.getElementById('nav-db');if(n)n.style.display=(HAS_DB&&ADM)?'':'none';if(!ADM&&document.getElementById('p11')&&document.getElementById('p11').classList.contains('on'))show('p1')}lockUI();
 function askLogin(){try{$('gate-msg').classList.add('on');menu(true);var d=Q('#mpan details')[0];if(d)d.open=true;window.scrollTo(0,0)}catch(e){}}
-function gateUI(){var lk=!!HAS_DB&&!CU;Q('nav[aria-label="Phases du site"] a').forEach(function(a){var h=a.getAttribute('href');if(lk&&h!=='#p1'&&h!=='#p9'&&h!=='#p11')a.setAttribute('data-lock','1');else a.removeAttribute('data-lock')});
+function gateUI(){var lk=!!HAS_DB&&!CU;Q('nav[aria-label="Phases du site"] a').forEach(function(a){var h=a.getAttribute('href');if(lk&&h!=='#p1'&&h!=='#p7'&&h!=='#p9'&&h!=='#p11')a.setAttribute('data-lock','1');else a.removeAttribute('data-lock')});
  if(lk&&SKNOWN){var on=document.querySelector('.page.on');if(on&&on.id!=='p1')show('p1')}
  if(CU){var g=$('gate-msg');if(g)g.classList.remove('on');if(PEND){var t=PEND;PEND=null;try{menu(false)}catch(e){}show(t);window.scrollTo(0,0)}}}
 function rUser(){lockUI();gateUI();$('m-out').hidden=!!CU||REC;$('m-rec').hidden=!REC;$('m-in').hidden=!CU||REC;$('m-who').textContent=CU?'('+CU.nom+')':'';
