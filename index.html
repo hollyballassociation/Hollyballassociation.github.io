@@ -602,7 +602,7 @@ opts($('c-sel'),COMPS);$('c-sel').value=S.comp||'culturelle';
 COMPS.forEach(function(c,n){var q=Object.keys(S.sc).filter(function(k){return k.indexOf(c[0]+'::')===0}).length;$('cc-n'+n).textContent=q+' match(s) joué(s)';$('cc-'+n).classList.toggle('cur',c[0]===(S.comp||'culturelle'))});
 $('c-title').textContent=CN();
 if(rb){while(t.rows.length>1)t.deleteRow(1);pairs().sort(function(x,y){var a=CD[ck(x[0],x[1])]||'9',b=CD[ck(y[0],y[1])]||'9';return a<b?-1:a>b?1:0}).forEach(function(p){var k=ck(p[0],p[1]),s=S.sc[k]||{},r=t.insertRow();r.insertCell().textContent=p[0]+' contre '+p[1];dateCell(r.insertCell(),k);
-var c=r.insertCell();c.innerHTML='<input class="sc" type="number" min="0" aria-label="Score '+p[0]+'"> - <input class="sc" type="number" min="0" aria-label="Score '+p[1]+'">';var oc=r.insertCell();offCell(oc,k,p[0],p[1]);
+var c=r.insertCell();[0,1].forEach(function(z){if(z)c.appendChild(document.createTextNode(' - '));var ip=document.createElement('input');ip.className='sc';ip.type='number';ip.min='0';ip.setAttribute('aria-label','Score '+p[z]);c.appendChild(ip)});var oc=r.insertCell();offCell(oc,k,p[0],p[1]);
 var i=c.querySelectorAll('input');if(HAS_DB&&!ADM){i[0].disabled=true;i[1].disabled=true}i[0].value=s[p[0]]===undefined?'':s[p[0]];i[1].value=s[p[1]]===undefined?'':s[p[1]];
 [i[0],i[1]].forEach(function(x){x.addEventListener('input',function(){var a=i[0].value,b=i[1].value;if(a===''||b===''){delete S.sc[k]}else{S.sc[k]={};S.sc[k][p[0]]=+a;S.sc[k][p[1]]=+b}save();rComp(false);rHome()})})})}
 rCl();
