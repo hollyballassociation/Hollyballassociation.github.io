@@ -135,7 +135,8 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <section id="adhesion"><div class="w fm"><p class="eyb"><span></span>ADHÉSION</p><img src="logo-hollyball.png" alt="Logo de la Hollyball Association" width="170" height="133" style="display:block;width:170px;max-width:60%;height:auto;margin:0 0 14px;border-radius:14px"><h1 style="font-size:clamp(2rem,6vw,3.2rem);margin:0 0 12px">Demande d'adhésion</h1>
 <p class="lead">Rejoignez la Hollyball Association. Remplissez ce formulaire (mêmes rubriques que la fiche officielle) : votre demande arrive directement à l'association, et vous pouvez ensuite télécharger votre fiche d'adhésion déjà remplie pour l'apporter. Les champs marqués d'une étoile (*) sont obligatoires.</p>
 <div id="ok" class="card" hidden style="margin-top:20px"><h2 style="font-size:1.8rem;margin-top:0">Demande envoyée</h2><p id="ok-t"></p><p><b>Votre fiche officielle est prête, déjà remplie.</b> Téléchargez-la, imprimez-la, signez-la et apportez-la à l'association. Les parties réservées à l'association restent vides : elles seront remplies à la main sur place.</p><div id="ok-pdf" style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px"></div><p>Pour toute question, écrivez-nous sur <a href="https://wa.me/243859490857" rel="noopener">WhatsApp +243 859 490 857</a> ou à <a href="mailto:hollyballassociation@gmail.com">hollyballassociation@gmail.com</a>.</p><p><a class="btn p" href="index.html">Retour à l'accueil</a></p></div>
-<form id="f" novalidate autocomplete="on" style="margin-top:24px">
+<div id="gate" class="card" hidden style="margin-top:24px"><h2 style="font-size:1.6rem;margin-top:0">Un compte est nécessaire</h2><p id="gate-t">Pour demander votre adhésion, vous devez d'abord avoir un compte sur la plateforme Hollyball. C'est gratuit et rapide. Une fois connecté, vous reviendrez directement ici.</p><p><button class="btn p" id="gate-go" type="button">Se connecter ou créer un compte</button></p></div>
+<form id="f" hidden novalidate autocomplete="on" style="margin-top:24px">
 <fieldset><legend>1. Identité du demandeur</legend>
 <label for="nom">Nom *</label><input id="nom" type="text" maxlength="100" autocomplete="family-name">
 <label for="postnom">Postnom <span class="opt">(facultatif)</span></label><input id="postnom" type="text" maxlength="100">
@@ -174,6 +175,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 </form></div></section></main>
 <footer><div class="w"><h2 style="font-size:2rem;color:#fff">Nous contacter</h2><p><b>Hollyball Association</b> – Le nouveau souffle du sport collectif</p><p>Suivez-nous : <a href="https://www.facebook.com/share/19X4TF9bbe/" style="color:#fff" rel="noopener me">Facebook</a> · <a href="https://www.instagram.com/hollyball_association/" style="color:#fff" rel="noopener me">Instagram</a> · <a href="https://www.tiktok.com/@hollyballassociation" style="color:#fff" rel="noopener me">TikTok</a></p><p><a href="mailto:hollyballassociation@gmail.com" style="color:#fff">hollyballassociation@gmail.com</a> · <a href="https://wa.me/243859490857" style="color:#fff" rel="noopener">WhatsApp +243 859 490 857</a></p></div></footer>
 <script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)},
@@ -185,6 +187,12 @@ function age(){var v=$('naissance').value;if(!v)return null;var d=new Date(v);if
 function mn(){var a=age();$('s-parent').classList.toggle('on',a!==null&&a<18)}
 $('profil').addEventListener('change',sh);$('naissance').addEventListener('change',mn);$('naissance').addEventListener('input',mn);
 $('motivation').addEventListener('input',function(){$('cnt').textContent=this.value.length});
+var SB=null;try{if(window.supabase&&C.url&&C.key&&String(C.url).indexOf('VOTRE')<0)SB=window.supabase.createClient(C.url,C.key)}catch(e){SB=null}
+function gateOn(msg){$('f').hidden=true;$('gate').hidden=false;if(msg)$('gate-t').textContent=msg}
+$('gate-go').addEventListener('click',function(){try{localStorage.setItem('hol_next',JSON.stringify({u:'adhesion.html'+location.search,t:Date.now()}))}catch(e){}location.href='index.html#connexion'});
+(async function(){if(!SB){gateOn("La connexion à la plateforme est momentanément indisponible. Réessayez dans un instant, ou écrivez-nous sur WhatsApp au +243 859 490 857.");return}
+ try{var ss=await SB.auth.getSession(),se=ss&&ss.data&&ss.data.session;if(!se||!se.user){gateOn();return}
+  $('gate').hidden=true;$('f').hidden=false;if(!$('email').value&&se.user.email)$('email').value=se.user.email}catch(e){gateOn()}})();
 sh();mn();
 function V(i){return ($(i).value||'').trim()}
 function data(){return {profil:$('profil').value,profil_autre:V('profil_autre'),nom:V('nom'),postnom:V('postnom'),prenoms:V('prenoms'),naissance:V('naissance'),lieu_naissance:V('lieu_naissance'),nationalite:V('nationalite'),sexe:V('sexe'),etat_civil:V('etat_civil'),adresse:V('adresse'),pays:V('pays'),tel:V('tel'),email:V('email'),profession:V('profession'),organisation:V('organisation'),domaine:V('domaine'),formation:V('formation'),competences:V('competences'),motivation:V('motivation'),disponibilites:V('disponibilites'),source:V('source'),parent_nom:V('parent_nom'),parent_tel:V('parent_tel'),consent:$('consent').checked}}
@@ -202,13 +210,13 @@ function check(d){var a=age();
  if(d.motivation.length<10)return 'Expliquez en quelques mots votre motivation (10 caractères au moins).';
  if(!d.consent)return 'Cochez la case de confirmation pour envoyer votre demande.';
  return ''}
-var ERR={nom:'Indiquez votre nom.',prenoms:'Indiquez votre ou vos prénoms.',adresse:'Indiquez votre adresse et votre province ou pays.',profil_autre:'Précisez le type d\'adhésion (Autre).',email:'Adresse e-mail invalide.',tel:'Numéro de téléphone invalide.',motivation:'Motivation trop courte.',naissance:'Date de naissance invalide ou obligatoire pour un membre sportif.',parent:'Indiquez le nom et le téléphone du parent ou tuteur.',consentement:'Cochez la case de confirmation.',invalide:'Certaines informations sont invalides : vérifiez le formulaire.',limite:'Trop de demandes en ce moment : réessayez dans une heure ou écrivez-nous sur WhatsApp.'};
+var ERR={compte:'Connectez-vous ou créez un compte pour envoyer votre demande.',nom:'Indiquez votre nom.',prenoms:'Indiquez votre ou vos prénoms.',adresse:'Indiquez votre adresse et votre province ou pays.',profil_autre:'Précisez le type d\'adhésion (Autre).',email:'Adresse e-mail invalide.',tel:'Numéro de téléphone invalide.',motivation:'Motivation trop courte.',naissance:'Date de naissance invalide ou obligatoire pour un membre sportif.',parent:'Indiquez le nom et le téléphone du parent ou tuteur.',consentement:'Cochez la case de confirmation.',invalide:'Certaines informations sont invalides : vérifiez le formulaire.',limite:'Trop de demandes en ce moment : réessayez dans une heure ou écrivez-nous sur WhatsApp.'};
 function cat(d){return d.profil==='autre'?'Autre : '+d.profil_autre:LB[d.profil]}
 function sx(d){return d.sexe==='F'?'Féminin':d.sexe==='M'?'Masculin':''}
 function texte(d){var L=[["Type d'adhésion",cat(d)],['Nom',d.nom],['Postnom',d.postnom],['Prénom(s)',d.prenoms],['Date de naissance',d.naissance],['Lieu de naissance',d.lieu_naissance],['Nationalité',d.nationalite],['Sexe',sx(d)],['État civil',d.etat_civil],['Parent ou tuteur',d.parent_nom],['Téléphone du parent',d.parent_tel],['Adresse / Commune / Ville',d.adresse],['Province / Pays',d.pays],['Téléphone / WhatsApp',d.tel],['E-mail',d.email],['Profession',d.profession],['Organisation',d.organisation],["Commission / domaine d'intérêt",d.domaine],['Formation',d.formation],['Expériences / compétences',d.competences],['Motivation',d.motivation],['Disponibilités',d.disponibilites],['Connu par',d.source]];
  return L.filter(function(x){return x[1]}).map(function(x){return x[0]+' : '+x[1]}).join('\n')}
-async function viaDb(d){if(!C.url||!C.key||String(C.url).indexOf('VOTRE')>=0)return 'indisponible';
- try{var r=await fetch(C.url+'/rest/v1/rpc/deposer_adhesion',{method:'POST',headers:{apikey:C.key,Authorization:'Bearer '+C.key,'Content-Type':'application/json'},body:JSON.stringify({p:d})});if(!r.ok)return 'indisponible';var j=await r.json();return typeof j==='string'?j:'indisponible'}catch(e){return 'indisponible'}}
+async function viaDb(d){if(!C.url||!C.key||String(C.url).indexOf('VOTRE')>=0||!SB)return 'indisponible';
+ try{var ss=await SB.auth.getSession(),tk=ss&&ss.data&&ss.data.session&&ss.data.session.access_token;if(!tk)return 'compte';var r=await fetch(C.url+'/rest/v1/rpc/deposer_adhesion',{method:'POST',headers:{apikey:C.key,Authorization:'Bearer '+tk,'Content-Type':'application/json'},body:JSON.stringify({p:d})});if(!r.ok)return 'indisponible';var j=await r.json();return typeof j==='string'?j:'indisponible'}catch(e){return 'indisponible'}}
 async function viaMail(d){try{var o={_subject:"Demande d'adhésion : "+d.prenoms+' '+d.nom+' ('+cat(d)+')',_template:'table',_captcha:'false',_replyto:d.email};
  texte(d).split('\n').forEach(function(l){var i=l.indexOf(' : ');o[l.slice(0,i)]=l.slice(i+3)});
  var r=await fetch('https://formsubmit.co/ajax/'+MAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(o)});if(!r.ok)return false;var j=await r.json();return j.success===true||j.success==='true'}catch(e){return false}}

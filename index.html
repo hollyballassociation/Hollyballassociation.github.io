@@ -714,7 +714,7 @@ function lockUI(){document.body.classList.toggle('lock',!!HAS_DB&&!ADM);var n=do
 function askLogin(){try{$('gate-msg').classList.add('on');menu(true);var d=Q('#mpan details')[0];if(d)d.open=true;window.scrollTo(0,0)}catch(e){}}
 function gateUI(){var lk=!!HAS_DB&&!CU;Q('nav[aria-label="Phases du site"] a').forEach(function(a){var h=a.getAttribute('href');if(lk&&h!=='#p1'&&h!=='#p7'&&h!=='#p9'&&h!=='#p11'&&h!=='#p14')a.setAttribute('data-lock','1');else a.removeAttribute('data-lock')});
  if(lk&&SKNOWN){var on=document.querySelector('.page.on');if(on&&on.id!=='p1')show('p1')}
- if(CU){var g=$('gate-msg');if(g)g.classList.remove('on');if(PEND){var t=PEND;PEND=null;try{menu(false)}catch(e){}show(t);window.scrollTo(0,0)}}}
+ if(CU){try{var nx=JSON.parse(localStorage.getItem('hol_next')||'null');if(nx){localStorage.removeItem('hol_next');if(nx.u&&/^adhesion\.html(\?[A-Za-z0-9=&_-]*)?$/.test(nx.u)&&Date.now()-nx.t<1800000){location.href=nx.u;return}}}catch(e){}var g=$('gate-msg');if(g)g.classList.remove('on');if(PEND){var t=PEND;PEND=null;try{menu(false)}catch(e){}show(t);window.scrollTo(0,0)}}}
 function rUser(){lockUI();gateUI();$('m-out').hidden=!!CU||REC;$('m-rec').hidden=!REC;$('m-in').hidden=!CU||REC;$('m-who').textContent=CU?'('+CU.nom+')':'';
  $('m-db').textContent=SB?'Comptes sécurisés : connectés à la base de données.':'Base de données non configurée : renseignez config.js (voir LISEZMOI).';
  if(CU){var n=CU.niv==null?9:CU.niv;$('m-nom').textContent=CU.nom;avatar($('m-av'),CU.photo,CU.nom);$('m-phw').hidden=!SB;if(!SB||!(n>=6&&n<=8))$('m-ex').hidden=true;if(!CU||n!==8)$('m-pj').hidden=true;rStr();$('m-uid').textContent=CU.u;$('m-niv').textContent=NV[n][0];$('m-acc2').textContent=NV[n][1];
@@ -1348,7 +1348,7 @@ document.addEventListener('click',function(e){var c=e.target.closest('[data-copy
 var l=e.target.closest('a.em,a.tl');if(l){var x=l.closest('#fab-p')?$('hint'):$('hint2');if(x)setTimeout(function(){x.hidden=false},1200)}});
 function all(){rOrg();rSh();rHome();rLic();rComp(true);rCx();rLive();rDraft();rInt();rAff();rSport()}
 all();rPop();tick();lang(S.lang||'fr');
-var h0=location.hash.slice(1);if(h0==='sport'||h0==='reglement')h0='p9';if(h0==='communaute')h0='p12';if(h0==='evenements')h0='p13';show(/^p([1-9]|1[0-3])$/.test(h0)?h0:'p1');
+var h0=location.hash.slice(1);if(h0==='sport'||h0==='reglement')h0='p9';if(h0==='communaute')h0='p12';if(h0==='evenements')h0='p13';show(h0==='connexion'?'p2':/^p([1-9]|1[0-3])$/.test(h0)?h0:'p1');
 })();
 
 </script>
