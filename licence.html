@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vérification de licence | Hollyball Association</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Vérification officielle d'une licence Hollyball Association.">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e;--soleil:#f7d618;--ok:#18b88a;--no:#ff5a5f;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.5 Montserrat,'Segoe UI',Helvetica,Arial,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:18px}header img{width:64px;height:auto;background:#fff;border-radius:12px;padding:4px}header b{font-size:1.05rem;letter-spacing:.04em}header small{display:block;color:var(--mute);font-weight:500}
+.st{border-radius:14px;padding:16px 18px;margin:0 0 16px;font-weight:800;font-size:1.25rem;text-align:center;border:2px solid var(--line);background:var(--card)}
+.st small{display:block;font-weight:500;font-size:.9rem;margin-top:4px;color:var(--txt)}
+.st.ok{border-color:var(--ok);color:var(--ok)}.st.no{border-color:var(--no);color:var(--no)}
+.face{margin:0 0 14px;background:#eef1f5;border-radius:18px;padding:8px}
+.f{font-size:.85rem;color:var(--mute);text-align:center;margin-top:18px}.f a{color:var(--soleil)}
+.btn{display:inline-block;background:var(--soleil);color:#14143a;font-weight:800;text-decoration:none;border-radius:10px;padding:12px 18px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="w">
+<header><img src="logo-hollyball.png" alt="Logo Hollyball Association"><div><b>HOLLYBALL ASSOCIATION</b><small>Vérification officielle d'une licence</small></div></header>
+<div id="st" class="st" role="status" aria-live="polite">Vérification en cours…</div>
+<div id="out"></div>
+<p class="f">Cette page confirme l'authenticité d'une licence délivrée par la Hollyball Association. Date de naissance et coordonnées personnelles ne sont jamais affichées ici.<br><a href="./">Retour au site Hollyball Association</a></p>
+</div>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="carte.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var t=new URLSearchParams(location.search).get('c')||'';
+function fail(m,sub){var s=$('st');s.className='st no';s.textContent=m;if(sub){var x=document.createElement('small');x.textContent=sub;s.appendChild(x)}}
+if(!/^[a-f0-9]{20}$/.test(t)){fail('Licence introuvable','Le code de ce QR n\'est pas valide.');return}
+var C=window.HOL_CONFIG||{};
+fetch(String(C.url).replace(/\/+$/,'')+'/rest/v1/rpc/verifier_licence',{method:'POST',headers:{'apikey':C.key,'Authorization':'Bearer '+C.key,'Content-Type':'application/json'},body:JSON.stringify({p_token:t})})
+.then(function(r){return r.json()}).then(function(d){
+ if(!d||!d.ok){fail('Licence introuvable','Aucune licence ne correspond à ce QR code.');return}
+ var s=$('st'),sub=document.createElement('small');s.textContent='';
+ if(!d.actif){s.className='st no';s.appendChild(document.createTextNode('LICENCE SUSPENDUE'));sub.textContent='Cette licence n\'est pas valide actuellement. Contactez la Hollyball Association.'}
+ else if(d.expiree){s.className='st no';s.appendChild(document.createTextNode('LICENCE EXPIRÉE'));sub.textContent='Expirée le '+(d.exp||'')+'.'}
+ else{s.className='st ok';s.appendChild(document.createTextNode('LICENCE VALIDE'));sub.textContent='Saison '+String(d.saison||'').replace('-',' - ')+' · valable jusqu\'au '+(d.exp||'')+(d.paye?'':' · cotisation en attente de confirmation')}
+ s.appendChild(sub);
+ var o=$('out'),f=document.createElement('div');f.className='face';f.innerHTML=HolCarte.recto(d,{masque:true});o.appendChild(f);
+ document.title='Licence '+d.id+' | Hollyball Association'})
+.catch(function(){fail('Vérification impossible','Vérifiez votre connexion et réessayez.')});
+})();
+</script>
+</body>
+</html>
