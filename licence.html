@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Vérification de licence | Hollyball Association</title>
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="Vérification officielle d'une licence Hollyball Association.">
+<meta name="theme-color" content="#070720"><meta name="description" content="Vérification officielle d'une licence Hollyball Association.">
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var T=localStorage.getItem("hol_theme");if(T==="light"||T==="dark")document.documentElement.setAttribute("data-theme",T)}catch(e){}</script>
 <style>
 :root{--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e;--soleil:#f7d618;--ok:#18b88a;--no:#ff5a5f;color-scheme:dark}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.5 Montserrat,'Segoe UI',Helvetica,Arial,sans-serif}
@@ -20,11 +21,16 @@ header{display:flex;align-items:center;gap:12px;margin-bottom:18px}header img{wi
 .face{margin:0 0 14px;background:#eef1f5;border-radius:18px;padding:8px}
 .f{font-size:.85rem;color:var(--mute);text-align:center;margin-top:18px}.f a{color:var(--soleil)}
 .btn{display:inline-block;background:var(--soleil);color:#14143a;font-weight:800;text-decoration:none;border-radius:10px;padding:12px 18px;margin-top:8px}
+/* thème */
+:root[data-theme="light"]{--bg:#f3f6fc;--card:#fff;--txt:#06194a;--mute:#4b5a86;--line:#d3dbed;--soleil:#fbb915;--ok:#0e8a64;--no:#c62828;color-scheme:light}
+:root[data-theme="light"] .face{background:#e6ebf5}:root[data-theme="light"] .f a{color:#12378c;font-weight:600}
+header{position:relative}#thbtn{margin-left:auto;display:flex;align-items:center;background:var(--soleil);color:#14143a;border:0;border-radius:8px;padding:8px 11px;cursor:pointer}
+#thbtn{padding:8px 11px}#thbtn svg{display:block}#thbtn .th-l{display:none}:root[data-theme="light"] #thbtn .th-d{display:none}:root[data-theme="light"] #thbtn .th-l{display:block}
 </style>
 </head>
 <body>
 <div class="w">
-<header><img src="logo-hollyball.png" alt="Logo Hollyball Association"><div><b>HOLLYBALL ASSOCIATION</b><small>Vérification officielle d'une licence</small></div></header>
+<header><img src="logo-hollyball.png" alt="Logo Hollyball Association"><div><b>HOLLYBALL ASSOCIATION</b><small>Vérification officielle d'une licence</small></div><button class="mbtn" id="thbtn" type="button" aria-label="Passer en mode clair" title="Mode clair / sombre"><svg class="th-d" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="th-l" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></header>
 <div id="st" class="st" role="status" aria-live="polite">Vérification en cours…</div>
 <div id="out"></div>
 <p class="f">Cette page confirme l'authenticité d'une licence délivrée par la Hollyball Association. Date de naissance et coordonnées personnelles ne sont jamais affichées ici.<br><a href="./">Retour au site Hollyball Association</a></p>
@@ -52,5 +58,9 @@ fetch(String(C.url).replace(/\/+$/,'')+'/rest/v1/rpc/verifier_licence',{method:'
 .catch(function(){fail('Vérification impossible','Vérifiez votre connexion et réessayez.')});
 })();
 </script>
+<script>(function(){var R=document.documentElement,B=document.getElementById('thbtn'),M=document.querySelector('meta[name="theme-color"]');
+function cur(){return R.getAttribute('data-theme')==='light'?'light':'dark'}
+function apply(t,save){R.setAttribute('data-theme',t);if(M)M.setAttribute('content',t==='light'?'#06194a':'#070720');if(B){B.setAttribute('aria-label',t==='light'?'Passer en mode sombre':'Passer en mode clair');B.setAttribute('aria-pressed',t==='light'?'true':'false')}if(save){try{localStorage.setItem('hol_theme',t)}catch(e){}}}
+apply(cur(),false);if(B)B.addEventListener('click',function(){apply(cur()==='light'?'dark':'light',true)})})();</script>
 </body>
 </html>
