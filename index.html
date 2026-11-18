@@ -321,8 +321,9 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <section id="assoc-vision"><div class="w">
 <h2>Vision à long terme</h2>
 <div class="grid g3" style="margin-top:24px"><div class="card"><h3>Une référence mondiale</h3><p>Être reconnue par les instances internationales, organiser une Coupe du Monde et des championnats continentaux, et rester un modèle d'innovation « Made in Africa ».</p></div><div class="card"><h3>Une communauté unie</h3><p>Réunir joueurs, entraîneurs, arbitres, supporters, bénévoles et partenaires, et favoriser l'échange culturel.</p></div><div class="card"><h3>Une opportunité sociale et économique</h3><p>Créer des emplois et une filière économique, et favoriser l'insertion de milliers de jeunes.</p></div></div>
-<div class="ed" id="plan-action"><h3 style="margin-top:36px">Plan d'action en trois étapes</h3>
+<template id="plan-tpl"><div id="plan-action"><h3 style="margin-top:36px">Plan d'action en trois étapes</h3>
 <div class="grid g3" style="margin-top:12px"><div class="card"><h3>Lancement (2025-2027)</h3><p>Finaliser les textes officiels, 10 matchs de démonstration, 50 joueurs, 10 arbitres et 5 entraîneurs formés.</p></div><div class="card"><h3>Institutionnalisation (2027-2029)</h3><p>Agrément du Ministère des Sports, 3 centres de formation à Kinshasa, un tournoi national de 16 équipes.</p></div><div class="card"><h3>Expansion (2030-2035)</h3><p>20 centres dans 10 villes de RDC, un championnat professionnel de 12 clubs, une Coupe d'Afrique des Nations de Hollyball.</p></div></div></div>
+</template><div id="plan-slot"></div>
 </div></section>
 
 <section id="documents"><div class="w">
@@ -825,7 +826,7 @@ try{if(window.supabase&&CFG.url&&CFG.key&&String(CFG.url).indexOf('VOTRE')<0)SB=
 function msg(t,c){var m=$('m-msg');m.textContent=t||'';m.className='msg'+(c?' '+c:'')}
 function okMail(x){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(x)}
 function okPw(p){return p.length>=8&&/[A-Za-z]/.test(p)&&/[0-9]/.test(p)}
-function lockUI(){document.body.classList.toggle('lock',!!HAS_DB&&!ADM);var n=document.getElementById('nav-db');if(n)n.style.display=(HAS_DB&&ADM)?'':'none';if(!ADM&&document.getElementById('p11')&&document.getElementById('p11').classList.contains('on'))show('p1')}lockUI();
+function lockUI(){document.body.classList.toggle('lock',!!HAS_DB&&!ADM);var ps=document.getElementById('plan-slot'),pt=document.getElementById('plan-tpl');if(ps&&pt){var ok=!HAS_DB||ADM;if(ok&&!ps.firstChild)ps.appendChild(pt.content.cloneNode(true));else if(!ok)ps.textContent=''}var n=document.getElementById('nav-db');if(n)n.style.display=(HAS_DB&&ADM)?'':'none';if(!ADM&&document.getElementById('p11')&&document.getElementById('p11').classList.contains('on'))show('p1')}lockUI();
 function askLogin(){try{$('gate-msg').classList.add('on');menu(true);var d=Q('#mpan details')[0];if(d)d.open=true;window.scrollTo(0,0)}catch(e){}}
 function gateUI(){var lk=!!HAS_DB&&!CU;Q('nav[aria-label="Phases du site"] a').forEach(function(a){var h=a.getAttribute('href');if(lk&&h!=='#p1'&&h!=='#p7'&&h!=='#p9'&&h!=='#p11'&&h!=='#p14')a.setAttribute('data-lock','1');else a.removeAttribute('data-lock')});
  if(lk&&SKNOWN){var on=document.querySelector('.page.on');if(on&&on.id!=='p1')show('p1')}
