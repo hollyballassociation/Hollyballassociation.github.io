@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Contrôle d'entrée · Hollyball</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#070720">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Contrôle">
+<link rel="manifest" href="controle.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#070720;--card:#10103a;--txt:#eceeff;--mute:#a4a6d6;--line:#26265e;--soleil:#f7d618;--ok:#18b88a;--no:#ff5a5f;--warn:#f59e0b;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--txt);font:16px/1.5 Montserrat,'Segoe UI',Helvetica,Arial,sans-serif;min-height:100vh;padding:env(safe-area-inset-top) 16px calc(16px + env(safe-area-inset-bottom))}
+main{max-width:520px;margin:0 auto;padding-top:12px}
+h1{font-size:20px;margin:6px 0 2px}.sub{color:var(--mute);font-size:13px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+input{width:100%;padding:13px;border-radius:10px;border:1px solid var(--line);background:#0a0a2a;color:var(--txt);font:inherit;font-size:16px}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:14px 16px;cursor:pointer;background:var(--soleil);color:#161000;width:100%;margin-top:12px;font-size:16px}
+button.sec{background:transparent;color:var(--txt);border:1px solid var(--line)}
+button.sm{width:auto;padding:8px 12px;margin:0;font-size:13px}
+:focus-visible{outline:3px solid var(--soleil);outline-offset:2px}
+.hide{display:none!important}
+#err{color:var(--no);font-size:14px;min-height:20px;margin-top:8px}
+.bar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cnt{display:flex;gap:8px;margin-bottom:10px}.cnt div{flex:1;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px}.cnt b{display:block;font-size:22px}.cnt span{font-size:11px;color:var(--mute)}
+#vw{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:1/1}
+#vid{width:100%;height:100%;object-fit:cover;display:block}
+#vw:after{content:"";position:absolute;inset:18%;border:3px solid var(--soleil);border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.35);pointer-events:none}
+.mode{display:flex;gap:8px;margin-top:10px}.mode button{margin:0;padding:10px;font-size:13px}.mode button[aria-pressed="true"]{background:var(--soleil);color:#161000}.mode button[aria-pressed="false"]{background:transparent;color:var(--txt);border:1px solid var(--line)}
+#res{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#fff}
+#res.ok{background:#0b7a5a}#res.no{background:#b3262b}#res.warn{background:#b45f06}
+#res .big{font-size:84px;line-height:1}#res h2{font-size:30px;margin:10px 0 4px}#res p{margin:3px 0;font-size:17px}#res .ph{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid #fff;margin-bottom:8px}
+#res button{max-width:320px;background:#fff;color:#111;margin-top:22px}
+ul{list-style:none;margin:0;padding:0}li.h{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}li.h:last-child{border:0}.tg{font-weight:700}.tg.ok{color:var(--ok)}.tg.no{color:var(--no)}.tg.warn{color:var(--warn)}
+#off{background:var(--warn);color:#161000;text-align:center;font-weight:700;padding:6px;border-radius:10px;margin-bottom:10px;font-size:14px}
+.note{font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<h1>Contrôle d'entrée</h1>
+<p class="sub">Hollyball Association · réservé aux administrateurs</p>
+<div id="off" class="hide" role="status">Pas de connexion : le contrôle est impossible.</div>
+
+<section id="vLogin" class="card">
+  <form id="fLogin" autocomplete="on">
+    <label for="em">Adresse e-mail</label><input id="em" type="email" autocomplete="username" required>
+    <label for="pw">Mot de passe</label><input id="pw" type="password" autocomplete="current-password" required>
+    <div id="mfaBox" class="hide"><label for="cd">Code à 6 chiffres (application d'authentification)</label><input id="cd" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div>
+    <button type="submit" id="bLogin">Se connecter</button>
+    <div id="err" role="alert"></div>
+  </form>
+</section>
+
+<section id="vApp" class="hide">
+  <div class="bar"><span id="who" class="note"></span><button class="sec sm" id="bOut" type="button">Déconnexion</button></div>
+  <div class="cnt"><div><b id="cOk">0</b><span>Entrées validées</span></div><div><b id="cDe">0</b><span>Déjà utilisés</span></div><div><b id="cNo">0</b><span>Refusés</span></div></div>
+  <div class="card">
+    <div id="vw"><video id="vid" playsinline muted></video></div>
+    <p class="note" id="camMsg">Placez le QR code dans le cadre.</p>
+    <button type="button" id="bCam">Activer la caméra</button>
+    <div class="mode" role="group" aria-label="Mode de contrôle">
+      <button type="button" id="mV" aria-pressed="true">Valider l'entrée</button>
+      <button type="button" id="mC" aria-pressed="false">Vérifier seulement</button>
+    </div>
+    <p class="note">« Valider » marque le billet comme utilisé. « Vérifier seulement » ne le consomme pas.</p>
+  </div>
+  <form id="fMan" class="card">
+    <label for="man">Saisie manuelle (code du billet, ex. : AB12CD34)</label>
+    <input id="man" autocapitalize="characters" autocomplete="off" spellcheck="false">
+    <button type="submit">Contrôler ce code</button>
+  </form>
+  <div class="card"><b>Derniers contrôles</b><ul id="hist"></ul><p class="note" id="hEmpty">Aucun contrôle pour l'instant.</p></div>
+</section>
+</main>
+<div id="res" class="hide" role="alertdialog" aria-live="assertive" aria-labelledby="rT"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var SB=null,mode='v',stream=null,scanning=false,busy=false,last={c:'',t:0},cnt={ok:0,de:0,no:0},jsq=null,BD=null,factor=null;
+try{SB=window.supabase.createClient(HOL_CONFIG.url,HOL_CONFIG.key)}catch(e){}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function show(v){$('vLogin').classList.toggle('hide',v!=='l');$('vApp').classList.toggle('hide',v!=='a')}
+function offline(){$('off').classList.toggle('hide',navigator.onLine!==false)}
+addEventListener('online',offline);addEventListener('offline',offline);offline();
+function beep(ok){try{navigator.vibrate&&navigator.vibrate(ok?120:[200,80,200]);var C=window.AudioContext||window.webkitAudioContext,a=new C(),o=a.createOscillator(),g=a.createGain();o.frequency.value=ok?880:220;g.gain.value=.15;o.connect(g);g.connect(a.destination);o.start();setTimeout(function(){o.stop();a.close()},ok?140:380)}catch(e){}}
+
+/* ---------- Connexion ---------- */
+async function after(){
+  var a=await SB.auth.getAuthenticatorAssuranceLevel();var d=a.data||{};
+  if(d.nextLevel==='aal2'&&d.currentLevel!=='aal2'){
+    var f=await SB.auth.mfa.listFactors();factor=(((f.data||{}).totp||[]).filter(function(x){return x.status==='verified'})[0])||null;
+    if(factor){$('mfaBox').classList.remove('hide');$('cd').focus();$('err').textContent='Saisissez le code de votre application d\'authentification.';return false}
+  }
+  var lv=await SB.rpc('my_level');
+  if(lv.error||lv.data!==0){$('err').textContent='Ce compte n\'est pas autorisé (administrateur avec double authentification requis).';await SB.auth.signOut();$('mfaBox').classList.add('hide');return false}
+  var u=await SB.auth.getUser();$('who').textContent=(u.data&&u.data.user&&u.data.user.email)||'';
+  show('a');startCam();return true;
+}
+$('fLogin').addEventListener('submit',async function(e){
+  e.preventDefault();$('err').textContent='';if(!SB){$('err').textContent='Service indisponible.';return}
+  if(navigator.onLine===false){$('err').textContent='Pas de connexion.';return}
+  var b=$('bLogin');b.disabled=true;
+  try{
+    if(!$('mfaBox').classList.contains('hide')&&factor){
+      var c=await SB.auth.mfa.challenge({factorId:factor.id});
+      if(c.error){$('err').textContent='Erreur de vérification.';return}
+      var v=await SB.auth.mfa.verify({factorId:factor.id,challengeId:c.data.id,code:$('cd').value.replace(/\D/g,'')});
+      if(v.error){$('err').textContent='Code incorrect.';return}
+      await after();return;
+    }
+    var r=await SB.auth.signInWithPassword({email:$('em').value.trim(),password:$('pw').value});
+    if(r.error){$('err').textContent='E-mail ou mot de passe incorrect.';return}
+    await after();
+  }catch(x){$('err').textContent='Erreur réseau, réessayez.'}finally{b.disabled=false}
+});
+$('bOut').addEventListener('click',async function(){stopCam();try{await SB.auth.signOut()}catch(e){}cnt={ok:0,de:0,no:0};upd();$('hist').innerHTML='';$('hEmpty').classList.remove('hide');$('pw').value='';$('cd').value='';$('mfaBox').classList.add('hide');show('l')});
+
+/* ---------- Caméra et lecture du QR code ---------- */
+function loadJsq(){return new Promise(function(ok,ko){if(window.jsQR)return ok(window.jsQR);var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';s.onload=function(){ok(window.jsQR)};s.onerror=ko;document.head.appendChild(s)})}
+async function startCam(){
+  if(stream)return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){$('camMsg').textContent='Caméra non disponible : utilisez la saisie manuelle.';return}
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+    var v=$('vid');v.srcObject=stream;await v.play();
+    if('BarcodeDetector' in window){try{BD=new BarcodeDetector({formats:['qr_code']})}catch(e){BD=null}}
+    if(!BD){try{jsq=await loadJsq()}catch(e){jsq=null}}
+    if(!BD&&!jsq){$('camMsg').textContent='Lecture automatique indisponible : utilisez la saisie manuelle.';return}
+    $('camMsg').textContent='Placez le QR code dans le cadre.';$('bCam').classList.add('hide');scanning=true;loop();
+  }catch(e){$('camMsg').textContent='Caméra refusée ou absente. Autorisez-la dans les réglages du navigateur, ou utilisez la saisie manuelle.';$('bCam').classList.remove('hide')}
+}
+function stopCam(){scanning=false;if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}$('bCam').classList.remove('hide')}
+$('bCam').addEventListener('click',startCam);
+document.addEventListener('visibilitychange',function(){if(document.hidden)stopCam();else if(!$('vApp').classList.contains('hide'))startCam()});
+var cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});
+async function loop(){
+  if(!scanning)return;
+  var v=$('vid');
+  if(!busy&&v.readyState>=2&&v.videoWidth){
+    try{
+      var txt=null;
+      if(BD){var r=await BD.detect(v);if(r&&r[0])txt=r[0].rawValue}
+      else if(jsq){var w=Math.min(640,v.videoWidth),h=Math.round(w*v.videoHeight/v.videoWidth);cv.width=w;cv.height=h;cx.drawImage(v,0,0,w,h);var im=cx.getImageData(0,0,w,h),q=jsq(im.data,w,h,{inversionAttempts:'dontInvert'});if(q)txt=q.data}
+      if(txt)await handle(txt);
+    }catch(e){}
+  }
+  setTimeout(loop,BD?150:250);
+}
+
+/* ---------- Contrôle ---------- */
+function parse(raw){
+  raw=String(raw||'').trim();
+  var m=raw.match(/[?&]c=([a-f0-9]{20})(?:&|$)/i)||raw.match(/^([a-f0-9]{20})$/i);
+  if(m)return{type:'lic',token:m[1].toLowerCase()};
+  return{type:'bil',code:raw.replace(/^.*[?&]code=/i,'').replace(/[\s#]/g,'').toUpperCase()};
+}
+async function handle(raw){
+  var p=parse(raw),key=p.type==='lic'?p.token:p.code,now=Date.now();
+  if(!key||busy||(last.c===key&&now-last.t<4000))return;
+  last={c:key,t:now};busy=true;
+  try{
+    if(navigator.onLine===false){showRes('warn','⚠','Pas de connexion','Réessayez quand le réseau revient.');return}
+    if(p.type==='lic')await ctlLic(p.token);else await ctlBil(p.code);
+  }catch(e){showRes('warn','⚠','Erreur réseau','Le contrôle n\'a pas pu aboutir. Réessayez.')}
+  finally{last.t=Date.now()}
+}
+async function ctlBil(code){
+  var r=await SB.rpc('controler_billet',{p_code:code,p_valider:mode==='v'});
+  if(r.error)throw r.error;var d=r.data||{};
+  var det=[d.evenement,d.categorie&&('Catégorie : '+d.categorie),d.numero!=null&&('N° '+d.numero),d.porte&&('Porte : '+d.porte)].filter(Boolean);
+  if(d.etat==='ok'){cnt.ok++;hist('ok',(d.nom||code)+' · billet');showRes('ok','✓',d.valide?'Entrée validée':'Billet valide',d.nom||'',det)}
+  else if(d.etat==='deja'){cnt.de++;hist('warn',(d.nom||code)+' · déjà utilisé');showRes('warn','⚠','Déjà utilisé',d.nom||'',det.concat(d.utilise_le?['Utilisé le '+new Date(d.utilise_le).toLocaleString('fr-FR')]:[]))}
+  else if(d.etat==='inconnu'){cnt.no++;hist('no',code+' · inconnu');showRes('no','✕','Billet inconnu','Code : '+code)}
+  else{cnt.no++;showRes('no','✕','Accès refusé','Reconnectez-vous avec un compte administrateur.')}
+  upd();
+}
+async function ctlLic(tok){
+  var r=await SB.rpc('verifier_licence',{p_token:tok});
+  if(r.error)throw r.error;var d=r.data||{};
+  if(!d.ok){cnt.no++;hist('no','Licence inconnue');showRes('no','✕','Licence inconnue','Ce QR code ne correspond à aucune licence.');upd();return}
+  var nm=((d.prenom||'')+' '+(d.nom||'')).trim(),det=[d.id&&('Licence '+d.id),d.club,d.cat&&('Catégorie '+d.cat),d.saison&&('Saison '+d.saison),d.exp&&('Expire le '+d.exp)].filter(Boolean);
+  var bad=d.actif===false||d.expiree||!d.paye;
+  if(!bad){cnt.ok++;hist('ok',nm+' · licence');showRes('ok','✓','Licence valide',nm,det,d.photo)}
+  else{cnt.no++;hist('no',nm+' · licence non valide');showRes('no','✕','Licence non valide',nm,det.concat([d.expiree?'Licence expirée':!d.paye?'Cotisation non réglée':'Licence inactive']),d.photo)}
+  upd();
+}
+function showRes(cls,ico,t,sub,det,photo){
+  beep(cls==='ok');
+  var h=(photo&&/^(https:|data:image\/)/.test(photo)?'<img class="ph" alt="" src="'+esc(photo)+'">':'')+'<div class="big" aria-hidden="true">'+ico+'</div><h2 id="rT">'+esc(t)+'</h2>'+(sub?'<p><b>'+esc(sub)+'</b></p>':'');
+  (det||[]).forEach(function(x){h+='<p>'+esc(x)+'</p>'});
+  h+='<button type="button" id="rOk">Suivant</button>';
+  var r=$('res');r.className=cls;r.innerHTML=h;$('rOk').focus();$('rOk').onclick=function(){r.className='hide';r.innerHTML='';busy=false;last.t=0};
+  clearTimeout(showRes.t);if(cls==='ok')showRes.t=setTimeout(function(){if($('rOk'))$('rOk').click()},2500);
+}
+function hist(c,t){
+  var li=document.createElement('li');li.className='h';
+  li.innerHTML='<span>'+esc(t)+'</span><span class="tg '+c+'">'+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</span>';
+  var u=$('hist');u.insertBefore(li,u.firstChild);while(u.children.length>15)u.removeChild(u.lastChild);$('hEmpty').classList.add('hide');
+}
+function upd(){$('cOk').textContent=cnt.ok;$('cDe').textContent=cnt.de;$('cNo').textContent=cnt.no}
+$('fMan').addEventListener('submit',function(e){e.preventDefault();var v=$('man').value;$('man').value='';last={c:'',t:0};handle(v)});
+function setMode(m){mode=m;$('mV').setAttribute('aria-pressed',m==='v');$('mC').setAttribute('aria-pressed',m==='c')}
+$('mV').onclick=function(){setMode('v')};$('mC').onclick=function(){setMode('c')};
+
+/* ---------- Démarrage : reprise de session ---------- */
+(async function(){
+  show('l');if(!SB)return;
+  try{var s=await SB.auth.getSession();if(s.data&&s.data.session)await after()}catch(e){}
+})();
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+})();
+</script>
+</body>
+</html>
