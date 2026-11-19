@@ -466,3 +466,11 @@ Fonctionnement :
 - Page `equipe.html?n=NOM` : bilan des matchs officialisés, joueurs à profil public. Les noms d'équipes des « Prochains matchs » y mènent.
 - Partage : bouton Partager (téléphone), WhatsApp, Facebook, copier le lien. Retrait : un clic (« Retirer le profil public ») ou par e-mail.
 - Limite : sur Facebook/WhatsApp, l'aperçu du lien affiche le titre générique du site (site statique : l'aperçu ne peut pas contenir le nom du joueur).
+
+## Étape 60 — Site en anglais et en lingala (fonctionnalité 5)
+Fichiers à envoyer à la racine GitHub : `i18n.js` (nouveau, 73 Ko, chargé seulement si EN ou LN est choisi) et, à remplacer, `index.html`, `adhesion.html`, `affiliation.html`, `licence.html`, `mentions-legales.html`, `confidentialite.html`, `conditions.html`, `accessibilite.html`, `joueur.html`, `equipe.html`. Aucune étape Supabase.
+- Sélecteur FR / EN / LN dans l'en-tête de ces pages ; le choix est mémorisé. Onglet International > Multilingue : mêmes langues (l'espagnol est remplacé par le lingala).
+- Traduit : menus, accueil, licences, compétitions (y compris prochains matchs), en direct, boutique, communauté, événements et billetterie, contact, messages, pieds de page, pages légales (liens et en-têtes).
+- Reste en français : le règlement et la présentation du sport, l'onglet Association et Affiliation (textes longs), le tableau de bord, les formulaires d'adhésion et d'affiliation, les messages d'erreur générés par le programme, les textes des 4 pages légales.
+- Le lingala doit être relu par un locuteur de Kinshasa. Pour corriger un mot : ouvrir `i18n.js`, chercher le texte français, modifier la valeur « ln ».
+- Correctif : le bloc « Que voulez-vous faire ? » de l'accueil passait par-dessus le haut de la page ; il est remis à sa place.
