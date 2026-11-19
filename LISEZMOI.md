@@ -450,3 +450,19 @@ Boutons WhatsApp (administrateur seulement), message déjà écrit, numéros con
 - Licences : carte « Modifier une licence » > numéro du titulaire > envoi du lien de vérification.
 - Événements : rappel à envoyer à un groupe ou un contact.
 Envoi semi-automatique : l'administrateur touche « Envoyer » dans WhatsApp. L'envoi 100 % automatique exige un compte WhatsApp Business API (Meta, payant), non pris en charge ici.
+
+## Étape 58 — Calendrier et résultats en direct (fonctionnalité 3)
+1. Supabase > SQL Editor : exécuter `schema_calendrier.sql` (ajoute heure et lieu aux matchs ; relançable sans risque).
+2. GitHub : remplacer `index.html`.
+Dans Compétitions : bloc « Prochains matchs » (badges Aujourd'hui / Demain / Dans N jours / EN DIRECT, lieu, score provisoire) et « Derniers résultats officiels ». Le classement se recalcule seul. Les visiteurs voient les changements sans recharger (vérification toutes les 30 s, bouton « Actualiser »). L'administrateur règle date, heure et lieu dans le tableau.
+Sans l'étape 1, le site fonctionne comme avant (la date seule est enregistrée) et prévient l'administrateur.
+
+## Étape 59 — Pages publiques de joueurs et d'équipes (fonctionnalité 4)
+1. Supabase > SQL Editor : exécuter `schema_profils_publics.sql` (relançable sans risque).
+2. GitHub, nouveaux fichiers : `joueur.html`, `equipe.html`. À remplacer : `index.html`, `confidentialite.html` (mention du profil public).
+Fonctionnement :
+- Le profil public est désactivé par défaut. Joueur majeur : il l'active lui-même (Mon profil joueur). Mineur ou à la place du joueur : l'administrateur l'active (carte « Modifier une licence ») après accord écrit du joueur ou du parent/tuteur.
+- Page `joueur.html?c=CODE` : nom, poste, club, nationalité, saison, photo, points, passes décisives, matchs, détail par compétition. Jamais l'âge, le sexe, la taille, le poids, les coordonnées ni le numéro de licence.
+- Page `equipe.html?n=NOM` : bilan des matchs officialisés, joueurs à profil public. Les noms d'équipes des « Prochains matchs » y mènent.
+- Partage : bouton Partager (téléphone), WhatsApp, Facebook, copier le lien. Retrait : un clic (« Retirer le profil public ») ou par e-mail.
+- Limite : sur Facebook/WhatsApp, l'aperçu du lien affiche le titre générique du site (site statique : l'aperçu ne peut pas contenir le nom du joueur).
