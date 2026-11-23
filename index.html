@@ -480,7 +480,7 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <label for="lv-ti">Titre affiché (facultatif)</label><input id="lv-ti" maxlength="80" autocomplete="off" placeholder="Hollyball : Finale inter-scolaire">
 <div class="ctl" style="justify-content:flex-start;gap:8px"><button class="btn p" id="lv-go" type="button">Lancer le direct sur le site</button><button class="btn bd" id="lv-end" type="button" hidden>Terminer le direct</button></div><p class="mn" id="lv-m" role="status" aria-live="polite"></p>
 <div id="lv-s" hidden><h4 style="margin:14px 0 6px">Direct terminé : partager sur les réseaux sociaux</h4><div class="ctl" id="lv-sb" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"></div></div></div>
-<div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><div class="lgr"><img class="lg big" id="lg-c" alt="" hidden><select id="l-c" style="flex:1"></select></div><p class="mn" id="l-note" hidden>Aucune équipe dans cette compétition : l'administrateur doit d'abord ajouter les équipes (onglet Compétitions).</p><div class="sb" aria-live="polite">
+<div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><div class="lgr"><img class="lg big" id="lg-c" alt="" hidden><select id="l-c" style="flex:1"></select></div><div id="l-am" hidden><p class="mn">Match amical : hors compétition, sans classement. Les points ne comptent ni dans les statistiques ni dans la Draft. Le résultat est enregistré dans Événements > Amicaux. Pour une équipe absente de la liste, écrivez son nom ci-dessous (facultatif).</p><label for="l-ax">Équipe de gauche hors liste</label><input id="l-ax" maxlength="60" autocomplete="off"><label for="l-bx">Équipe de droite hors liste</label><input id="l-bx" maxlength="60" autocomplete="off"></div><p class="mn" id="l-note" hidden>Aucune équipe dans cette compétition : l'administrateur doit d'abord ajouter les équipes (onglet Compétitions).</p><div class="sb" aria-live="polite">
 <div><img class="lg big" id="lg-a" alt="" hidden><select id="l-a" aria-label="Équipe de gauche"></select><div class="sn" id="sa">0</div></div>
 <div class="mid"><div class="clk" id="clk">00:00</div><div id="half">1re mi-temps</div></div>
 <div><img class="lg big" id="lg-b" alt="" hidden><select id="l-b" aria-label="Équipe de droite"></select><div class="sn" id="sbb">0</div></div></div>
@@ -761,7 +761,7 @@ fill($('t-c'),rows.map(function(s,i){return [i+1,s.n,s.j,s.v,s.nu,s.d,s.pm,s.pe,
 ['p-v','p-n','p-d'].forEach(function(i){$(i).addEventListener('input',function(){rComp(false)})});
 function setComp(v,go){S.comp=v;save();all();Q('[data-c]').forEach(function(x){var on=x.getAttribute('data-c')===v;x.style.background=on?'#f7d917':'';x.style.color=on?'#0a0a2a':'';x.textContent=on?'Compétition affichée ↓':'Voir cette compétition'});if(go){var t=$('c-title');if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'})},80)}}
 $('c-sel').addEventListener('change',function(){setComp(this.value)});
-$('l-c').addEventListener('change',function(){setComp(this.value)});
+$('l-c').addEventListener('change',function(){if(this.value==='amical'){AMI=true;L.ev=[];rLive();return}AMI=false;setComp(this.value)});
 Q('[data-c]').forEach(function(b){b.addEventListener('click',function(){setComp(b.getAttribute('data-c'),1)})});
 
 /* Thème clair / sombre (choix gardé sur cet appareil) */
@@ -864,11 +864,13 @@ $('lv-end').addEventListener('click',async function(){if(!SB||!ADM)return;if(thi
  if(r.error||r.data!=='ok'){$('lv-m').textContent='Fin du direct refusée.';return}
  $('lv-m').textContent='Direct terminé. Pensez à arrêter aussi le direct dans YouTube ou Facebook.';lvClear();$('lv-u').value='';$('lv-ti').value='';if(d)lvShare(d)});
 /* En direct */
-function side(){return [$('l-a').value,$('l-b').value]}
-function rLive(){opts($('l-c'),COMPS);$('l-c').value=S.comp||'culturelle';var tm=teams();opts($('l-a'),tm);opts($('l-b'),tm);
+var AMI=false;
+function side(){var x=AMI&&$('l-ax')&&$('l-ax').value.trim().slice(0,60),y=AMI&&$('l-bx')&&$('l-bx').value.trim().slice(0,60);return [x||$('l-a').value,y||$('l-b').value]}
+function liveTeams(){if(!AMI)return teams();var t=[];(HAS_DB?CE:[]).forEach(function(e){if(e.nom&&t.indexOf(e.nom)<0)t.push(e.nom)});clubs().forEach(function(c){if(t.indexOf(c)<0)t.push(c)});if(t.length<2)DT.forEach(function(c){if(t.indexOf(c)<0)t.push(c)});return t}
+function rLive(){opts($('l-c'),COMPS);var ao=document.createElement('option');ao.value='amical';ao.textContent='Match amical (hors compétition)';$('l-c').appendChild(ao);$('l-c').value=AMI?'amical':(S.comp||'culturelle');var xa=$('l-am');if(xa)xa.hidden=!AMI;var tm=liveTeams();opts($('l-a'),tm);opts($('l-b'),tm);
 if($('l-a').value===$('l-b').value){var o=tm.filter(function(x){return x!==$('l-a').value})[0];if(o)$('l-b').value=o}
 var s=side();updLiveLogos();opts($('o-t'),[['0',s[0]],['1',s[1]]]);
-var club=s[+$('o-t').value||0],kcm=S.comp||'culturelle',pl=HAS_DB?CJ.filter(function(j){return j.comp===kcm&&teamName(j.equipe_id)===club}).map(function(j){return ['cj:'+j.id,j.nom]}):S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]});$('l-note').hidden=!(HAS_DB&&tm.length<2);
+var club=s[+$('o-t').value||0],kcm=S.comp||'culturelle',pl=AMI?S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]}):HAS_DB?CJ.filter(function(j){return j.comp===kcm&&teamName(j.equipe_id)===club}).map(function(j){return ['cj:'+j.id,j.nom]}):S.lic.filter(function(l){return l.cat==='J'&&l.club===club}).map(function(l){return [l.id,l.nom]});$('l-note').hidden=AMI||!(HAS_DB&&tm.length<2);
 if(!pl.length){pl=[];for(var i=1;i<=10;i++)pl.push(['n'+i,'N° '+i])}opts($('o-j'),pl);
 var sc=[0,0],stt={};L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++;if(e.j){var id=e.t+'|'+e.j;stt[id]=stt[id]||{lab:e.lab,t:e.t,p:0,a:0,f:0,y:0,r:0};
 if(e.k==='pt')stt[id].p++;if(e.k==='pd')stt[id].a++;if(e.k==='ft')stt[id].f++;if(e.k==='cj')stt[id].y++;if(e.k==='cr')stt[id].r++}});
@@ -885,8 +887,11 @@ $('rz').addEventListener('click',function(){stop();L.secs=0;L.ev=[];tick();rLive
 Q('[data-e]').forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-e'),o=$('o-j').options[$('o-j').selectedIndex];L.ev.push({k:k,t:+$('o-t').value,j:k==='tm'?'':$('o-j').value,lab:o?o.textContent:'',at:L.secs});rLive()})});
 $('undo').addEventListener('click',function(){L.ev.pop();rLive()});
 ['l-a','l-b'].forEach(function(i){$(i).addEventListener('change',function(){L.ev=[];rLive()})});
-$('o-t').addEventListener('change',rLive);
-$('fin').addEventListener('click',function(){if(!L.ev.length)return;var s=side(),sc=[0,0],seen={};if(HAS_DB&&(!s[0]||!s[1]||s[0]===s[1])){toast('Choisissez deux équipes de la compétition.');return}
+$('o-t').addEventListener('change',rLive);['l-ax','l-bx'].forEach(function(i){$(i).addEventListener('change',function(){L.ev=[];rLive()})});
+$('fin').addEventListener('click',function(){if(!L.ev.length)return;var s=side(),sc=[0,0],seen={};
+if(AMI){if(!s[0]||!s[1]||s[0]===s[1]){toast('Choisissez deux équipes différentes.');return}L.ev.forEach(function(e){if(e.k==='pt')sc[e.t]++});var txt=s[0]+' '+sc[0]+' - '+sc[1]+' '+s[1];
+ if(HAS_DB&&ADM&&SB){SB.from('evenements').insert({type:'amical',titre:s[0]+' vs '+s[1],date_evt:todayIso(),statut:'Terminé',description:('Score final : '+sc[0]+'-'+sc[1]).slice(0,500)}).then(function(r){toast(r.error?'Match amical terminé : '+txt+' (non enregistré : exécutez schema_amicaux.sql).':'Match amical enregistré dans Événements > Amicaux : '+txt);if(!r.error)loadPub()})}else toast('Match amical terminé : '+txt);
+ stop();L.secs=0;L.ev=[];['l-ax','l-bx'].forEach(function(i){if($(i))$(i).value=''});tick();save();all();return}if(HAS_DB&&(!s[0]||!s[1]||s[0]===s[1])){toast('Choisissez deux équipes de la compétition.');return}
 var cmap={};L.ev.forEach(function(e){var cj=cjOf(e.j),lid=cj?cj.lic_id:e.j;if(e.k==='pt'){sc[e.t]++;if(lid)addstat(lid,1,0)}if(e.k==='pd'&&lid)addstat(lid,0,0,1);var m=lid&&byId(lid);if(m&&!seen[lid]){seen[lid]=1;addstat(lid,0,1)}
 if(cj){var c=cmap[cj.id]=cmap[cj.id]||{id:cj.id,t:e.t,pts:0,pd:0};if(e.k==='pt')c.pts++;if(e.k==='pd')c.pd++}});
 if(HAS_DB)Object.keys(cmap).forEach(function(id){var c=cmap[id],a=sc[c.t],b=sc[1-c.t];COMPQ.push({id:c.id,pts:c.pts,pd:c.pd,mj:1,v:a>b?1:0,n:a===b?1:0,d:a<b?1:0})});
@@ -1261,7 +1266,7 @@ function rCl(){var p=$('cl-p');if(!p)return;p.textContent='';var comp=S.comp||'c
  var ex=$('cl-x');if(ex)ex.remove();var d=document.createElement('div');d.id='cl-x';p.parentNode.insertBefore(d,$('cl-f').previousElementSibling);
  var f=$('cl-f');f.onchange=function(){if(f.files&&f.files[0]){lgUpload('competition',comp,'',f.files[0],$('cl-m'));f.value=''}};
  if(lgUrl('competition',comp,''))d.appendChild(twoClick('Retirer le logo de la compétition',function(){lgRemove('competition',comp,'')}))}
-function updLiveLogos(){var s=side(),c=S.comp||'culturelle';[['lg-a',lgUrl('equipe',c,s[0]),s[0]],['lg-b',lgUrl('equipe',c,s[1]),s[1]],['lg-c',lgUrl('competition',c,''),CN()]].forEach(function(x){var e=$(x[0]);if(!e)return;e.hidden=!x[1];if(x[1]){e.src=x[1];e.alt='Logo '+x[2]}})}
+function updLiveLogos(){var s=side(),c=S.comp||'culturelle';if(AMI){['lg-a','lg-b','lg-c'].forEach(function(i){var e=$(i);if(e)e.hidden=true});return}[['lg-a',lgUrl('equipe',c,s[0]),s[0]],['lg-b',lgUrl('equipe',c,s[1]),s[1]],['lg-c',lgUrl('competition',c,''),CN()]].forEach(function(x){var e=$(x[0]);if(!e)return;e.hidden=!x[1];if(x[1]){e.src=x[1];e.alt='Logo '+x[2]}})}
 async function officialiser(k,p0,p1){if(!HAS_DB||!ADM||!SB)return;var sc=S.sc[k];if(!sc){toast('Saisissez d\'abord le score.');return}
  try{await syncUp()}catch(e){}
  var comp=k.split('::')[0],cn=COMPS.filter(function(c){return c[0]===comp})[0][1],txt='Résultat officiel ('+cn+') : '+p0+' '+sc[p0]+' - '+sc[p1]+' '+p1;
