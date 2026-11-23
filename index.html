@@ -480,6 +480,16 @@ nav a[data-lock]:after{content:" \1F512";font-size:.8em}
 <label for="lv-ti">Titre affiché (facultatif)</label><input id="lv-ti" maxlength="80" autocomplete="off" placeholder="Hollyball : Finale inter-scolaire">
 <div class="ctl" style="justify-content:flex-start;gap:8px"><button class="btn p" id="lv-go" type="button">Lancer le direct sur le site</button><button class="btn bd" id="lv-end" type="button" hidden>Terminer le direct</button></div><p class="mn" id="lv-m" role="status" aria-live="polite"></p>
 <div id="lv-s" hidden><h4 style="margin:14px 0 6px">Direct terminé : partager sur les réseaux sociaux</h4><div class="ctl" id="lv-sb" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"></div></div></div>
+<div class="card ed" id="lv-k" style="margin-top:16px"><h3>Direct depuis la caméra du téléphone</h3>
+<h4 style="margin:10px 0 4px">1. Lancement rapide (YouTube ou Facebook)</h4><p class="mn">Ouvre l'application : touchez « Direct » / « Live », lancez, puis collez le lien dans la carte ci-dessus.</p>
+<div class="ctl" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="btn p" id="lk-yt" type="button">Ouvrir YouTube</button><button class="btn p" id="lk-fb" type="button">Ouvrir Facebook</button></div>
+<h4 style="margin:18px 0 4px">2. Direct dans le site (caméra de ce téléphone)</h4><p class="mn">Nécessite un service vidéo compatible WHIP (ex. Cloudflare Stream, entrée « Live input »). Collez les deux adresses fournies. L'adresse de diffusion reste uniquement sur ce téléphone.</p>
+<label for="lk-w">Adresse de diffusion WHIP (https://…)</label><input id="lk-w" type="url" inputmode="url" maxlength="400" autocomplete="off" autocapitalize="none" spellcheck="false">
+<label for="lk-p">Adresse de lecture pour les spectateurs (…cloudflarestream.com/…/iframe)</label><input id="lk-p" type="url" inputmode="url" maxlength="300" autocomplete="off" autocapitalize="none" spellcheck="false">
+<video id="lk-v" playsinline muted hidden style="width:100%;max-height:320px;border-radius:10px;background:#000;margin-top:10px"></video>
+<div class="ctl" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="btn bd" id="lk-pv" type="button">Aperçu caméra</button><button class="btn bd" id="lk-fl" type="button">Changer de caméra</button><button class="btn p" id="lk-go" type="button">Démarrer le direct caméra</button><button class="btn bd" id="lk-st" type="button" hidden>Arrêter le direct caméra</button></div><p class="mn" id="lk-m" role="status" aria-live="polite"></p>
+<h4 style="margin:18px 0 4px">3. Filmer un clip (publié après coup, pas en direct)</h4><p class="mn">Ouvre la caméra du téléphone ; le clip (50 Mo maximum, environ 30 secondes) est publié dans Actualités.</p>
+<input id="lk-cf" type="file" accept="video/*" capture="environment" hidden><div class="ctl" style="justify-content:flex-start"><button class="btn bd" id="lk-c" type="button">Filmer un clip</button></div><p class="mn" id="lk-cm" role="status" aria-live="polite"></p></div>
 <div class="card" style="margin-top:24px"><label for="l-c">Compétition</label><div class="lgr"><img class="lg big" id="lg-c" alt="" hidden><select id="l-c" style="flex:1"></select></div><div id="l-am" hidden><p class="mn">Match amical : hors compétition, sans classement. Les points ne comptent ni dans les statistiques ni dans la Draft. Le résultat est enregistré dans Événements > Amicaux. Pour une équipe absente de la liste, écrivez son nom ci-dessous (facultatif).</p><label for="l-ax">Équipe de gauche hors liste</label><input id="l-ax" maxlength="60" autocomplete="off"><label for="l-bx">Équipe de droite hors liste</label><input id="l-bx" maxlength="60" autocomplete="off"></div><p class="mn" id="l-note" hidden>Aucune équipe dans cette compétition : l'administrateur doit d'abord ajouter les équipes (onglet Compétitions).</p><div class="sb" aria-live="polite">
 <div><img class="lg big" id="lg-a" alt="" hidden><select id="l-a" aria-label="Équipe de gauche"></select><div class="sn" id="sa">0</div></div>
 <div class="mid"><div class="clk" id="clk">00:00</div><div id="half">1re mi-temps</div></div>
@@ -836,13 +846,13 @@ B.addEventListener('click',async function(){if(!SB||!HAS_DB||!ADM){M.textContent
 /* Direct vidéo (lien YouTube / Facebook) : seule l'adresse du direct est gardée, jamais la vidéo */
 var LVNOW=null,LVLAST=null;
 function lvEmbed(u,pf){var m;if(pf==='youtube'){m=/(?:youtube\.com\/(?:watch\?(?:[^&\s]*&)*v=|live\/|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/.exec(u);return m?'https://www.youtube-nocookie.com/embed/'+m[1]+'?autoplay=1&playsinline=1&rel=0':null}
- if(pf==='facebook'&&/^https:\/\/(www\.|m\.|web\.)?facebook\.com\/|^https:\/\/fb\.watch\//i.test(u))return 'https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(u)+'&show_text=false&autoplay=true';return null}
+ if(pf==='camera'&&/^https:\/\/[a-z0-9-]+\.cloudflarestream\.com\/[a-f0-9]{32}\/iframe$/i.test(u))return u+'?autoplay=true&muted=true&preload=auto';if(pf==='facebook'&&/^https:\/\/(www\.|m\.|web\.)?facebook\.com\/|^https:\/\/fb\.watch\//i.test(u))return 'https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(u)+'&show_text=false&autoplay=true';return null}
 async function lvLoad(){if(!SB||!HAS_DB)return;var r=await SB.from('live_direct').select('url,plateforme,titre,started_at').maybeSingle();var d=r.error?null:r.data;
  if((d&&d.url)===(LVNOW&&LVNOW.url)&&!!d===!!LVNOW){return}LVNOW=d||null;var c=$('lv-c'),P=$('lv-p');P.textContent='';
  if(!d){c.hidden=true;$('lv-go').hidden=false;$('lv-end').hidden=true;return}
  var e=lvEmbed(d.url,d.plateforme);if(!e){c.hidden=true;return}c.hidden=false;$('lv-t').textContent=d.titre||'Le direct Hollyball';
  var f=document.createElement('iframe');f.src=e;f.title=d.titre||'Direct vidéo Hollyball';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';P.appendChild(f);
- var o=$('lv-o');o.textContent='';var a=document.createElement('a');a.href=d.url;a.target='_blank';a.rel='noopener noreferrer';a.style.color='var(--soleil)';a.textContent='Ouvrir le direct sur '+(d.plateforme==='youtube'?'YouTube':'Facebook');o.appendChild(a);
+ var o=$('lv-o');o.textContent='';if(d.plateforme==='camera'){$('lv-go').hidden=true;$('lv-end').hidden=false;return}var a=document.createElement('a');a.href=d.url;a.target='_blank';a.rel='noopener noreferrer';a.style.color='var(--soleil)';a.textContent='Ouvrir le direct sur '+(d.plateforme==='youtube'?'YouTube':'Facebook');o.appendChild(a);
  $('lv-go').hidden=true;$('lv-end').hidden=false;if(ADM&&!$('lv-u').value)$('lv-u').value=d.url}
 function lvClear(){LVNOW=null;$('lv-c').hidden=true;$('lv-p').textContent='';$('lv-go').hidden=false;$('lv-end').hidden=true}
 setInterval(function(){var p=$('p4');if(p&&p.classList.contains('on')&&!document.hidden)lvLoad()},20000);
@@ -855,12 +865,54 @@ function lvShare(d){LVLAST=d;var S2=$('lv-s'),B=$('lv-sb');B.textContent='';S2.h
  btn('X (Twitter)',function(){window.open('https://twitter.com/intent/tweet?text='+enc(txt)+'&url='+enc(u),'_blank','noopener')});
  btn('Copier le lien',async function(){try{await navigator.clipboard.writeText(u);toast('Lien copié.')}catch(e){toast('Copie impossible : copiez le lien manuellement.')}});
  btn('Fermer',function(){S2.hidden=true})}
+/* Direct depuis la caméra (WHIP) et clips */
+var CAM={pc:null,st:null,loc:null,wl:null,face:'environment',whip:''};
+function lsG(k){try{return localStorage.getItem(k)||''}catch(e){return ''}}function lsS(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+$('lk-w').value=lsG('hol_whip');$('lk-p').value=lsG('hol_whip_play');
+function lkOpen(app,web){var t=Date.now();location.href=app;setTimeout(function(){if(!document.hidden&&Date.now()-t<2500)window.open(web,'_blank','noopener')},1200)}
+$('lk-yt').addEventListener('click',function(){lkOpen('youtube://','https://m.youtube.com/')});$('lk-fb').addEventListener('click',function(){lkOpen('fb://','https://m.facebook.com/')});
+async function camPreview(){var m=$('lk-m');if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){m.textContent='Caméra non disponible dans ce navigateur.';return false}
+ try{if(CAM.st)CAM.st.getTracks().forEach(function(t){t.stop()});CAM.st=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:CAM.face},width:{ideal:1280},height:{ideal:720},frameRate:{ideal:30}},audio:true});var v=$('lk-v');v.srcObject=CAM.st;v.hidden=false;await v.play();return true}
+ catch(e){m.textContent='Caméra ou micro refusé : autorisez-les dans les réglages du navigateur.';return false}}
+$('lk-pv').addEventListener('click',camPreview);
+$('lk-fl').addEventListener('click',async function(){if(CAM.pc){$('lk-m').textContent='Arrêtez le direct caméra avant de changer de caméra.';return}CAM.face=CAM.face==='environment'?'user':'environment';await camPreview()});
+function camStopLocal(){try{if(CAM.loc&&CAM.whip)fetch(new URL(CAM.loc,CAM.whip).href,{method:'DELETE',keepalive:true}).catch(function(){})}catch(e){}
+ try{if(CAM.pc)CAM.pc.close()}catch(e){}CAM.pc=null;CAM.loc=null;if(CAM.st)CAM.st.getTracks().forEach(function(t){t.stop()});CAM.st=null;try{if(CAM.wl)CAM.wl.release()}catch(e){}CAM.wl=null;
+ var v=$('lk-v');v.srcObject=null;v.hidden=true;$('lk-go').hidden=false;$('lk-st').hidden=true}
+function iceDone(pc){return new Promise(function(ok){if(pc.iceGatheringState==='complete')return ok();var t=setTimeout(ok,3000);pc.addEventListener('icegatheringstatechange',function(){if(pc.iceGatheringState==='complete'){clearTimeout(t);ok()}})})}
+$('lk-go').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('lk-m'),w=$('lk-w').value.trim(),pl=$('lk-p').value.trim();
+ if(!/^https:\/\/[^\s"'<>]+$/i.test(w)){m.textContent='Collez l\'adresse de diffusion WHIP (https://…).';return}
+ if(!/^https:\/\/[a-z0-9-]+\.cloudflarestream\.com\/[a-f0-9]{32}\/iframe$/i.test(pl)){m.textContent='L\'adresse de lecture doit ressembler à https://…cloudflarestream.com/…/iframe';return}
+ if(!window.RTCPeerConnection){m.textContent='Diffusion non prise en charge par ce navigateur.';return}
+ this.disabled=true;m.textContent='Connexion à la caméra…';
+ try{if(!CAM.st&&!(await camPreview()))throw 0;lsS('hol_whip',w);lsS('hol_whip_play',pl);CAM.whip=w;
+  var pc=CAM.pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.cloudflare.com:3478'}],bundlePolicy:'max-bundle'});
+  CAM.st.getTracks().forEach(function(t){pc.addTransceiver(t,{direction:'sendonly',streams:[CAM.st]})});
+  await pc.setLocalDescription(await pc.createOffer());await iceDone(pc);m.textContent='Envoi du flux…';
+  var res=await fetch(w,{method:'POST',headers:{'Content-Type':'application/sdp'},body:pc.localDescription.sdp});
+  if(!res.ok)throw new Error('Le service vidéo a refusé la connexion ('+res.status+'). Vérifiez l\'adresse WHIP.');
+  CAM.loc=res.headers.get('Location');await pc.setRemoteDescription({type:'answer',sdp:await res.text()});
+  await new Promise(function(ok,ko){var t=setTimeout(function(){ko(new Error('Connexion au service vidéo trop lente. Vérifiez le réseau.'))},12000);function ck(){if(pc.connectionState==='connected'){clearTimeout(t);ok()}else if(pc.connectionState==='failed'){clearTimeout(t);ko(new Error('Connexion impossible.'))}}pc.addEventListener('connectionstatechange',ck);ck()});
+  pc.addEventListener('connectionstatechange',function(){if(CAM.pc===pc&&(pc.connectionState==='failed'||pc.connectionState==='disconnected'))$('lk-m').textContent='Connexion perdue : vérifiez le réseau ; au besoin arrêtez puis relancez.'});
+  try{if(navigator.wakeLock)CAM.wl=await navigator.wakeLock.request('screen')}catch(e){}
+  var r=await SB.rpc('lancer_live',{p_url:pl,p_titre:$('lv-ti').value.trim()});
+  if(r.error||r.data!=='ok'){throw new Error(r.data==='lien'?'Adresse de lecture refusée.':'Publication refusée (exécutez schema_live_camera.sql dans Supabase).')}
+  this.hidden=true;$('lk-st').hidden=false;m.textContent='Vous êtes en direct. Gardez cet écran ouvert.';LVNOW=null;await lvLoad()}
+ catch(e){camStopLocal();m.textContent=(e&&e.message)||'Démarrage impossible.'}
+ this.disabled=false});
+$('lk-st').addEventListener('click',async function(){camStopLocal();var r=await SB.rpc('terminer_live');$('lk-m').textContent=r.error||r.data!=='ok'?'Arrêt local fait ; fin du direct refusée sur le site.':'Direct caméra terminé.';lvClear()});
+$('lk-c').addEventListener('click',function(){$('lk-cf').click()});
+$('lk-cf').addEventListener('change',async function(){var f=this.files[0],m=$('lk-cm');if(!f||!SB||!ADM)return;this.value='';
+ try{if(f.type!=='video/mp4'&&f.type!=='video/quicktime')throw new Error('Format non pris en charge (MP4 ou MOV).');if(f.size>52428800)throw new Error('Clip trop lourd ('+Math.round(f.size/1048576)+' Mo). Maximum 50 Mo : filmez plus court.');
+  m.textContent='Envoi du clip…';var ext=f.type==='video/mp4'?'mp4':'mov',path=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext,up=await SB.storage.from('actus-media').upload(path,f,{contentType:f.type,upsert:false});if(up.error)throw up.error;
+  var url=SB.storage.from('actus-media').getPublicUrl(path).data.publicUrl,t=$('lv-ti').value.trim()||'Clip du match',ins=await SB.from('actus').insert({texte:t.slice(0,1000),media_url:url,media_type:'video'});if(ins.error)throw ins.error;m.textContent='Clip publié dans Actualités.';await pullAll()}
+ catch(e){m.textContent=(e&&e.message&&!/row-level|violates/i.test(e.message))?e.message:'Publication refusée.'}});
 $('lv-go').addEventListener('click',async function(){if(!SB||!ADM)return;var m=$('lv-m'),u=$('lv-u').value.trim();if(!lvEmbed(u,/youtu/i.test(u)?'youtube':'facebook')){m.textContent='Collez le lien d\'un direct YouTube ou Facebook (https://…).';return}
  this.disabled=true;m.textContent='Lancement…';var r=await SB.rpc('lancer_live',{p_url:u,p_titre:$('lv-ti').value.trim()});this.disabled=false;
  if(r.error||r.data!=='ok'){m.textContent=r.data==='lien'?'Lien refusé : utilisez un lien YouTube (youtube.com, youtu.be) ou Facebook.':'Lancement refusé.';return}
  $('lv-s').hidden=true;m.textContent='Le direct est visible dans l\'onglet En direct.';LVNOW=null;await lvLoad()});
 $('lv-end').addEventListener('click',async function(){if(!SB||!ADM)return;if(this.dataset.ok!=='1'){this.dataset.ok='1';this.textContent='Cliquez pour confirmer la fin';var b=this;setTimeout(function(){b.dataset.ok='';b.textContent='Terminer le direct'},4000);return}
- this.dataset.ok='';this.textContent='Terminer le direct';var d=LVNOW;this.disabled=true;var r=await SB.rpc('terminer_live');this.disabled=false;
+ this.dataset.ok='';this.textContent='Terminer le direct';var d=LVNOW;if(CAM.pc)camStopLocal();this.disabled=true;var r=await SB.rpc('terminer_live');this.disabled=false;
  if(r.error||r.data!=='ok'){$('lv-m').textContent='Fin du direct refusée.';return}
  $('lv-m').textContent='Direct terminé. Pensez à arrêter aussi le direct dans YouTube ou Facebook.';lvClear();$('lv-u').value='';$('lv-ti').value='';if(d)lvShare(d)});
 /* En direct */
